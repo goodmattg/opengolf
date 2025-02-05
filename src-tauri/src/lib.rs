@@ -8,9 +8,19 @@ struct TwoDimFlightPath {
 
 #[derive(Serialize)]
 struct FlightPath {
-    // From origin [0, 0, 0] to target [x, y, z]
-    // [x, y, z, time]
     points: Vec<(f64, f64, f64, f64)>,
+    flight_time: f64,
+    distance: f64,
+    x_apex: f64,
+    y_apex: f64,
+    // Launch point (provided as input)
+    x_launch: f64,
+    y_launch: f64,
+    z_launch: f64,
+    // Landing point (assumed to be at y = 0 unless otherwise specified)
+    x_landing: f64,
+    y_landing: f64,
+    z_landing: f64,
 }
 
 #[tauri::command]
@@ -22,6 +32,10 @@ fn simulate_3d(
     backspin: f64,
     sidespin: f64,
     sample_rate: u32,
+    // Default launch point origin
+    x_launch: f64,
+    y_launch: f64,
+    z_launch: f64,
 ) -> FlightPath {
     // Start Generation Here
     {
@@ -45,13 +59,16 @@ fn simulate_3d(
         let mut vy = velocity * launch_rad.sin();
         let mut vz = velocity * launch_rad.cos() * azimuth_rad.sin();
 
-        // Initial position of the ball (at impact/launch)
-        let mut pos = [0.0, 0.0, 0.0];
+        // Start at the provided launch point.
+        let mut pos = [x_launch, y_launch, z_launch];
         let mut t = 0.0;
 
         // We'll record a high-resolution simulation trajectory as (time, [x,y,z]).
         let mut traj: Vec<(f64, [f64; 3])> = Vec::new();
         traj.push((t, pos));
+        // Initialize apex tracking using the launch position.
+        let mut max_y = y_launch;
+        let mut x_apex = x_launch;
 
         // Convert spin inputs (assumed in RPM) to rad/s.
         let omega_back = backspin * 2.0 * std::f64::consts::PI / 60.0;
@@ -66,7 +83,7 @@ fn simulate_3d(
         //     velocity component. Here we compute the lateral unit vector by rotating
         //     the horizontal velocity by 90°.
         //
-        // Note: This “trick” of decoupling the spin effects is well publicized on golfing
+        // Note: This "trick" of decoupling the spin effects is well publicized on golfing
         // simulation websites and provides a tractable analytical approximation.
 
         // Numerical integration loop until the ball lands (y becomes negative).
@@ -129,6 +146,11 @@ fn simulate_3d(
             t += dt;
 
             traj.push((t, pos));
+            // Track the highest point (apex) of the flight.
+            if pos[1] > max_y {
+                max_y = pos[1];
+                x_apex = pos[0];
+            }
         }
 
         // Adjust the final point by linearly interpolating to the exact ground contact (y = 0).
@@ -173,7 +195,24 @@ fn simulate_3d(
             resampled.push((x_interp, y_interp, z_interp, t_target));
         }
 
-        return FlightPath { points: resampled };
+        // Landing point: take the final position from the trajectory (force y to 0)
+        let [x_landing, y_landing, z_landing] = traj.last().unwrap().1;
+        // Compute horizontal distance from the launch point.
+        let distance = ((x_landing - x_launch).powi(2) + (z_landing - z_launch).powi(2)).sqrt();
+
+        return FlightPath {
+            points: resampled,
+            flight_time: total_time,
+            distance,
+            x_apex,
+            y_apex: max_y,
+            x_launch,
+            y_launch,
+            z_launch,
+            x_landing,
+            y_landing,
+            z_landing,
+        };
     }
 }
 
@@ -222,7 +261,7 @@ fn simulate(
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![simulate])
+        .invoke_handler(tauri::generate_handler![simulate_3d, simulate])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
