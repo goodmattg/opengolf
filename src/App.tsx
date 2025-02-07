@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
+import { OrbitControls, Line as DreiLine } from "@react-three/drei";
 
 interface FlightPath {
   points: Array<[number, number, number, number]>;
@@ -56,6 +57,27 @@ const FlightArc: React.FC<FlightArcProps> = ({ points }) => {
     </line>
   );
 };
+// import { Canvas } from "@react-three/fiber";
+// import * as THREE from "three";
+
+// // Renders the flight arc from simulate_3d using Drei's Line with a thicker line width.
+// const FlightArc: React.FC<FlightArcProps> = ({ points }) => {
+//   // Map the simulation points ([x, y, z, t]) to an array of [x, y, z].
+//   const linePoints = useMemo(
+//     () => points.map(([x, y, z, t]) => [x, y, z]),
+//     [points]
+//   );
+//   return <DreiLine points={linePoints} color="red" lineWidth={5} />;
+// };
+
+// <Canvas>
+//   {/* Render the ball as a circle positioned at the center bottom of the scene */}
+//   <Ball />
+//   {/* Draw the flight arc if one exists */}
+//   {flightPath.length > 0 && <FlightArc points={flightPath} />}
+//   {/* Add OrbitControls for click and drag camera movement */}
+//   <OrbitControls />
+// </Canvas>;
 
 function App() {
   // Input field states.
@@ -212,6 +234,7 @@ function App() {
           <Ball />
           {/* Draw the flight arc if one exists */}
           {flightPath.length > 0 && <FlightArc points={flightPath} />}
+          <OrbitControls />
         </Canvas>
       </div>
     </div>

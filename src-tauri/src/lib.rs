@@ -54,10 +54,10 @@ fn simulate_3d(
         let launch_rad = launch_angle.to_radians();
         let azimuth_rad = azimuth_angle.to_radians();
 
-        // Decompose the initial velocity into 3D components.
-        let mut vx = velocity * launch_rad.cos() * azimuth_rad.cos();
+        // Adjusted so that azimuth = 0 launches the ball along the z-axis.
+        let mut vx = velocity * launch_rad.cos() * azimuth_rad.sin();
+        let mut vz = velocity * launch_rad.cos() * azimuth_rad.cos();
         let mut vy = velocity * launch_rad.sin();
-        let mut vz = velocity * launch_rad.cos() * azimuth_rad.sin();
 
         // Start at the provided launch point.
         let mut pos = [x_launch, y_launch, z_launch];
