@@ -34,50 +34,30 @@ type FlightArcProps = {
 
 // Renders the flight arc returned from simulate_3d as a red line.
 const FlightArc: React.FC<FlightArcProps> = ({ points }) => {
-  // Convert the simulation points ([x, y, z, t]) into a flattened Float32Array.
-  const positions = useMemo(() => {
-    const arr: number[] = [];
-    points.forEach(([x, y, z]) => {
-      arr.push(x, y, z);
-    });
-    return new Float32Array(arr);
+  const geometryRef = React.useRef<THREE.BufferGeometry>(null);
+
+  React.useEffect(() => {
+    if (geometryRef.current) {
+      // Convert simulation points ([x, y, z, t]) into a flattened Float32Array.
+      const arr: number[] = [];
+      points.forEach(([x, y, z]) => {
+        arr.push(x, y, z);
+      });
+      const floatPositions = new Float32Array(arr);
+      // Create a new BufferAttribute and update the geometry.
+      const positionAttribute = new THREE.BufferAttribute(floatPositions, 3);
+      geometryRef.current.setAttribute("position", positionAttribute);
+      positionAttribute.needsUpdate = true;
+    }
   }, [points]);
 
   return (
     <line>
-      <bufferGeometry attach="geometry">
-        <bufferAttribute
-          attach="attributes-position"
-          count={positions.length / 3}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
+      <bufferGeometry ref={geometryRef} />
       <lineBasicMaterial attach="material" color="red" />
     </line>
   );
 };
-// import { Canvas } from "@react-three/fiber";
-// import * as THREE from "three";
-
-// // Renders the flight arc from simulate_3d using Drei's Line with a thicker line width.
-// const FlightArc: React.FC<FlightArcProps> = ({ points }) => {
-//   // Map the simulation points ([x, y, z, t]) to an array of [x, y, z].
-//   const linePoints = useMemo(
-//     () => points.map(([x, y, z, t]) => [x, y, z]),
-//     [points]
-//   );
-//   return <DreiLine points={linePoints} color="red" lineWidth={5} />;
-// };
-
-// <Canvas>
-//   {/* Render the ball as a circle positioned at the center bottom of the scene */}
-//   <Ball />
-//   {/* Draw the flight arc if one exists */}
-//   {flightPath.length > 0 && <FlightArc points={flightPath} />}
-//   {/* Add OrbitControls for click and drag camera movement */}
-//   <OrbitControls />
-// </Canvas>;
 
 function App() {
   // Input field states.
