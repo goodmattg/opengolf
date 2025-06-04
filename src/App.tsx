@@ -1,9 +1,67 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { Canvas } from "@react-three/fiber";
+import * as THREE from "three";
+import { OrbitControls } from "@react-three/drei";
+import HoleTerrain from "./HoleTerrain";
+
+interface FlightPath {
+  points: Array<[number, number, number, number]>;
+  flight_time: number;
+  distance: number;
+  x_apex: number;
+  y_apex: number;
+  x_launch: number;
+  y_launch: number;
+  z_launch: number;
+  x_landing: number;
+  y_landing: number;
+  z_landing: number;
+}
+
+// A simple ball rendered as a circle on the ground.
+function Ball() {
+  return (
+    <mesh position={[0, 0.2, 0]}>
+      <circleGeometry args={[0.2, 16]} />
+      <meshBasicMaterial color="blue" side={THREE.DoubleSide} />
+    </mesh>
+  );
+}
+
+type FlightArcProps = {
+  points: [number, number, number, number][];
+};
+
+// Renders the flight arc returned from simulate_3d as a red line.
+const FlightArc: React.FC<FlightArcProps> = ({ points }) => {
+  const geometryRef = React.useRef<THREE.BufferGeometry>(null);
+
+  React.useEffect(() => {
+    if (geometryRef.current) {
+      // Convert simulation points ([x, y, z, t]) into a flattened Float32Array.
+      const arr: number[] = [];
+      points.forEach(([x, y, z]) => {
+        arr.push(x, y, z);
+      });
+      const floatPositions = new Float32Array(arr);
+      // Create a new BufferAttribute and update the geometry.
+      const positionAttribute = new THREE.BufferAttribute(floatPositions, 3);
+      geometryRef.current.setAttribute("position", positionAttribute);
+      positionAttribute.needsUpdate = true;
+    }
+  }, [points]);
+
+  return (
+    <line>
+      <bufferGeometry ref={geometryRef} />
+      <lineBasicMaterial attach="material" color="red" />
+    </line>
+  );
+};
 
 function App() {
-  // References and state for our input fields.
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Input field states.
   const [velocity, setVelocity] = useState<number>(50);
   const [launchAngle, setLaunchAngle] = useState<number>(45);
   const [azimuthAngle, setAzimuthAngle] = useState<number>(0);
@@ -11,9 +69,14 @@ function App() {
   const [backspin, setBackspin] = useState<number>(0);
   const [sidespin, setSidespin] = useState<number>(0);
 
+  // State for the 3D flight path returned from simulate_3d.
+  const [flightPath, setFlightPath] = useState<
+    [number, number, number, number][]
+  >([]);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    console.log("handleSubmit");
     console.log(
+      "handleSubmit",
       velocity,
       launchAngle,
       azimuthAngle,
@@ -23,63 +86,25 @@ function App() {
     );
     e.preventDefault();
     try {
-      // Call the simulate command from Rust
-      const result: { points: [number, number][] } = await invoke("simulate", {
+      // Call the new simulate_3d command.
+      // Note: We send keys using underscore names to match the Rust definitions.
+      const result: FlightPath = await invoke("simulate_3d", {
         velocity,
-        launchAngle: launchAngle,
-        azimuthAngle: azimuthAngle,
-        spinRate: spinRate,
+        launchAngle,
+        azimuthAngle,
+        spinRate,
         backspin,
         sidespin,
+        sampleRate: 100,
+        xLaunch: 0,
+        yLaunch: 0,
+        zLaunch: 0,
       });
-      drawFlightPath(result.points);
+      setFlightPath(result.points);
+      console.log("flightPath", result);
     } catch (error) {
       console.error("Simulation error:", error);
     }
-  }
-
-  // Draw the flight path based on the [ground distance, height] points.
-  function drawFlightPath(points: [number, number][]) {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    // Clear the canvas for a new drawing.
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    if (!points || points.length === 0) return;
-
-    // Determine the maximum ground distance and height for scaling.
-    let maxX = 0;
-    let maxY = 0;
-    points.forEach(([x, y]) => {
-      if (x > maxX) maxX = x;
-      if (y > maxY) maxY = y;
-    });
-    // Apply a margin for visual appeal.
-    maxX *= 1.1;
-    maxY *= 1.1;
-
-    // Determine scaling factors.
-    const scaleX = canvas.width / maxX;
-    const scaleY = canvas.height / maxY;
-
-    // Draw the flight path.
-    ctx.beginPath();
-    points.forEach(([x, y], index) => {
-      const canvasX = x * scaleX;
-      // Invert the y-axis so that the ground is at the bottom of the canvas.
-      const canvasY = canvas.height - y * scaleY;
-      if (index === 0) {
-        ctx.moveTo(canvasX, canvasY);
-      } else {
-        ctx.lineTo(canvasX, canvasY);
-      }
-    });
-    ctx.strokeStyle = "red";
-    ctx.lineWidth = 2;
-    ctx.stroke();
   }
 
   return (
@@ -93,7 +118,7 @@ function App() {
           boxSizing: "border-box",
         }}
       >
-        <h2>Input Parameters</h2>
+        <h2>Swing Parameters</h2>
         <form onSubmit={handleSubmit}>
           <label htmlFor="velocity">Velocity:</label>
           <input
@@ -167,26 +192,33 @@ function App() {
               cursor: "pointer",
             }}
           >
-            Simulate
+            Simulate 3D
           </button>
         </form>
       </div>
-      {/* Right pane with the canvas for rendering the flight path */}
-      <div
-        style={{
-          flexGrow: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#f8f8f8",
-        }}
-      >
-        <canvas
-          ref={canvasRef}
-          width={800}
-          height={600}
-          style={{ border: "1px solid #000" }}
-        />
+
+      {/* Right pane with the 3D rendering */}
+      <div style={{ flexGrow: 1, background: "#f8f8f8" }}>
+        <Canvas
+          camera={{ position: [0, 5, 10], fov: 60 }}
+          style={{ height: "100%", width: "100%" }}
+        >
+          {/* Simple lighting */}
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[0, 10, 5]} intensity={1} />
+          {/* A ground plane */}
+          {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+            <planeGeometry args={[50, 50]} />
+            <meshStandardMaterial color="#dddddd" />
+          </mesh> */}
+
+          <HoleTerrain distanceFromHole={100} />
+          {/* Render the ball as a circle positioned at the center bottom of the scene */}
+          <Ball />
+          {/* Draw the flight arc if one exists */}
+          {flightPath.length > 0 && <FlightArc points={flightPath} />}
+          <OrbitControls />
+        </Canvas>
       </div>
     </div>
   );
