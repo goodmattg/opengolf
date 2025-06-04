@@ -2,7 +2,8 @@ import React, { useState, useMemo } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import { OrbitControls, Line as DreiLine } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
+import HoleTerrain from "./HoleTerrain";
 
 interface FlightPath {
   points: Array<[number, number, number, number]>;
@@ -117,7 +118,7 @@ function App() {
           boxSizing: "border-box",
         }}
       >
-        <h2>Input Parameters</h2>
+        <h2>Swing Parameters</h2>
         <form onSubmit={handleSubmit}>
           <label htmlFor="velocity">Velocity:</label>
           <input
@@ -206,10 +207,12 @@ function App() {
           <ambientLight intensity={0.5} />
           <directionalLight position={[0, 10, 5]} intensity={1} />
           {/* A ground plane */}
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
+          {/* <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
             <planeGeometry args={[50, 50]} />
             <meshStandardMaterial color="#dddddd" />
-          </mesh>
+          </mesh> */}
+
+          <HoleTerrain distanceFromHole={100} />
           {/* Render the ball as a circle positioned at the center bottom of the scene */}
           <Ball />
           {/* Draw the flight arc if one exists */}
