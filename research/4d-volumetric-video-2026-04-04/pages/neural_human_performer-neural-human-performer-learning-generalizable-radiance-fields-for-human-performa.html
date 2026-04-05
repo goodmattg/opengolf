@@ -1,0 +1,323 @@
+
+<DOCTYPE html>
+
+    <title>Neural Human Performer: Learning Generalizable Radiance Fields for Human Performance Rendering</title>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-21408087-2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-21408087-2');
+    </script>
+
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <style>
+        /* greek-ext */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fCBc4EsA.woff2) format('woff2');
+            unicode-range: U+1F00-1FFF;
+        }
+
+        /* greek */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBxc4EsA.woff2) format('woff2');
+            unicode-range: U+0370-03FF;
+        }
+
+        /* latin-ext */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fChc4EsA.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 300;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBBc4.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        /* greek-ext */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu7mxKOzY.woff2) format('woff2');
+            unicode-range: U+1F00-1FFF;
+        }
+
+        /* greek */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4WxKOzY.woff2) format('woff2');
+            unicode-range: U+0370-03FF;
+        }
+
+        /* latin-ext */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu7GxKOzY.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+
+        /* latin */
+        @font-face {
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxK.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <body>
+        <div class="container">
+            <div class="row mb-2 mt-4" id="paper-title">
+                <h1 class="col-md-12 text-center">
+                    Neural Human Performer
+                </h1>
+                <h3 class="col-md-12 text-center">
+                    Learning Generalizable Radiance Fields for Human Performance Rendering
+                </h3>
+                <h3 class="col-md-12 text-center">
+                    <small>NeurIPS 2021 (Spotlight)</small>
+                </h3>
+            </div>
+
+            <div class="row" id="authors">
+                <div class="mx-auto text-center">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                            <a href="https://youngjoongunc.github.io/">Youngjoong Kwon</a><sup>1</sup>
+
+                        <li class="list-inline-item">
+                            <a href="https://mcahny.github.io">Dahun Kim</a><sup>2</sup>
+
+                        <li class="list-inline-item">
+                            <a href="https://www.duygu-ceylan.com/">Duygu Ceylan</a><sup>3</sup>
+
+                        <li class="list-inline-item">
+                            <a href="https://henryfuchs.web.unc.edu/">Henry Fuchs</a><sup>1</sup>
+                    </ul>
+                    <p id="institution">
+                        <sup>1</sup>University of North Carolina at Chapel Hill &nbsp; &nbsp; 
+                        <sup>2</sup>Korea Advanced Institute of Science and Technology &nbsp; &nbsp;
+                        <sup>3</sup>Adobe Research
+                    </p>
+                </div>
+            </div>
+            <div class="row mb-2" id="links">
+                <div class="mx-auto">
+                    <ul class="nav">
+                        <li class="nav-item text-center">
+                            <a href="https://arxiv.org/abs/2109.07448" class="nav-link">
+                                <svg style="width:48px;height:48px" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M16 0H8C6.9 0 6 .9 6 2V18C6 19.1 6.9 20 8 20H20C21.1 20 22 19.1 22 18V6L16 0M20 18H8V2H15V7H20V18M4 4V22H20V24H4C2.9 24 2 23.1 2 22V4H4M10 10V12H18V10H10M10 14V16H15V14H10Z" />
+                                </svg><br>
+                                Paper
+                            </a>
+                        <li class="nav-item text-center">
+                            <a href="https://github.com/YoungJoongUNC/Neural_Human_Performer" class="nav-link">
+                                <svg style="width:48px;height:48px" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" />
+                                </svg><br>
+                                Code
+                            </a>
+                        <li class="nav-item text-center">
+                            <a href="https://github.com/YoungJoongUNC/Neural_Human_Performer" class="nav-link">
+                                <svg style="width:48px;height:48px" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M12,3C7.58,3 4,4.79 4,7C4,9.21 7.58,11 12,11C16.42,11 20,9.21 20,7C20,4.79 16.42,3 12,3M4,9V12C4,14.21 7.58,16 12,16C16.42,16 20,14.21 20,12V9C20,11.21 16.42,13 12,13C7.58,13 4,11.21 4,9M4,14V17C4,19.21 7.58,21 12,21C16.42,21 20,19.21 20,17V14C20,16.21 16.42,18 12,18C7.58,18 4,16.21 4,14Z" />
+                                </svg><br>
+                                Data
+                            </a>
+                    </ul>
+                </div>
+            </div>
+            <!--<div class="row mb-3 pt-2">-->
+            <div class="row mb-3 pt-2">
+                <div class="col-md-8 mx-auto">
+
+                    <div id="dynamic-teaser">
+
+                        <h6 style="color:#8899a5"> Neural Human Performer can reconstruct a performance of an unseen subject with unseen poses.</h6>
+                        <div class="col-12 text-center">
+                            
+                            <video width="80%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                                <source src="images/abstract_video.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <p class="text-justify">
+                            In this paper, we aim at synthesizing a free-viewpoint video of an arbitrary human performance using sparse multi-view cameras. Recently, several works have addressed this problem by learning person-specific radiance fields to capture the appearance of a particular human. In parallel, some work proposed to use pixel-aligned features to generalize radiance fields to arbitrary new scenes and objects at test time. Adopting such approaches to humans, however, is highly challenging due to the heavy occlusions and dynamic articulations of body parts. To tackle this, we propose Neural Human Performer, a novel approach that learns generalizable radiance fields based on a parametric human body model for robust performance capture. Specifically, we first introduce a temporal transformer that aggregates trackable visual features based on the skeletal body motions over video frames. Moreover, a multi-view transformer is proposed to perform cross-attention between the temporally-fused features and the pixel-aligned features at each time step to integrate observations on the fly from multiple views. Experiments on the ZJU-MoCap and AIST datasets show that our method significantly outperforms recent generalizable NeRF methods on unseen identities and poses.                            
+                        </p>
+                    </div> <!-- dynamic-teaser -->
+                </div>
+            </div>
+
+
+            <div class="row mb-4" id="overview-video">
+                <div class="col-md-8 mx-auto grey-container">
+                    <h4 class="pb-2">Overview Video</h4>
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4b5SPwPOKVo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-8 mx-auto">
+                    <p class="text-justify">
+
+                        we propose Neural Human Performer, a novel approach that learns generalizable radiance fields based on a parametric body model for robust performance capture. In addition to exploiting a parametric body model as a geometric prior, the core of our method is a combination of temporal and multi-view transformers which help to effectively aggregate spatio-temporal observations to robustly compute the density and color of a query point. First, the temporal transformer aggregates trackable visual features based on the input skeletal body motion over the video frames. The following multi-view transformer performs cross-attention between the temporally-augmented skeletal features and the pixel-aligned features from each time step. The proposed modules collectively contribute to the adaptive aggregation of multi-time and multi-view information, resulting in significant improvements in synthesis results in different generalization settings.
+                    </p>
+                    <img src="images/overview.png" class="img-responsive" alt="pipeline">
+                </div>
+            </div>
+
+            <div class="row mb-3 pt-2">
+                <div class="col-md-8 mx-auto">
+
+                    <div id="zju-seen-unseen">
+                        <h4>Free-viewpoint rendering - Seen models' unseen poses</h4>
+                        <p class="text-justify">
+                            We compare our method with Neural Body [1] on seen model's unseen poses. Note that Neural body was per-subject optimized (one network for one person) while our model was optimized on all training subjects (one network for multiple people).
+                        </p>
+                        
+                        <div class="col-12 text-center">
+                            
+                            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                                <source src="images/seen_human_unseen_pose_ex0_zju.mp4" type="video/mp4">
+                            </video>
+                        </div>
+
+                    </div> <!-- dynamic-teaser -->
+                </div>
+            </div>
+
+            <div class="row mb-3 pt-2">
+                <div class="col-md-8 mx-auto">
+
+                    <div id="zju-unseen-unseen">
+                        <h4>Free-viewpoint rendering - Unseen models' unseen poses</h4>
+                        <p class="text-justify">
+                            We compare our method with pixelNeRF [2] on unseen model's unseen poses.
+                        </p>
+                        
+                        <div class="col-12 text-center">
+                            
+                            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                                <source src="images/unseen_human_unseen_pose_ex0_zju.mp4" type="video/mp4">
+                            </video>
+                        </div>
+
+                    </div> <!-- dynamic-teaser -->
+                </div>
+            </div>
+
+
+            <div class="row mb-3 pt-2">
+                <div class="col-md-8 mx-auto">
+
+                    <div id="recon-zju-seen-unseen">
+                        <h4>3D Reconstruction - Unseen models' unseen poses</h4>
+                        <p class="text-justify">
+                            We compare our method with pixelNeRF [2] on unseen model's unseen poses.
+                        </p>
+                        
+                        <div class="col-12 text-center">
+                            
+                            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                                <source src="images/recon_unseen_human_unseen_pose_ex0_zju.mp4" type="video/mp4">
+                            </video>
+                        </div>
+
+                    </div> <!-- dynamic-teaser -->
+                </div>
+            </div>
+
+            <!--<div class="row mb-3">
+                <div class="col-md-8 mx-auto">
+                    <h4>Related Links</h4>
+                    <ul>
+                        <li>
+                            NeRF was introduced in <a href="https://www.matthewtancik.com/nerf">Mildenhall et al. (2020)</a>
+                        <li>
+                            Local image features were used in the related regime of implicit surfaces in
+                            <a href="https://shunsukesaito.github.io/PIFu/">Saito et al. (2019)</a>
+                            and
+                            <a href="https://arxiv.org/abs/1905.10711">Xu et al. (2019)</a>
+                        <li>
+                            Our MLP architecture is
+                            inspired by
+                            <a href="https://avg.is.tuebingen.mpg.de/publications/niemeyer2020cvpr">DVR</a>
+                        <li>
+                            Parts of our
+                            PyTorch NeRF implementation are taken from
+                            <a href="https://github.com/kwea123/nerf_pl">kwea123</a>
+                        <li>
+                            Also see the concurrent work
+                            <a href="https://arxiv.org/abs/2010.04595">GRF</a>
+                            which also introduces image features for NeRF, showing image features can even improve NeRF when a large number of views are available.
+                    </ul>
+                </div>
+            </div> -->
+            <!--<div class="row mb-4">
+                <div class="col-md-8 mx-auto">
+                    <h4 class="mb-3">Bibtex</h4>
+                    <textarea id="bibtex" class="form-control" readonly>@inproceedings{yu2020pixelnerf,
+      title={{pixelNeRF}: Neural Radiance Fields from One or Few Images},
+      author={Alex Yu and Vickie Ye and Matthew Tancik and Angjoo Kanazawa},
+      year={2021},
+      booktitle={CVPR},
+}</textarea>
+                </div>
+            </div>-->
+            <div class="row mb-3">
+                <div class="col-md-8 mx-auto">
+                    <h4>Acknowledgements</h4>
+                    <p class="text-justify">
+                        We thank <a href="https://pengsida.net/">Sida Peng</a> of Zhejiang University, Hangzhou, China, for very many helpful discussions on a variety of implementation details of <a href="https://zju3dv.github.io/neuralbody/">Neural Body</a>. We thank <a href="https://www.liruilong.cn/">Ruilong li</a> and <a href="https://alexyu.net/">Alex Yu</a> of UC Berkeley for many discussions on the <a href="https://google.github.io/aichoreographer/">AIST++</a> dataset and <a href="https://alexyu.net/pixelnerf/">pixelNeRF</a> details.
+                        We also thank <a href="https://alexyu.net/">Alex Yu</a> for the template of this website.
+                    </p>
+                    <p class="text-justify">
+                        Please send any questions or comments to <a href="https://youngjoongunc.github.io/">YoungJoong Kwon</a>.
+                    </p>
+                </div>
+            </div>
+        </div> <!-- container -->
+    </body>

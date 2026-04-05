@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Deep Relightable Textures, SIGGRAPH Asia 2020</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Meta tags for Zotero grab citation -->
+<meta name="citation_title" content="Deep Relightable Textures">
+<meta name="citation_author" content="Meka, Abhimitra">
+<meta name="citation_author" content="Pandey, Rohit">
+<meta name="citation_author" content="Haene, Christian">
+<meta name="citation_author" content="Orts-Escolano, Sergio">
+<meta name="citation_author" content="Barnum, Peter">
+<meta name="citation_author" content="Davidson, Philip">
+<meta name="citation_author" content="Erickson, Daniel">
+<meta name="citation_author" content="Zhang, Yinda">
+<meta name="citation_author" content="Taylor, Jonathan">
+<meta name="citation_author" content="Bouaziz, Sofien">
+<meta name="citation_author" content="Legendre, Chloe">
+<meta name="citation_author" content="Ma, Wan-Chun">
+<meta name="citation_author" content="Overbeck, Ryan">
+<meta name="citation_author" content="Beeler, Thabo">
+<meta name="citation_author" content="Debevec, Paul">
+<meta name="citation_author" content="Izadi, Shahram">
+<meta name="citation_author" content="Theobalt, Christian">
+<meta name="citation_author" content="Rhemann, Christoph ">
+<meta name="citation_author" content="Fanello, Sean">
+<meta name="citation_publication_date" content="2020">
+<meta name="citation_conference_title" content="SIGGRAPH Asia 2020">
+<!-- <meta name="citation_volume" content="271"> -->
+<!-- <meta name="citation_issue" content="20"> -->
+<!-- <meta name="citation_firstpage" content="11761"> -->
+<!-- <meta name="citation_lastpage" content="11766"> -->
+<meta name="citation_pdf_url" content="http://gvv.mpi-inf.mpg.de/projects/DeepRelightableTextures/Deep_Relightable_Textures.pdf">
+
+<!-- Meta tags for search engines to crawl -->
+<meta name="robots" content="index,follow">
+<meta name="description" content="">
+<meta name="keywords" content="neural rendering, volumetric capture, reflectance estimation, novel view synthesis, relighting">
+<link rel="author" href="http://www.mpi-inf.mpg.de/~ameka/">
+
+<!-- Fonts and stuff -->
+<link rel="stylesheet" type="text/css" href="./css/project.css" media="screen" />
+<link rel="stylesheet" type="text/css" media="screen" href="./css/iconize.css" />
+
+
+</head>
+
+<body>
+  <div id="content">
+    <div id="content-inner">
+      <div class="section logos">
+	<a href="http://gvv.mpi-inf.mpg.de/" target="_blank"><img src="./logos/gvv_logo.png" style="width:120px;"></a>
+	<a href="http://www.mpi-inf.mpg.de/" target="_blank"><img src="./logos/mpii_logo.png" style="width:120px;"></a>
+	<a href="https://saarland-informatics-campus.de/en/" target="_blank"><img src="./logos/sic.png" style="width:220px;"></a>
+	<a href="http://www.google.com/" target="_blank"><img src="./logos/google_logo.png" style="width:120px;"></a>	
+      </div>
+
+      <div class="section head">
+	  <br>
+	<h1>Deep Relightable Textures</h1>
+	<h3>Volumetric Performance Capture with Neural Rendering</h3>
+	<br>  
+	<div class="authors">
+	  <a href="http://www.mpi-inf.mpg.de/~ameka/" target="_blank">Abhimitra Meka*</a><sup>1,2,3</sup>&nbsp;&nbsp;
+	  <a href="https://research.google/people/106687/" target="_blank">Rohit Pandey*</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="http://www.google.com/" target="_blank">Christian Haene</a><sup>1</sup>&nbsp;&nbsp;
+	  <a href="http://scholar.google.es/citations?user=dznX1DMAAAAJ&hl=en" target="_blank">Sergio Orts-Escolano</a><sup>1</sup>&nbsp;&nbsp; 
+	  <br>
+	  <a href="http://www.google.com/" target="_blank">Peter Barnum</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="http://www.google.com/" target="_blank">Philip Davidson</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="http://www.google.com/" target="_blank">Daniel Erickson</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="http://www.google.com/" target="_blank">Yinda Zhang</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="http://www.google.com/" target="_blank">Jonathan Taylor</a><sup>1</sup>&nbsp;&nbsp;
+	  <a href="http://www.google.com/" target="_blank">Sofien Bouaziz</a><sup>1</sup>&nbsp;&nbsp; 
+	  <br>
+	  <a href="http://www.google.com/" target="_blank">Chloe Legendre</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="http://www.google.com/" target="_blank">Wan-Chun Ma</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="http://www.google.com/" target="_blank">Ryan Overbeck</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="https://cgl.ethz.ch/~dbeeler/" target="_blank">Thabo Beeler</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="https://www.pauldebevec.com/" target="_blank">Paul Debevec</a><sup>1</sup>&nbsp;&nbsp; 
+	  <br>
+	  <a href="https://www.linkedin.com/in/shahram-izadi-923852117" target="_blank">Shahram Izadi</a><sup>1</sup>&nbsp;&nbsp; 
+	  <a href="http://www.mpi-inf.mpg.de/~theobalt/" target="_blank">Christian Theobalt</a><sup>2,3</sup>
+	  <a href="http://scholar.google.com/citations?user=5D0_pjcAAAAJ&hl=en" target="_blank">Christoph Rhemann</a><sup>1</sup>&nbsp;&nbsp;
+	  <a href="http://www.seanfanello.it/" target="_blank">Sean Fanello</a><sup>1</sup>&nbsp;&nbsp; 
+	</div>
+	<br>
+	<div class="affiliations">
+	  <sup>1</sup><a href="http://www.google.com/" target="_blank">Google</a>&nbsp;&nbsp;
+	  <sup>2</sup><a href="http://www.mpi-inf.mpg.de/" target="_blank">Max Planck Institute for Informatics</a>&nbsp;&nbsp;
+	  <sup>3</sup><a href="https://saarland-informatics-campus.de/en/" target="_blank">Saarland Informatics Campus </a>&nbsp;&nbsp;
+	  
+	<h5>*Authors contributed equally to this work </h5>
+	<h4>This work was conducted at Google</h4>
+	</div>
+	<div class="venue"><a href="https://sa2020.siggraph.org/en/" target="_blank" class="imageLink"><img src="./logos/siggraphasia2020_logo.png" style="height:64px;"></a></div>
+      </div>
+	
+	<div class="section teaser">
+	<center>
+	  <iframe width="640" height="360" src="https://www.youtube-nocookie.com/embed/A_Vw1F-yWzg?showinfo=0&controls=1&modestbranding=0&autohide=1&theme=light" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+	</div>
+	 
+      <div class="section abstract", align=justify>
+	<h2>Abstract</h2>
+	<p>
+	<br>
+The increasing demand for 3D content in augmented and virtual reality has motivated the development of volumetric performance capture systems such as the Light Stage. Recent advances are pushing free viewpoint relightable videos of dynamic human performances closer to photorealistic quality. However, despite significant efforts, these sophisticated systems are limited by reconstruction and rendering algorithms which do not fully model complex 3D structures and higher order light transport effects such as global illumination and sub-surface scattering. In this paper, we propose a system that combines traditional geometric pipelines with a neural rendering scheme to generate photorealistic renderings of dynamic performances under desired viewpoint and lighting. Our system leverages deep neural networks that model the classical rendering process to learn implicit features that represent the view-dependent appearance of the subject independent of the geometry layout, allowing for generalization to unseen subject poses and even novel subject identity. Detailed experiments and comparisons demonstrate the efficacy and versatility of our method to generate high-quality results, significantly outperforming the existing state-of-the-art solutions. 
+	</p>
+      </div>
+
+      <div class="section downloads">
+	<h2>Downloads</h2>
+	<center>
+	  <ul>
+        <li class="grid">
+	      <div class="griditem">
+		<a href="./Deep_Relightable_Textures.pdf" target="_blank" class="imageLink"><img src="./images/paper.png" style="width:120px;"></a>
+<!-- 		<a href="./DeepRelightableTextures.pdf" target="_blank" class="imageLink"><img src="./images/paper.png" style="width:120px;"></a> -->
+		<br>
+		  Paper<br /><a href="./Deep_Relightable_Textures.pdf" target="_blank">PDF, 178 MB</a>
+<!-- 		  Paper<br /><a href="./DeepRelightableTextures.pdf" target="_blank">PDF, 180 MB</a> -->
+		</div>
+		</li>
+        <li class="grid">
+		<div class="griditem">
+		<a href="./Deep_Relightable_Textures.mp4" target="_blank" class="imageLink"><img src="./images/video.png" style="width:170px;"></a>
+		<!-- <a href="./DeepRelightableTextures.mp4" target="_blank" class="imageLink"><img src="./images/video.png" style="width:170px;"></a> -->
+		<br>
+		  Supplementary Video<br /><a href="./Deep_Relightable_Textures.mp4" target="_blank">MP4, 62 MB</a>		
+<!-- 		  Video<br /><a href="./DeepRelightableTextures.mp4" target="_blank">MP4, 62 MB</a> -->
+		</div>
+		</li>
+	    </ul>
+	    </center>
+								<br /><br /><br />
+			<p>				
+		[Â© Copyrights by the Authors, 2020. This is the author's version of the work. It is posted here for your personal use. Not for redistribution.] <!-- , http://dx.doi.org/--></p>
+	    </div>
+ <!--<div class="section list">
+	<h2>Presentation Video</h2>
+	<p>
+		<center>
+		  	  <iframe width="640" height="320" src="https://www.youtube.com/" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+			<p style="font-size:11px; text-align:center">
+				Spotlight Oral Presentation
+			</p>
+				    </center>	
+					</p>
+      </div>-->
+ <div class="section list">
+	<h2>Citation</h2>
+	<p><a href="./meka2020.bib" target="_blank">BibTeX, 1 KB</a></p>
+	<div class="section bibtex">
+	<pre>@inproceedings{Meka:2020,
+	author = {Meka, Abhimitra and Pandey, Rohit and Haene, Christian and Orts-Escolano, Sergio and Barnum, Peter and Davidson, Philip and Erickson, Daniel and Zhang, Yinda and Taylor, Jonathan and Bouaziz, Sofien and Legendre, Chloe and Ma, Wan-Chun and Overbeck, Ryan and Beeler, Thabo and Debevec, Paul and Izadi, Shahram and Theobalt, Christian and Rhemann, Christoph and Fanello, Sean},
+	title = {Deep Relightable Textures - Volumetric Performance Capture with Neural Rendering},
+	journal = {ACM Transactions on Graphics (Proceedings SIGGRAPH Asia)},
+	url = {http://gvv.mpi-inf.mpg.de/projects/DeepRelightableTextures/},
+	volume = {39},
+	number = {6},
+	month = {December},
+	year = {2020},
+	doi = {10.1145/3414685.3417814},
+}
+	</pre>
+	  </div>
+      </div>
+	  
+      <div class="section acknowledgments">
+	<h2>Acknowledgments</h2>
+	<p>
+	  The authors would like to thank all participants of the Light Stage recordings. We also thank the authors of Thies et. al. [2019] for providing the implementation of their method for comparisons. Christian Theobalt was supported by the ERC Consolidator Grants 4DRepLy (770784).
+      </div>
+
+      <div class="section contact">
+	<h2>Contact</h2>
+	Abhimitra Meka<br><a href="mailto:ameka@mpi-inf.mpg.de">ameka@mpi-inf.mpg.de</a>
+      </div>
+	  
+	    <div class="section">
+	<hr class="smooth">
+	 <a href="https://imprint.mpi-klsb.mpg.de/inf/vcai.mpi-inf.mpg.de" target="_blank">Imprint</a> | <a href="https://data-protection.mpi-klsb.mpg.de/inf/vcai.mpi-inf.mpg.de?lang=en" target="_blank">Data Protection</a>
+      </div>
+	  
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

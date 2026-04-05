@@ -1,0 +1,21 @@
+id,required_for,kind,repo_url,repo_commit_or_tag,asset_url,notes
+4k4d_repo,smoke_test|custom_demo,repo,https://github.com/zju3dv/4K4D.git,712eccb0e0eeef744c19eb221cfb424a2915b474,,Primary reconstruction engine with official pretrained render assets and documented custom-data path.
+easyvolcap_repo,smoke_test|custom_demo,repo,https://github.com/zju3dv/EasyVolcap.git,4cb3c000a31b8764834c79792b355f110d947e75,,Framework dependency for 4K4D.
+4k4d_pretrained_models,smoke_test,weights,,,"https://drive.google.com/drive/folders/1mBMsYeXawU_sF3NFyuWC1hnfrYbSfDfi?usp=sharing",Official 4K4D pretrained model folder; README example includes data/trained_model/4k4d_0013_01/1599.npz and related assets.
+4k4d_minimal_datasets,smoke_test,dataset,,,"https://drive.google.com/drive/folders/1pH-SWwbt01raqZ74dvcOvYFxDbGGUcxu?usp=sharing",Official 4K4D minimal dataset folder; README example includes 0013_01_libx265.tar.gz.
+pytorch3d_repo,custom_demo,repo,https://github.com/facebookresearch/pytorch3d.git,b6a77ad7aaf41ed90fca80ce6a2bac3c462a7881,,Required CUDA extension dependency; install from source in worker container.
+tinycudann_repo,custom_demo,repo,https://github.com/NVlabs/tiny-cuda-nn.git,6ee3546bda615f51abe684ce9edefeb414689135,,Required torch bindings for 4K4D/EasyVolcap training path.
+sam2_repo,mask_fallback,repo,https://github.com/facebookresearch/sam2.git,2b90b9f5ceec907a1c18123530e92e794ad901a4,,Optional manual rescue segmentation tool.
+sam2_checkpoint_large,mask_fallback,weights,,,https://dl.fbaipublicfiles.com/segment_anything_2/092824/sam2.1_hiera_large.pt,Preferred SAM2 fallback checkpoint.
+sam2_checkpoint_script,mask_fallback,script,,,https://raw.githubusercontent.com/facebookresearch/sam2/main/checkpoints/download_ckpts.sh,Official bulk checkpoint download script.
+backgroundmattingv2_repo,mask_fallback,repo,https://github.com/PeterL1n/BackgroundMattingV2.git,a8e82df9f594578edf287dbb2b289ebcc50fbf00,,Preferred automatic mask fallback when background plates are available.
+backgroundmattingv2_resnet50,mask_fallback,weights,,,https://github.com/PeterL1n/BackgroundMattingV2/releases/download/v1.0.0/pytorch_resnet50.pth,Preferred BackgroundMattingV2 fallback checkpoint.
+backgroundmattingv2_resnet101,mask_fallback,weights,,,https://github.com/PeterL1n/BackgroundMattingV2/releases/download/v1.0.0/pytorch_resnet101.pth,Higher-capacity optional fallback checkpoint.
+robustvideomatting_repo,mask_fallback,repo,https://github.com/PeterL1n/RobustVideoMatting.git,53d74c6826735f01f4406b5ca9075eee27bec094,,Secondary automatic mask fallback when background plates are poor.
+robustvideomatting_resnet50,mask_fallback,weights,,,https://github.com/PeterL1n/RobustVideoMatting/releases/download/v1.0.0/rvm_resnet50.pth,Preferred RVM fallback checkpoint.
+robustvideomatting_mobilenetv3,mask_fallback,weights,,,https://github.com/PeterL1n/RobustVideoMatting/releases/download/v1.0.0/rvm_mobilenetv3.pth,Lighter-weight optional RVM fallback checkpoint.
+diffuman4d_repo,research_benchmark,repo,https://github.com/zju3dv/Diffuman4D.git,,,"Optional benchmark only; not on critical path because README notes incomplete open final 4DGS path."
+diffuman4d_example,research_benchmark,dataset,,,https://huggingface.co/datasets/krahets/diffuman4d_example,Public example inference dataset for benchmark lane.
+diffuman4d_model,research_benchmark,weights,,,https://huggingface.co/krahets/Diffuman4D,Public model for benchmark lane.
+humanrf_repo,not_allowed_on_critical_path,repo,https://github.com/synthesiaresearch/humanrf.git,,,"Rejected for critical path because dataset access requires an ActorsHQ access YAML."
+humanrf_dataset_gate,not_allowed_on_critical_path,dataset_access,,,https://www.actors-hq.com/,Credentialed dataset access gate; violates delivery requirement for public critical-path assets.

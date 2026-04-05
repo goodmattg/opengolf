@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Parametric Gaussian Human Model's Project Page</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+  </head>
+
+  <!-- cover -->
+  <section>
+    <div class="jumbotron text-center mt-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h2 class="text-center">Parametric Gaussian Human Model: Generalizable Prior for Efficient and Realistic Human Avatar Modeling</h2>
+            <!-- <h4 style="color:#5a6268;">ECCV 2024</h4> -->
+            <hr>
+            <p class="text-center"> 3DV 2026
+            <h6 class="text-center"><a href="https://pengc02.github.io/">Cheng Peng*<sup>1</sup></a>, <a href="https://mrtornado24.github.io/">Jingxiang Sun*<sup>1</sup></a>, <a href="https://shad0wta9.github.io/">Yushuo Chen<sup>1</sup></a>, <a href="https://suzhaoqi.github.io/">Zhaoqi Su<sup>1</sup></a>, <a href="https://suzhuo.github.io/">Zhuo Su<sup>2</sup></a>,  <a href="http://www.liuyebin.com/">Yebin Liu<sup>1</sup></a></h6>
+            <p class="text-center">*Equal Contribution 
+            <p class="text-center"><sup>1</sup>Tsinghua University  <sup>2</sup>ByteDance </p>
+            <!-- <p> <a class="btn btn-secondary btn-lg" href="" role="button">Paper</a> 
+                <a class="btn btn-secondary btn-lg" href="" role="button">Code</a> 
+                <a class="btn btn-secondary btn-lg" href="" role="button">Data</a> </p> -->
+
+            <div class="row justify-content-center">
+              <div class="column">
+                <p class="mb-5"><a class="btn btn-large btn-light" href="https://arxiv.org/abs/2506.06645" role="button"  target="_blank">
+                  <i class="fa fa-file"></i> ArXiv</a> </p>
+              </div>
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://arxiv.org/abs/2506.06645" role="button"  target="_blank">
+                    <i class="fa fa-file"></i> Paper</a> </p>
+              </div>
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://github.com/pengc02/pghm/" role="button"  target="_blank">
+                    <i class="fa fa-github"></i> Code</a> </p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- abstract -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Abstract</h3>
+              <!-- <br><br> -->
+          <p class="text-left"> Photorealistic and animatable human avatars are a key enabler for virtual/augmented reality, telepresence, and digital entertainment. 
+            While recent advances in 3D Gaussian Splatting (3DGS) have greatly improved rendering quality and efficiency, existing methods still face fundamental challenges, including time-consuming per-subject optimization and poor generalization under sparse monocular inputs. 
+            In this work, we present the <strong>Parametric Gaussian Human Model (PGHM)</strong>, a generalizable and efficient framework that integrates human priors into 3DGS for fast and high-fidelity avatar reconstruction from monocular videos. PGHM introduces two core components: 
+            (1) a <strong>UV-aligned latent identity map</strong> that compactly encodes subject-specific geometry and appearance into a learnable feature tensor; and 
+            (2) a <strong>Disentangled Multi-Head U-Net</strong> that predicts Gaussian attributes by decomposing static, pose-dependent, and view-dependent components via conditioned decoders. 
+            This design enables robust rendering quality under challenging poses and viewpoints, while allowing efficient subject adaptation without requiring multi-view capture or long optimization time. 
+            Experiments show that PGHM is significantly more efficient than optimization-from-scratch methods, requiring only approximately 20 minutes per subject to produce avatars with comparable visual quality, thereby demonstrating its practical applicability for real-world monocular avatar creation.
+            </p>
+            <p class="text-left">&nbsp;</p>
+            <img src="assets/teaser.jpg" width="1080" alt="">
+            <p class="text-left">We introduce the Parametric Gaussian Human Model (PGHM), a generalizable prior for efficient and realistic human avatar modeling. After being trained on a large-scale, high-quality multiview human dataset, PGHM can be efficiently fine-tuned using monocular single-person videos. This enables accurate avatar reconstruction and supports both free-viewpoint rendering and animation.</p>
+            <p>&nbsp;</p>
+            <hr>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <!-- abstract -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Pipeline Overview</h3>
+            <p class="text-left">&nbsp;</p>
+            <img src="assets/pipeline.jpg" width="1080" alt="">
+            <p class="text-left">The overall pipeline of the parametric model training involves pre-training our model on a large-scale human dataset to obtain a robust human prior. This process consists of two key components: 1) a UV-aligned identity map to extract the appearance feature information of individuals, and 2) a Disentangled Multi-Head U-Net to decouple pose-dependent and view-dependent Gaussian attributes.</p>
+            <p>&nbsp;</p>
+            <hr>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <section>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-12 text-center">
+              <h3>Freeview Videos</h3>
+              <h6 style="color:#8899a5"> Sequence from <a href="https://github.com/apple/ml-neuman" target="_blank">NeuMan</a></h6>
+              <video width="1080" height=""  muted autoplay="autoplay" loop="loop">
+                <source src="assets/demo1-2.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+
+        <div class="row">
+            <div class="col-12 text-center">
+              <video width="1080" height=""  muted autoplay="autoplay" loop="loop">
+                <source src="assets/demo2-2.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+
+        <div class="row">
+            <div class="col-12 text-center">
+              <video width="1080" height=""  muted autoplay="autoplay" loop="loop">
+                <source src="assets/demo3-2.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+
+      </div>
+  </section>
+
+  <!-- overview video -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Animation Video</h3>
+            <h6 style="color:#8899a5"> Animation results on <a href="https://github.com/apple/ml-neuman" target="_blank">NeuMan</a> and <a href="https://github.com/ZhengZerong/THUman4.0-Dataset" target="_blank">Thuman</a> </h6>
+              <video width="1080" height=""  muted autoplay="autoplay" loop="loop">
+                <source src="assets/animation3.mp4" type="video/mp4">
+              </video>
+            <hr>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <!-- overview video -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Comparison Video</h3>
+            <h6 style="color:#8899a5"> Test Results on <a href="https://github.com/ZhengZerong/THUman4.0-Dataset" target="_blank">Thuman</a></h6>
+              <video width="1080" height=""  muted autoplay="autoplay" loop="loop">
+                <source src="assets/comparison6.mp4" type="video/mp4">
+              </video>
+            <hr>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <!-- citing -->
+  <div class="container">
+    <div class="row ">
+      <div class="col-12">
+          <h3>Citation</h3>
+              <pre style="background-color: #e9eeef;padding: 1.25em 1.5em">
+              <code>@article{peng2025parametricgaussianhumanmodel,
+                  title={Parametric Gaussian Human Model: Generalizable Prior for Efficient and Realistic Human Avatar Modeling}, 
+                  author={Cheng Peng and Jingxiang Sun and Yushuo Chen and Zhaoqi Su and Zhuo Su and Yebin Liu},
+                  journal={arXiv preprint arXiv:2506.06645},
+                  year={2025},
+              }</code></pre>
+          <hr>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="container">
+    <div class="row ">
+      <div class="col-12">
+          <h3>Reference</h3>
+          <p class="text-left">
+            HeadNeRF: <em>Hong, Yang and Peng, Bo and Xiao, Haiyao and Liu, Ligang and Zhang, Juyong.
+            HeadNeRF: A Real-Time NeRF-Based Parametric Head Model.
+            Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2022</em>
+          </p>
+          <p class="text-left">
+            MoFaNeRF: <em>Zhuang, Yiyu and Zhu, Hao and Sun, Xusen and Cao, Xun. 
+            MoFaNeRF: Morphable Facial Neural Radiance Field.
+            Proceedings of the European Conference on Computer Vision (ECCV), 2022.</em>
+          </p>
+          <p class="text-left">
+            PanoHead: <em>An, Sizhe and Xu, Hongyi and Shi, Yichun and Song, Guoxian and Ogras, Umit Y. and Luo, Linjie. 
+            PanoHead: Geometry-Aware 3D Full-Head Synthesis in 360deg.
+            Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2023.</em>
+          </p>
+          <hr>
+      </div>
+    </div>
+  </div> -->
+
+</body>
+</html>

@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HDhuman: High-quality Human Performance Capture with Sparse Views</title>
+    <!-- Bootstrap -->
+    <link href="bootstrap-4.4.1.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+  </head>
+
+  <!-- cover -->
+  <section>
+    <div class="jumbotron text-center mt-0">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h2>HDhuman: High-quality Human Performance Capture with Sparse Views</h2>
+            <h4 style="color:#5a6268;">arXiv 2022</h4>
+            <hr>
+            <h6> 
+              <!-- <a href="https://pengsida.net/" target="_blank">Sida Peng</a><sup>1</sup>,  -->
+                Tiansong Zhou<sup>1,2</sup>, 
+                <a href="https://ytrock.com/" target="_blank">Tao Yu</a><sup>1</sup>, 
+                Ruizhi Shao<sup>1</sup>,
+                <!-- <a href="http://www.cs.cornell.edu/~qqw/" target="_blank">Qianqian Wang</a><sup>3</sup>, -->
+                <!-- Qing Shuai<sup>1</sup>, -->
+                <a href="http://cic.tju.edu.cn/faculty/likun/" target="_blank">Kun Li</a><sup>2</sup></h6>
+            <p><sup>1</sup>Tsinghua University &nbsp;&nbsp; 
+                <sup>2</sup>Tianjin University &nbsp;&nbsp;
+                <!-- <sup>3</sup>Cornell University</p> -->
+            <!-- <p> <a class="btn btn-secondary btn-lg" href="" role="button">Paper</a>  -->
+                <!-- <a class="btn btn-secondary btn-lg" href="" role="button">Code</a> 
+                <a class="btn btn-secondary btn-lg" href="" role="button">Data</a>  -->
+              <!-- </p> -->
+
+            <div class="row justify-content-center">
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://arxiv.org/abs/2201.08158" role="button"  target="_blank">
+                    <i class="fa fa-file"></i> Paper</a> </p>
+              </div>
+              <!-- <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://github.com/zju3dv/neuralbody" role="button"  target="_blank">
+                    <i class="fa fa-github-alt"></i> Code</a> </p>
+              </div>
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://zjueducn-my.sharepoint.com/:f:/g/personal/pengsida_zju_edu_cn/Eo9zn4x_xcZKmYHZNjzel7gBdWf_d4m-pISHhPWB-GZBYw?e=Hf4mz7" role="button">
+                    <i class="fa fa-database"></i> Data</a> </p>
+              </div>
+              <div class="column">
+                  <p class="mb-5"><a class="btn btn-large btn-light" href="https://github.com/zju3dv/neuralbody/blob/master/supplementary_material.md" role="button"  target="_blank">
+                    <i class="fa fa-file"></i> Supplementary</a> </p>
+              </div> -->
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- abstract -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h3>Abstract</h3>
+            <hr style="margin-top:0px">
+            <!-- <h6 style="color:#8899a5"> Neural Body can reconstruct a moving human from a monocular video.</h6> -->
+            <!-- <video width="70%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                  <source src="images/monocular.m4v" type="video/mp4">
+              </video> -->
+              <!-- <br><br> -->
+          <!-- <p class="text-left"> This paper addresses the challenge of novel view synthesis for a human performer from a very sparse set of camera views. Some recent works have shown that learning implicit neural representations of 3D scenes achieves remarkable view synthesis quality given dense input views. However, the representation learning will be ill-posed if the views are highly sparse. To solve this ill-posed problem, our key idea is to integrate observations over video frames. To this end, we propose Neural Body, a new human body representation which assumes that the learned neural representations at different frames share the same set of latent codes anchored to a deformable mesh, so that the observations across frames can be naturally integrated. The deformable mesh also provides geometric guidance for the network to learn 3D representations more efficiently. To evaluate our approach, we create a multi-view dataset named ZJU-MoCap that captures performers with complex motions. Experiments on ZJU-MoCap show that our approach outperforms prior works by a large margin in terms of novel view synthesis quality. We also demonstrate the capability of our approach to reconstruct a moving person from a monocular video on the People-Snapshot dataset. </p> -->
+          <p class="text-left"> In this paper, we introduce HDhuman, a method that addresses the challenge of novel view rendering of human performers that wear clothes with complex texture patterns using a sparse set of camera views. Although some recent works have achieved remarkable rendering quality on humans with relatively uniform textures using sparse views, the rendering quality remains limited when dealing with complex texture patterns as they are unable to recover the high-frequency geometry details that observed in the input views.
+            To this end, the proposed HDhuman uses a human reconstruction network with a pixel-aligned spatial transformer and a rendering network that uses geometry-guided pixel-wise feature integration to achieve high-quality human reconstruction and rendering. The designed pixel-aligned spatial transformer calculates the correlations between the input views, producing human reconstruction results with high-frequency details. Based on the surface reconstruction results, the geometry-guided pixel-wise visibility reasoning provides guidance for multi-view feature integration, enabling the rendering network to render high-quality images at 2k resolution on novel views. Unlike previous neural rendering works that always need to train or fine-tune an independent network for a different scene, our method is a general framework that is able to generalize to novel subjects. Experiments show that our approach outperforms all the prior generic or specific methods on both synthetic data and real-world data. </p>
+          <p> 
+            <img src="assets/figure/recon_fig2.png", width="80%", style="float:middle"> 
+            <p> Fig.1 Architecture of our reconstruction network. We use <strong>pixel-aligned spatial transformer</strong> for multi-view feature fusion, enabling us to 
+              produce pixel-aligned highly detailed reconstruction results. </p>
+         </p>
+         <p>
+            <img src="assets/figure/render_fig3.png", width="80%", stype="float:middle">
+            <p>Fig.2 Architecture of our rendering network. The geometry-guided pixel-wise feature integration enable us to solve the severe occlusions 
+              caused by the sparsity of input views, resulting in high quality rendering. </p>
+         </p>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <!-- overview video -->
+  <!-- <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Overview video</h3>
+            <hr style="margin-top:0px">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe style="clip-path: inset(1px 1px)" width="100%" height="100%" src="https://www.youtube.com/embed/BPCAMeBCE-8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br> -->
+
+  <!-- street dance results -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Resuls on Twindom dataset (Only 6 views as input)</h3>
+            <hr style="margin-top:0px">
+            <video width="49%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="assets/twindom_videos/badman/geo_img_video_down.mp4" type="video/mp4">
+            </video>
+            <video width="49%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="assets/twindom_videos/black/geo_img_video_down.mp4" type="video/mp4">
+            </video>
+            <video width="49%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+               <source src="assets/twindom_videos/yellow/geo_img_video_down.mp4" type="video/mp4">
+            </video>
+            <video width="49%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+               <source src="assets/twindom_videos/blackflower/geo_img_video_down.mp4" type="video/mp4">
+            </video>
+            <video width="49%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+              <source src="assets/twindom_videos/stand/geo_img_video_down.mp4" type="video/mp4">
+           </video>
+           <video width="49%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+            <source src="assets/twindom_videos/basketball/geo_img_video_down.mp4" type="video/mp4">
+           </video>
+            <!-- <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="assets/twindom_videos/140011549916904-h/geo_img_video.mp4" type="video/mp4">
+            </video> -->
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-12 text-center">
+            <h3>Bullet time effects on street dance</h3>
+            <hr style="margin-top:0px">
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="assets/twindom_videos/138411542490258-h/geo_img_video.mp4" type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Bullet time effects on street dance</h3>
+            <hr style="margin-top:0px">
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="assets/twindom_videos/138711555454990-h/geo_img_video.mp4" type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Bullet time effects on street dance</h3>
+            <hr style="margin-top:0px">
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="geo_img_video.mp4" type="video/mp4">
+            </video>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Bullet time effects on street dance</h3>
+            <hr style="margin-top:0px">
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="geo_img_video.mp4" type="video/mp4">
+            </video>
+        </div>
+      </div> -->
+    </div>
+  </section>
+  <br>
+
+  <!-- h36m results -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Free-view rendering on real-world data (8 views as input) </h3>
+            <hr style="margin-top:0px">
+            <video width="80%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="assets/hangzhou_videos/zym0919_5301_5601/video.mp4" type="video/mp4">
+            </video>
+            <video width="80%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+              <source src="assets/hangzhou_videos/zym0920_3761_4061/video.mp4" type="video/mp4">
+            </video>
+            <video width="80%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+              <source src="assets/hangzhou_videos/zyx0919_3581_3881/video.mp4" type="video/mp4">
+            </video>
+            <video width="80%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+              <source src="assets/hangzhou_videos/zzr0919_901_1201/video.mp4" type="video/mp4">
+            </video>
+            <video width="80%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+              <source src="assets/hangzhou_videos/zzr0920_721_1300/video.mp4" type="video/mp4">
+            </video>
+            <!-- <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/h36m-2.m4v" type="video/mp4">
+            </video> -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <br>
+
+  <!-- citing -->
+  <div class="container">
+    <div class="row ">
+      <div class="col-12">
+          <h3>Citation</h3>
+          <hr style="margin-top:0px">
+              <pre style="background-color: #e9eeef;padding: 1.25em 1.5em">
+<code>@misc{zhou2022hdhuman,
+  title={HDhuman: High-quality Human Performance Capture with Sparse Views}, 
+  author={Tiansong Zhou and Tao Yu and Ruizhi Shao and Kun Li},
+  year={2022},
+  eprint={2201.08158},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV}
+}</code></pre>
+          <hr>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- multiview results -->
+  <!-- <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Comparison with state-of-the-art methods on sparse multi-view videos</h3>
+            <hr style="margin-top:0px">
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">Novel view synthesis of dynamic human</h4>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/4-view-video-1.m4v" type="video/mp4">
+            </video>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/4-view-video-2.m4v" type="video/mp4">
+            </video>
+
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">Novel view synthesis of frame 1</h4>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/4-view-first-frame.m4v" type="video/mp4">
+            </video>
+
+            <h4 style="margin-top:20px; margin-bottom:20px; color:#717980">3D reconstruction</h4>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/4-view-recon.m4v" type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br> -->
+
+  <!-- monocular results -->
+  <!-- <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+            <h3>Results on monocular videos</h3>
+            <hr style="margin-top:0px">
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/monocular-1.m4v" type="video/mp4">
+            </video>
+            <video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+                <source src="images/monocular-2.m4v" type="video/mp4">
+            </video>
+        </div>
+      </div>
+    </div>
+  </section>
+  <br> -->
+
+  <!-- citing -->
+  <!-- <div class="container">
+    <div class="row ">
+      <div class="col-12">
+          <h3>Citation</h3>
+          <hr style="margin-top:0px">
+              <pre style="background-color: #e9eeef;padding: 1.25em 1.5em">
+<code>@inproceedings{peng2021neural,
+  title={Neural Body: Implicit Neural Representations with Structured Latent Codes for Novel View Synthesis of Dynamic Humans},
+  author={Peng, Sida and Zhang, Yuanqing and Xu, Yinghao and Wang, Qianqian and Shuai, Qing and Bao, Hujun and Zhou, Xiaowei},
+  booktitle={CVPR},
+  year={2021}
+}</code></pre>
+          <hr>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- <footer class="text-center" style="margin-bottom:10px">
+      Thanks to <a href="https://lioryariv.github.io/" target="_blank">Lior Yariv</a> for the website template.
+  </footer> -->
+
+</body>
+</html>

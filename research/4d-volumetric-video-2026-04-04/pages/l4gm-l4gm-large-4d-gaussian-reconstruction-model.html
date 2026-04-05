@@ -1,0 +1,613 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+
+<script type="text/javascript" charset="utf-8" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> 
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script type="text/javascript" src="../js/hidebib.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,400italic,600italic,300,300italic' rel='stylesheet' type='text/css'>
+
+<head>
+    <title>L4GM: Large 4D Gaussian Reconstruction Model</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:description" content="L4GM: Large 4D Gaussian Reconstruction Model"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link href="./css/ayg_style.css" type="text/css" rel="stylesheet" >
+    <script src="//assets.adobedtm.com/5d4962a43b79/814eb6e9b4e1/launch-4bc07f1e0b0b.min.js"></script>
+    <!-- <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:creator" content="@karsten_kreis">
+    <meta name="twitter:title" content="Align Your Gaussians: Text-to-4D with Dynamic 3D Gaussians and Composed Diffusion Models">
+    <meta name="twitter:description" content="We develop Align Your Gaussians (AYG) for text-to-4D generation with dynamic 3D Gaussians and composed diffusion models. We leverage text-to-image, text-to-video and 3D-aware text-to-multiview-image latent diffusion models to synthesize dynamic 4D scenes in a score distillation framework. AYG achieves state-of-the-art text-to-4D performance and also enables the generation of temporally extended dynamic 4D scenes. Different generated dynamic 4D scenes can easily be composed into large scenes due to our explicit 4D representation leveraging dynamic 3D Gaussians and deformation fields.">
+    <meta name="twitter:image" content="https://nv-tlabs.github.io/VideoLDM/assets/figures/ayg_teaser.jpg"> -->
+</head>
+
+
+
+
+<body>
+
+    <div class="background_video_header" style="width: 100%">
+
+        <div class="nv-btn-parent">
+            <a  href="https://research.nvidia.com/labs/toronto-ai/" target="_blank" rel="noopener noreferrer">
+                <div style="border:5px solid black;"  class="nv-btn">
+                <img width="90%" src="assets/figures/nvidia.svg" style="margin-top: 15px; margin-bottom: 0px; margin-left: auto; margin-right: auto;"><br/>
+                Toronto AI Lab
+                </div>
+            </a>
+        </div>
+
+        <h4><div class="paper-title1">L4GM:</div></h4>
+        <h1><div class="paper-title2">Large 4D Gaussian Reconstruction Model</div></h1>
+        <div id="authors">
+            <center>
+            <div class="author-row-new">
+                <a href="https://scholar.google.com/citations?user=XcxDA14AAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Jiawei Ren<sup>1,5</sup></a>
+                <a href="https://kevincxie.github.io/" target="_blank" rel="noopener noreferrer">Kevin Xie<sup>1,2</sup></a>
+                <a href="https://tisl.cs.toronto.edu/author/ashkan-mirzaei/" target="_blank" rel="noopener noreferrer">Ashkan Mirzaei<sup>1,2</sup></a>
+                <a href="https://scholar.google.com/citations?user=XcxDA14AAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Hanxue Liang<sup>1,3</sup></a>
+                <a href="https://www.cs.utoronto.ca/~xiaohui/" target="_blank" rel="noopener noreferrer">Xiaohui Zeng<sup>1,2</sup></a>
+                <a href="https://karstenkreis.github.io/" target="_blank" rel="noopener noreferrer">Karsten Kreis<sup>1</sup></a>
+                <a href="https://liuziwei7.github.io/" target="_blank" rel="noopener noreferrer">Ziwei Liu<sup>5</sup></a>
+                <a href="https://groups.csail.mit.edu/vision/torralbalab/" target="_blank" rel="noopener noreferrer">Antonio Torralba<sup>4</sup></a>
+                <a href="https://www.cs.toronto.edu/~fidler/" target="_blank" rel="noopener noreferrer">Sanja Fidler<sup>1,2</sup></a>
+                <a href="https://seung-kim.github.io/seungkim/" target="_blank" rel="noopener noreferrer">Seung Wook Kim<sup>1</sup></a>
+                <a href="https://www.cs.toronto.edu/~linghuan/" target="_blank" rel="noopener noreferrer">Huan Ling<sup>1,2</sup></a>
+            </div>
+            </center>
+            <center>
+            <div class="affiliations-new">
+                <span><sup>1</sup> NVIDIA,</span>
+                <span><sup>2</sup> University of Toronto,</span>
+                <span><sup>3</sup> University of Cambridge,</span>
+                <span><sup>4</sup> MIT,</span>
+                <span><sup>5</sup> S-Lab, Nanyang Technological University</span><br/>
+            </div>
+
+            <!-- <div class="affiliations-new">
+                <span><sup>*</sup> Equal contribution.</span><br/>
+            </div> -->
+
+            <div class="affil-row">
+                <div class="venue text-center"><b>Advances in Neural Information Processing Systems 2024</b></div><br/>
+            </div>
+
+            </center>
+
+            <div style="clear: both">
+                <div class="paper-btn-parent">
+                <a class="paper-btn" href="https://arxiv.org/abs/2406.10324" target="_blank" rel="noopener noreferrer">Read the paper</a>
+                <a class="paper-btn" href="https://github.com/nv-tlabs/L4GM-official" target="_blank" rel="noopener noreferrer">Code</a>
+                </div>
+            </div>
+        </div>
+        <br/><br/>
+    </div>
+
+
+
+<!-- 2c82c9 -->
+    <hr style="height: 5px; border: none; color: white; background-color: #76B900;">
+    <center>
+    <div class="white_bg">
+    	<div class="top-env">
+        <h6>Video-to-4D Synthesis</h6>
+        <h5 style="width: 70%;">L4GM generates 4D objects from videos within seconds.  </h5>
+            <h5 style="width: 70%;">Hover over the model samples to see the input videos.</h5>
+
+		</div>
+	</div>
+	</center>
+
+	<center>
+	<div class="white_bg">
+    <div class="video_2" id="video_gallery" style="width: 60%"></div>
+    <hr style="height: 5px; border: none; color: white; background-color: white;">
+    </div>
+    </center>
+
+
+
+
+    <hr style="height: 5px; border: none; color: white; background-color: #76B900;">
+    <center>
+    <div class="white_bg">
+    	<div class="top-env">
+        <h6>Reconstructing Long, High-FPS, In-the-wild Videos</h6>
+        <h5 style="width: 70%;">L4GM is able to reconstruct 10-second long 30-fps videos.  </h5>
+                    <h5 style="width: 70%;">Hover over the examples to see the input videos.</h5>
+
+		</div>
+	</div>
+	</center>
+
+	<center>
+	<div class="white_bg">
+    <div class="video_2" id="video_gallery2" style="width: 60%"></div>
+    <hr style="height: 5px; border: none; color: white; background-color: white;">
+    </div>
+    </center>
+
+
+    <hr style="height: 5px; border: none; color: white; background-color: #76B900;">
+    <center>
+    <div class="white_bg">
+    	<div class="top-env">
+        <h6>4D Interpolation</h6>
+        <h5 style="width: 70%;">We train a 4D interpolation model that increases the framerate by 3x. </h5>
+                    <h5 style="width: 70%;">Hover over the 4D samples to see the input videos. <b>Left:</b> before interpolation. <b>Right:</b> after interpolation. </h5>
+
+		</div>
+	</div>
+	</center>
+
+	<center>
+	<div class="white_bg">
+    <div class="video_2" id="video_gallery3" style="width: 25%"></div>
+    <hr style="height: 5px; border: none; color: white; background-color: white;">
+    </div>
+    </center>
+
+
+
+
+
+	<hr style="height: 5px; border: none; color: whites; background-color: #76B900;">
+    <hr style="height: 20px; border: none; color: white; background-color: #ebebeb;">
+    <center>
+    <div class="grey_bg"> 
+        <!-- <a href="samples.html" target="_blank" rel="noopener noreferrer"><div class="more-samples">Click for more samples</div></a> -->
+        <hr style="height: 25px; border: none; color: black; background-color: #ebebeb;">
+        <!-- <hr style="height: 0px; border: none; color: black; background-color: #ebebeb;"> -->
+        <section id="abstract"/>
+            <h2>Abstract</h2>
+            <hr>
+            <div class="flex-row">
+                <p>
+                  We present L4GM, the first 4D Large Reconstruction Model that produces animated objects from a single-view video input -- in a single feed-forward pass that takes only a second. Key to our success is a novel dataset of multiview videos containing curated, rendered animated objects from Objaverse. This dataset depicts 44K diverse objects with 110K animations rendered in 48 viewpoints, resulting in 12M videos with a total of 300M frames. We keep our L4GM simple for scalability and build directly on top of LGM, a pretrained 3D Large Reconstruction Model that outputs 3D Gaussian ellipsoids from multiview image input. L4GM outputs a per-frame 3D Gaussian Splatting representation from video frames sampled at a low fps and then upsamples the representation to a higher fps to achieve temporal smoothness. We add temporal self-attention layers to the base LGM to help it learn consistency across time, and utilize a per-timestep multiview rendering loss to train the model. The representation is upsampled to a higher framerate by training an interpolation model which produces intermediate 3D Gaussian representations. We showcase that L4GM that is only trained on synthetic data generalizes extremely well on in-the-wild videos, producing high quality animated 3D assets.
+                </p>
+            </div>
+        </section>
+        <hr style="height: 20px; border: none; color: black; background-color: #ebebeb;">
+    </div>
+    </center>
+    <hr style="height: 2px; border: none; color: black; background-color: black;">
+
+
+
+    <section id="overview">
+        <h2>Large 4D Gaussian Reconstruction Model</h2>
+        <hr>
+        <div class="flex-row">
+            <p>Our model takes a <b>single-view video</b> and <b>single-time step multiview images</b> as input, and outputs a set of 4D Gaussians. It adopts a U-Net architecture and uses cross-view self-attention for view consistency and temporal cross-time self-attention for temporal consistency.
+            </p>
+            <center>
+                <div class="wrapper">
+                <figure style="margin-top: 20px; margin-bottom: 12px;">
+                <img width="90%" src="./assets/figures/framework_largertext.png" style="margin-bottom: 0px;">
+                </figure>
+                </div>
+            </center>
+            <p>L4GM allows <b>autoregressive reconstruction</b>. We use the multiview rendering of the last Gaussians as the input to the next reconstruction. There is a one-frame overlap between two consecutive reconstructions. Additionally, we train a <b>4D interpolation</b> model. The interpolation model takes in the interpolated multiview videos rendered from the reconstruction results and outputs interpolated Gaussians.
+            </p>
+            <center>
+                <div class="wrapper">
+                <figure style="margin-top: 20px; margin-bottom: 12px;">
+                <img width="70%" src="./assets/figures/interpolation.png" style="margin-bottom: 0px;">
+                </figure>
+                </div>
+            </center>
+            </p>            
+        </div>
+    </section>
+
+
+    <section id="related">
+        <h2>Related Work</h2>
+        <hr>
+        <div class="flex-row">
+            <p> L4GM leverages the pretrained weights of <a href="https://me.kiui.moe/lgm/" target="_blank" rel="noopener noreferrer">LGM</a>. The use of per-frame 3D Gaussian Splatting is inspired by recent optimization-based 4D generation works including <a href="https://research.nvidia.com/labs/toronto-ai/AlignYourGaussians/" target="_blank" rel="noopener noreferrer">Align Your Gaussians</a> and <a href="https://jiawei-ren.github.io/projects/dreamgaussian4d/" target="_blank" rel="noopener noreferrer">DreamGaussian4D</a>.
+        </div>
+    </section>
+
+    
+    <section id="paper">
+        <h2>Paper</h2>
+        <hr>
+        <div class="flex-row">
+            <div class="download-thumb">
+                <div style="box-sizing: border-box; padding: 16px; margin: auto;">
+                    <a href="https://arxiv.org/abs/2406.10324" target="_blank" rel="noopener noreferrer"><img class="screenshot" src="assets/figures/l4gm_paper_preview.png"></a>
+                </div>
+            </div>
+            <div class="paper-stuff">
+                <p><b>L4GM:<br>Large 4D Gaussian Reconstruction Model</b></p>
+                <p>Jiawei Ren, Kevin Xie, Ashkan Mirzaei, Hanxue Liang, Xiaohui Zeng, Karsten Kreis, Ziwei Liu, Antonio Torralba, Sanja Fidler, Seung Wook Kim, Huan Ling </p>
+                <!-- <p><i>IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2023</i></p> -->
+                <div><span class="material-icons"> description </span><a href="https://arxiv.org/abs/2406.10324" target="_blank" rel="noopener noreferrer"> Paper </a></div>
+                <div><span class="material-icons"> insert_comment </span><a href="assets/ren2024l4gm.bib" target="_blank" rel="noopener noreferrer"> BibTeX</a></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bibtex">
+        <h2>Citation</h2>
+        <hr>
+        <pre><code>@inproceedings{ren2024l4gm,
+          title={L4GM: Large 4D Gaussian Reconstruction Model},
+          author={Ren, Jiawei and Xie, Kevin and Mirzaei, Ashkan and Liang, Hanxue and Zeng, Xiaohui and Kreis, Karsten and Liu, Ziwei and Torralba, Antonio and Fidler, Sanja and Kim, Seung Wook and Ling, Huan},
+          booktitle={Advances in Neural Information Processing Systems},
+          month={December},
+          year={2024}
+}</code></pre>
+    </section>
+
+
+
+<script>
+
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+// First set of videos (regular text-to-4D)
+if (isMobile) {
+ hdvideos = [
+  // only results
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000000.mp4", "input": "assets/4d_scenes/regular_assets/000000_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000014.mp4", "input": "assets/4d_scenes/regular_assets/000014_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000029.mp4", "input": "assets/4d_scenes/regular_assets/000029_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000035.mp4", "input": "assets/4d_scenes/regular_assets/000035_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000370.mp4", "input": "assets/4d_scenes/regular_assets/000370_fg.mp4"},
+];
+} else {
+    hdvideos = [
+  // 5 a row
+  // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000000_fg.mp4"},
+  // // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000013_fg.mp4"},
+  // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000014_fg.mp4"},
+  // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000029_fg.mp4"},
+  // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000035_fg.mp4"},
+  // // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000053_fg.mp4"},
+  // // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000061_fg.mp4"},
+  // // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000068_fg.mp4"},
+  // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000070_fg.mp4"},
+  // // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000071_fg.mp4"},
+  // {"caption": "Input video (Emu)", "src": "assets/4d_scenes/regular_assets/000370_fg.mp4"},
+
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000000.mp4", "input": "assets/4d_scenes/regular_assets/000000_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000013.mp4", "input": "assets/4d_scenes/regular_assets/000013_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000014.mp4", "input": "assets/4d_scenes/regular_assets/000014_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000029.mp4", "input": "assets/4d_scenes/regular_assets/000029_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000035.mp4", "input": "assets/4d_scenes/regular_assets/000035_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000053.mp4", "input": "assets/4d_scenes/regular_assets/000053_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000061.mp4", "input": "assets/4d_scenes/regular_assets/000061_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000068.mp4", "input": "assets/4d_scenes/regular_assets/000068_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000070.mp4", "input": "assets/4d_scenes/regular_assets/000070_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000071.mp4", "input": "assets/4d_scenes/regular_assets/000071_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000370.mp4", "input": "assets/4d_scenes/regular_assets/000370_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000010.mp4", "input": "assets/4d_scenes/regular_assets/000010_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000024.mp4", "input": "assets/4d_scenes/regular_assets/000024_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000036.mp4", "input": "assets/4d_scenes/regular_assets/000036_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000051.mp4", "input": "assets/4d_scenes/regular_assets/000051_fg.mp4"},
+  
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000008.mp4", "input": "assets/4d_scenes/regular_assets/000008_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000032.mp4", "input": "assets/4d_scenes/regular_assets/000032_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000023.mp4", "input": "assets/4d_scenes/regular_assets/000023_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000012.mp4", "input": "assets/4d_scenes/regular_assets/000012_fg.mp4"},
+  // {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000042.mp4", "input": "assets/4d_scenes/regular_assets/000042_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000341.mp4", "input": "assets/4d_scenes/regular_assets/000341_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000327.mp4", "input": "assets/4d_scenes/regular_assets/000327_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_000617.mp4", "input": "assets/4d_scenes/regular_assets/000617_fg.mp4"},
+];
+}
+
+// Second set of videos (autoregressive/loopy)
+if (isMobile) {
+ hdvideos2 = [
+ {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_closeup-man-in-glasses.mp4",  "input": "assets/4d_scenes/regular_assets/closeup-man-in-glasses_fg.mp4"},
+  // {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_dancing-kangaroo.mp4", "input": "assets/4d_scenes/regular_assets/dancing-kangaroo_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_monster-with-melting-candle.mp4",  "input": "assets/4d_scenes/regular_assets/monster-with-melting-candle_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_otter-on-surfboard.mp4", "input": "assets/4d_scenes/regular_assets/otter-on-surfboard_fg.mp4" },
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_shiba.mp4",  "input": "assets/4d_scenes/regular_assets/shiba_fg.mp4"},
+  // {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_vlogger-corgi.mp4",  "input": "assets/4d_scenes/regular_assets/vlogger-corgi_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_lifting1.mp4",  "input": "assets/4d_scenes/regular_assets/lifting1_fg.mp4"},
+];
+} else {
+    hdvideos2 = [
+  // 6 a row
+  // {"caption": "Input video (Sora)", "src": "assets/4d_scenes/regular_assets/closeup-man-in-glasses_fg.mp4"},
+  // // {"caption": "Input video (Sora)", "src": "assets/4d_scenes/regular_assets/dancing-kangaroo_fg.mp4"},
+  // {"caption": "Input video (Sora)", "src": "assets/4d_scenes/regular_assets/monster-with-melting-candle_fg.mp4"},
+  // {"caption": "Input video (Sora)", "src": "assets/4d_scenes/regular_assets/otter-on-surfboard_fg.mp4"},
+  // {"caption": "Input video (Sora)", "src": "assets/4d_scenes/regular_assets/shiba_fg.mp4"},
+  // {"caption": "Input video (Sora)", "src": "assets/4d_scenes/regular_assets/vlogger-corgi_fg.mp4"},
+  // {"caption": "Input video (ActivityNet)", "src": "assets/4d_scenes/regular_assets/lifting1_fg.mp4"},
+
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_closeup-man-in-glasses.mp4",  "input": "assets/4d_scenes/regular_assets/closeup-man-in-glasses_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_dancing-kangaroo.mp4", "input": "assets/4d_scenes/regular_assets/dancing-kangaroo_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_monster-with-melting-candle.mp4",  "input": "assets/4d_scenes/regular_assets/monster-with-melting-candle_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_otter-on-surfboard.mp4", "input": "assets/4d_scenes/regular_assets/otter-on-surfboard_fg.mp4" },
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_shiba.mp4",  "input": "assets/4d_scenes/regular_assets/shiba_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_vlogger-corgi.mp4",  "input": "assets/4d_scenes/regular_assets/vlogger-corgi_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_lifting1.mp4",  "input": "assets/4d_scenes/regular_assets/lifting1_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_lifting4.mp4",  "input": "assets/4d_scenes/regular_assets/lifting4_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_racoon.mp4",  "input": "assets/4d_scenes/regular_assets/racoon_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_flower-blooming.mp4",  "input": "assets/4d_scenes/regular_assets/flower-blooming_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_cat_king.mp4",  "input": "assets/4d_scenes/regular_assets/cat_king_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_turtle2.mp4",  "input": "assets/4d_scenes/regular_assets/turtle2_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_3.mp4",  "input": "assets/4d_scenes/regular_assets/3_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_4.mp4",  "input": "assets/4d_scenes/regular_assets/4_fg.mp4"},
+  {"caption": "Output 4D", "src": "assets/4d_scenes/regular_assets/w_interp_duck.mp4",  "input": "assets/4d_scenes/regular_assets/duck_fg.mp4"},
+];
+}
+
+// Third set of videos (interpolation)
+if (isMobile) {
+ hdvideos3 = [
+ {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/compare_interp_walking_astronaut.mp4", "input": "assets/4d_scenes/regular_assets/walking_astronaut_fg.mp4"},
+ {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/compare_interp_sighing_frog.mp4", "input": "assets/4d_scenes/regular_assets/sighing_frog_fg.mp4"},
+];
+} else {
+    hdvideos3 = [
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_crocodile.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/wo_interp_swimming_yellow_tang.mp4", "input": "assets/4d_scenes/regular_assets/swimming_yellow_tang_fg.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_dancing_patrick_star.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/wo_interp_walking_astronaut.mp4", "input": "assets/4d_scenes/regular_assets/walking_astronaut_fg.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_dancing_robot.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_dancing_spiderman.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_idling_elephant.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/wo_interp_sighing_frog.mp4", "input": "assets/4d_scenes/regular_assets/sighing_frog_fg.mp4"},
+  
+  
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_crocodile.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/compare_interp_swimming_yellow_tang.mp4", "input": "assets/4d_scenes/regular_assets/swimming_yellow_tang_fg.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_dancing_patrick_star.mp4"},
+  {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/compare_interp_walking_astronaut.mp4", "input": "assets/4d_scenes/regular_assets/walking_astronaut_fg.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_dancing_robot.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_dancing_spiderman.mp4"},
+  // {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/w_interp_idling_elephant.mp4"},
+  {"caption": "with interpolation", "src": "assets/4d_scenes/regular_assets/compare_interp_sighing_frog.mp4", "input": "assets/4d_scenes/regular_assets/sighing_frog_fg.mp4"},
+];
+}
+
+// First set of Videos
+videos = hdvideos.sort((a, b) => 0.5 - Math.random());;
+// videos = hdvideos;
+
+globalVideoIdx = 0;
+
+function updateVideoSlot(idxVideo, idxSlot) {
+  slot = $("#video_gallery > div").eq(idxSlot);
+
+  src = videos[idxVideo].src;
+  caption = videos[idxVideo].caption;
+  input = videos[idxVideo].input;
+
+  slot.find("div.video_container > video > source").attr("src", src);
+  slot.find("div.video_container > video")[0].load();
+  slot.find("div.video_container > div.caption > div").text(caption);
+  slot.find("div.video_container > div > video > source").attr("src", input);
+  slot.find("div.video_container > div > video")[0].load();
+}
+
+// function updateVideoGallery() {
+//   numVideos = videos.length;
+//   idxVideo = Math.floor(Math.random() * numVideos);
+
+//   numSlots = $("#video_gallery > div").length;
+//   idxSlot = Math.floor(Math.random() * numSlots);
+
+//   globalVideoIdx = ++globalVideoIdx % numVideos;
+//   updateVideoSlot(globalVideoIdx, idxSlot);
+
+//   // setTimeout(updateVideoGallery, 4270);
+// }
+
+function updateAllVideoSlots() {
+  numVideos = videos.length;
+  numSlots = $("#video_gallery > div").length;
+
+  // globalVideoIdx = Math.floor(Math.random() * numVideos);
+  globalVideoIdx = 0;
+  for (var i = 0; i < numSlots; ++i, ++globalVideoIdx) {
+    globalVideoIdx = globalVideoIdx % numVideos;
+    updateVideoSlot(globalVideoIdx, i);
+  }
+}
+
+function addVideoSlot(idx) {
+  if (isMobile) {
+
+    if (idx < 5) {
+    template = `
+    <div class="video_wrapper mobileonly">
+    <div class="video_container">
+      <video loop muted playsinline autoplay><source src="videos/placeholder.mp4" type="video/mp4"></video>
+    </div>
+  </div>
+  `;
+  $("#video_gallery").append(template);
+    }
+  } else {
+   template = `
+   <div class="video_wrapper nomobile" style="width: 20%">
+    <div class="video_container">
+      <video loop muted playsinline autoplay><source src="videos/placeholder.mp4" type="video/mp4"></video>
+      <div>
+        Input
+        <video loop muted playsinline autoplay><source src="videos/placeholder.mp4" type="video/mp4"></video>
+      </div>
+      <div class="caption">
+        <div></div>
+      </div>
+    </div>
+  </div>
+  `;
+    $("#video_gallery").append(template);
+  }  
+}
+
+// Second set of Videos
+videos2 = hdvideos2.sort((a, b) => 0.5 - Math.random());;
+// videos2 = hdvideos2
+
+globalVideoIdx2 = 0;
+
+function updateVideoSlot2(idxVideo, idxSlot) {
+  slot = $("#video_gallery2 > div").eq(idxSlot);
+
+  src = videos2[idxVideo].src;
+  caption = videos2[idxVideo].caption;
+  input = videos2[idxVideo].input;
+
+  slot.find("div.video_container > video > source").attr("src", src);
+  slot.find("div.video_container > video")[0].load();
+  slot.find("div.video_container > div.caption > div").text(caption);
+  slot.find("div.video_container > div > video > source").attr("src", input);
+  slot.find("div.video_container > div > video")[0].load();
+}
+
+// function updateVideoGallery2() {
+//   numVideos = videos2.length;
+//   idxVideo = Math.floor(Math.random() * numVideos);
+
+//   numSlots = $("#video_gallery2 > div").length;
+//   idxSlot = Math.floor(Math.random() * numSlots);
+
+//   globalVideoIdx = ++globalVideoIdx % numVideos;
+//   updateVideoSlot2(globalVideoIdx, idxSlot);
+
+//   // setTimeout(updateVideoGallery, 4270);
+// }
+
+function updateAllVideoSlots2() {
+  numVideos = videos2.length;
+  numSlots = $("#video_gallery2 > div").length;
+
+  // globalVideoIdx = Math.floor(Math.random() * numVideos);
+  globalVideoIdx = 0;
+  for (var i = 0; i < numSlots; ++i, ++globalVideoIdx) {
+    globalVideoIdx = globalVideoIdx % numVideos;
+    updateVideoSlot2(globalVideoIdx, i);
+  }
+}
+
+function addVideoSlot2(idx) {
+  if (isMobile) {
+
+    if (idx < 5) {
+    template = `
+    <div class="video_wrapper mobileonly">
+    <div class="video_container">
+      <video loop muted playsinline autoplay><source src="videos/placeholder.mp4" type="video/mp4"></video>
+    </div>
+  </div>
+  `;
+  $("#video_gallery2").append(template);
+    }
+  } else {
+   template = `
+   <div class="video_wrapper nomobile" style="width: 20%">
+    <div class="video_container">
+      <video loop muted playsinline autoplay><source src="videos/placeholder.mp4" type="video/mp4"></video>
+      <div>
+        Input
+        <video loop muted playsinline autoplay><source src="videos/placeholder.mp4" type="video/mp4"></video>
+      </div>
+      <div class="caption">
+        <div></div>
+      </div>
+    </div>
+  </div>
+  `;
+    $("#video_gallery2").append(template);
+  }  
+}
+
+
+// Third set of Videos
+videos3 = hdvideos3
+
+globalVideoIdx3 = 0;
+
+function updateVideoSlot3(idxVideo, idxSlot) {
+  slot = $("#video_gallery3 > div").eq(idxSlot);
+
+  src = videos3[idxVideo].src;
+  caption = videos3[idxVideo].caption;
+
+  src = videos3[idxVideo].src;
+  caption = videos3[idxVideo].caption;
+  input = videos3[idxVideo].input;
+
+  slot.find("div.video_container > video > source").attr("src", src);
+  slot.find("div.video_container > video")[0].load();
+  slot.find("div.video_container > div.caption > div").text(caption);
+  slot.find("div.video_container > div > video > source").attr("src", input);
+  slot.find("div.video_container > div > video")[0].load();
+}
+
+function updateAllVideoSlots3() {
+  numVideos = videos3.length;
+  numSlots = $("#video_gallery3 > div").length;
+
+  globalVideoIdx = 0;
+  for (var i = 0; i < numSlots; ++i, ++globalVideoIdx) {
+    globalVideoIdx = globalVideoIdx % numVideos;
+    updateVideoSlot3(globalVideoIdx, i);
+  }
+}
+
+function addVideoSlot3(idx) {
+  if (isMobile) {
+
+    if (idx < 5) {
+    template = `
+    <div class="video_wrapper mobileonly">
+    <div class="video_container">
+      <video loop muted playsinline autoplay><source src="videos/placeholder.mp4" type="video/mp4"></video>
+    </div>
+  </div>
+  `;
+  $("#video_gallery3").append(template);
+    }
+  } else {
+   template = `
+  <div class="video_wrapper nomobile" style="width: 100%">
+    <div class="video_container">
+      <video loop muted playsinline autoplay><source src="videos/placeholder.mp4" type="video/mp4"></video>
+      <div>
+        Input
+        <video loop muted playsinline autoplay><source src="videos/placeholder.mp4" type="video/mp4"></video>
+      </div>
+      <div class="caption">
+        <div></div>
+      </div>
+    </div>
+  </div>
+  `;
+    $("#video_gallery3").append(template);
+  }  
+}
+
+// Run the functions
+for (var i = 0; i < 20; ++i) {
+  addVideoSlot(i);
+}
+
+for (var i = 0; i < 15; ++i) {
+  addVideoSlot2(i);
+}
+
+for (var i = 0; i < 2; ++i) {
+  addVideoSlot3(i);
+}
+
+updateAllVideoSlots();
+updateAllVideoSlots2();
+updateAllVideoSlots3();
+
+
+</script>
+
+</body>
+</html>

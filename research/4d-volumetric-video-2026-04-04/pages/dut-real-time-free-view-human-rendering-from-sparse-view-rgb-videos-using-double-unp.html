@@ -1,0 +1,319 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<!-- Head -->
+
+	<head>
+		<title>Real-time Free-view Human Rendering from Sparse-view RGB Videos using Double Unprojected Textures</title>
+		<link rel="icon" href="images/logos/my_icon.png">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"></script>
+
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+		</noscript>
+	</head>
+
+	<!-- Body -->
+
+	<body class="landing">
+
+		<!-- Header -->
+
+			<header id="header">
+<!-- 				<div class="column has-text-centered">
+				<center>
+			    <ul>
+				<li style="margin-top: 1%;"><a href="https://www.mpi-inf.mpg.de/home/"> <img src="images/logos/mpi.png" height="50px" width="auto"/> </a></li>
+				<li style="margin-top: 1%;"><a href="https://saarland-informatics-campus.de/"> <img src="images/logos/sic-logo.webp" height="50px" width="auto"/> </a></li>
+				<li style="margin-top: 0.5%;"><a href="https://gvdh.mpi-inf.mpg.de/"> <img src="images/logos/gvdh.jpg" height="70px" width="auto"/> </a></li>
+				<li style="margin-top: 0.5%;"><a href="https://www.epfl.ch/"> <img src="images/logos/epfl_logo.png" height="70px" width="auto"/> </a></li>
+			    </ul>
+				</center>
+		        </div> -->
+
+	     	    <div class="column" style="text-align:center">
+		        <a href="https://www.mpi-inf.mpg.de/home/" target="_blank"> <img style="margin-top: 1%; margin-left: 2%; margin-right: 2%;" src="images/logos/mpi-logo-en.png" height="60px"/></a>
+		        <a href="https://saarland-informatics-campus.de/" target="_blank"> <img style="margin-top: 1%; margin-left: 2%; margin-right: 2%;" src="images/logos/sic-logo.webp" height="50px"/></a>
+		        <a href="https://gvdh.mpi-inf.mpg.de/" target="_blank"> <img style="margin-top: 1%; margin-left: 2%;" src="images/logos/gvdh.jpg" height="70px"/></a>
+            <a href="https://www.via-center.science/" target="_blank"> <img style="margin-top: 1%; margin-left: 2%;" src="images/logos/via.png" height="70px"/></a>
+		        <a href="https://www.epfl.ch/" target="_blank"> <img style="margin-top: 1%; margin-left: 2%" src="images/logos/epfl_logo.png" height="70px"/></a>
+		    	</div>
+
+			</header>
+
+		<!-- Main -->
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			<center>
+			<section id="bannel">
+	            <div class="container">
+
+					<h2>Real-time Free-view Human Rendering from Sparse-view RGB Videos using Double Unprojected Textures</h2> </br>
+
+					</br>
+					<div class="column has-text-centered">
+						<h4><a href="https://people.mpi-inf.mpg.de/~gsun/" target="_blank">Guoxing Sun</a><sup>1</sup>&#160;&#160;</h4>
+						<h4><a href="https://rishabhdabral.github.io/" target="_blank">Rishabh Dabral</a><sup>1, 2</sup>&#160;&#160;</h4>
+						<h4><a href="https://people.mpi-inf.mpg.de/~hezhu/" target="_blank">Heming Zhu</a><sup>1</sup>&#160;&#160;</h4>
+						<h4><a href="https://people.epfl.ch/pascal.fua" target="_blank">Pascal Fua</a><sup>3</sup>&#160;&#160;</h4>
+						<h4><a href="http://www.mpi-inf.mpg.de/~theobalt/" target="_blank">Christian Theobalt</a><sup>1, 2</sup>&#160;&#160;</h4>
+						<h4><a href="http://people.mpi-inf.mpg.de/~mhaberma/" target="_blank">Marc Habermann</a><sup>1, 2</sup>&#160;&#160;</h4>
+			    	</div>
+
+				</br>
+				<h4><a href="https://www.mpi-inf.mpg.de/departments/visual-computing-and-artificial-intelligence"><sup>1</sup>Max Planck Institute for Informatics, Saarland Informatics Campus</a></h4>
+				<h4><a href="https://www.via-center.science/"><sup>2</sup>VIA Research Center</a></h4>
+				<h4><a href="https://www.epfl.ch/labs/cvlab/"><sup>3</sup>EPFL</a></h4>
+        
+				</br>
+				<h3><a href="https://cvpr.thecvf.com/Conferences/2025">(CVPR 2025 Highlight)</a></h3>
+        
+				<div class="column has-text-centered">
+					<div class="publication-links">
+					  <!-- PDF Link. -->
+					  <span class="link-block">
+						<a href="https://arxiv.org/pdf/2412.13183.pdf"
+						   class="external-link button is-normal is-rounded is-dark">
+						  <span class="icon">
+							  <i class="fas fa-file-pdf"></i>
+						  </span>
+						  <span>Paper</span>
+						</a>
+					  </span>
+					  <!-- Video Link. -->
+					  <span class="link-block">
+						<a href="#main_video"
+						   class="external-link button is-normal is-rounded is-dark">
+						  <span class="icon">
+							  <i class="fas fa-video-camera"></i>
+						  </span>
+						  <span>Video</span>
+						</a>
+					  </span>
+					  <span class="link-block">
+						<a href="https://github.com/sunshinnnn/dut"
+						   class="external-link button is-normal is-rounded is-dark">
+						  <span class="icon">
+							  <i class="fa-brands fa-github""></i>
+						  </span>
+						  <span>Code</span>
+						  </a>
+					  </span>
+					  <span class="link-block">
+						<a href="https://gvv-assets.mpi-inf.mpg.de/DUT/"
+						   class="external-link button is-normal is-rounded is-dark">
+						  <span class="icon">
+							  <i class="fas fa-database"></i>
+						  </span>
+						  <span>Data</span>
+						  </a> 
+					</div>
+				</div>
+				<!-- </div> -->
+			</section>
+			</center>
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<!-- <section class="wrapper style2 special">	 -->
+				<center>
+				<div class="container">
+					<!-- <h2 style="text-align:center" >Teaser</h2> -->
+					<div class="column has-text-centered"></div>
+					<img width="100%" src="images/Teaser.png">
+					<p> We propose Double Unprojected Textures (DUT), a new method to synthesize photoreal 4K novel-view renderings in real-time. Our method consistently beats baseline approaches in terms of rendering quality and inference speed. Moreover, it generalizes to, both, in-distribution (IND) motions, i.e. dancing, and out-of-distribution (OOD) motions, i.e. standing long jump.</p>
+					</video>
+				</div>
+			</center>
+			<!-- </section> -->
+<!-- 			<section class="wrapper style2 special">
+				<center>
+				<div class="container" id="teaser">
+					<h2 style="text-align:center" >Main Video</h2>
+					<div class="column has-text-centered"></div>
+					<video width="100%" height=auto controls autoplay>
+						<source src="videos/teaser_video.mp4" type="video/mp4">
+					</video>
+				</div>
+				</div>
+			</center>
+			</section> -->
+
+		    </br>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<section class="smallpadding">
+				<div class="container">
+					<h2 style="text-align:center" >Abstract</h2>
+					<p>Real-time free-view human rendering from sparse-view RGB inputs is a challenging task due to the sensor scarcity and the tight time budget. To ensure efficiency, recent methods leverage 2D CNNs operating in texture space to learn rendering primitives. However, they either jointly learn geometry and appearance, or completely ignore sparse image information for geometry estimation, significantly harming visual quality and robustness to unseen body poses. To address these issues, we present <b>Double Unprojected Textures</b>, which at the core disentangles coarse geometric deformation estimation from appearance synthesis, enabling robust and photorealistic 4K rendering in real-time. Specifically, we first introduce a novel image-conditioned template deformation network, which estimates the coarse deformation of the human template from a first unprojected texture. This updated geometry is then used to apply a second and more accurate texture unprojection. The resulting texture map has fewer artifacts and better alignment with input views, which benefits our learning of finer-level geometry and appearance represented by Gaussian splats. We validate the effectiveness and efficiency of the proposed method in quantitative and qualitative experiments, which significantly surpasses other state-of-the-art methods.</p>
+					</div>
+
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<section class="wrapper style2 special">
+				<center>
+				<div class="container" id="main_video">
+					<h2 style="text-align:center" >Main Video</h2>
+					<div class="column has-text-centered"></div>
+					<video width="100%" height=auto controls>
+						<source src="videos/main_video.mp4" type="video/mp4">
+					</video>
+				</div>
+				</div>
+			</center>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+				<section class="wrapper special">
+				<center>
+				<div class="container" id="Overview">
+					<h2 style="text-align:center" >Method</h2>
+					<div class="column has-text-centered"></div>
+					<img width="100%" src="images/Overview.png">
+					<p>Given sparse-view images and respective motion, DUT predicts coarse template geometry and fine-grained 3D Gaussians. We first unproject images onto the posed template to obtain a texture map, which is fed into GeoNet to estimate deformations of the template in canonical pose. We then unproject images again onto the posed and deformed template to obtain a less-distorted texture map, which serves as input to our GauNet estimating 3D Gaussian parameters and undergoes scale refinement before splatting.</p>
+					<img width="75%" src="images/UndeformedTextureMap.png">
+					<p>Under the same body pose, the degree of deformations can be reflected by the distortions of undeformed (first) texture map, which offers additional information to solve one-to-many mapping issue in motion-driven deformation methods.</p>
+					<img width="65%" src="images/TextureUnprojection.png">
+					<p>Performing a second texture unprojection using the deformed template leads to less ghosting artifacts and better geometric alignment.</p>
+				</div>
+				</div>
+			</center>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<section class="wrapper style2 special">
+				<center>
+				<div class="container">
+					<h2 style="text-align:center" >Comparison</h2>
+					<div class="column has-text-centered"></div>
+					<video width="100%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+						<source src="videos/comparison_tex.mp4" type="video/mp4">
+					</video>
+					<p>
+   				The runtime consists of model inference and novel-view rendering.
+					<br>
+					[1]  <a href="https://dl.acm.org/doi/10.1145/3528233.3530740" target="_blank">Drivable Volumetric Avatars using Texel-Aligned Features (Remelli et al. 2022)</a>
+				    <br>
+		    		[2] <a href="https://vcai.mpi-inf.mpg.de/projects/holochar/" target="_blank">Holoported Characters: Real-time Free-viewpoint Rendering of Humans from Sparse RGB Cameras (Shetty et al. 2024)</a>
+					</p>
+				</div>
+				</div>
+			</center>
+			</section>
+
+
+			<section class="wrapper special">
+				<center>
+				<div class="container">
+					<h2 style="text-align:center" >Out-of-distribution Motion</h2>
+					<div class="column has-text-centered"></div>
+					<!-- <video width=100% height=auto controls autoplay loop="loop"> -->
+					<video width="80%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+						<source src="videos/demo_ood.mp4" type="video/mp4">
+					</video>
+          <img width="87%" src="images/OOD_table.png">
+				</div>
+				</div>
+			</center>
+			</section>
+
+			<section class="wrapper style2 special">
+				<center>
+				<div class="container">
+					<h2 style="text-align:center" >Texture Editing</h2>
+					<div class="column has-text-centered"></div>
+					<!-- <video width=100% height=auto controls autoplay loop="loop"> -->
+					<video width="70%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+						<source src="videos/demo_texture_editing.mp4" type="video/mp4">
+					</video>
+				  <p>Our method supports texture editing of garments in texel space.</p>
+				</div>
+				</div>
+			</center>
+			</section>
+
+			<section class="wrapper special">
+				<center>
+				<div class="container">
+					<h2 style="text-align:center" >Interective Demo</h2>
+					<div class="column has-text-centered"></div>
+					<!-- <video width=100% height=auto controls autoplay loop="loop"> -->
+					<video width="70%" playsinline="" autoplay="autoplay" loop="loop" preload="" muted="">
+						<source src="videos/demo_interactive.mp4" type="video/mp4">
+					</video>
+          <p>Real-time, end to end, interactively controllable. Note that all operations are executed after the raw data inputs. Multi-view RGB streams/videos with paired motions &rArr; Dynamic textures &rArr; 3D Gaussians &rArr; Free-viewpoint renderings.</p>
+				</div>
+				</div>
+			</center>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<section class="wrapper">
+				<div class="container" style="text-align: justify;">
+					<h2 style="text-align:center" >Citation</h2>
+					<div class="section bibtex">
+<pre>
+@InProceedings{sun2025real,
+title = {Real-time Free-view Human Rendering from Sparse-view RGB Videos using Double Unprojected Textures},
+author = {Sun, Guoxing and Dabral, Rishabh and Zhu, Heming and Fua, Pascal and Theobalt, Christian and Habermann, Marc},
+year = {2025},
+month = {June},
+booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+}</pre>
+					</div>
+				</div>
+			</section>
+
+
+			<section class="wrapper special">
+				<center>
+				<div class="container">
+					<h2 style="text-align:center" >Acknowledgement</h2>
+					<div class="column has-text-centered"></div>
+					<p> We thank <a href="https://people.mpi-inf.mpg.de/~osotnych/" target="_blank">Oleksandr Sotnychenko</a> and <a href="https://de.linkedin.com/in/prk9009" target="_blank">Pranay Raj Kamuni</a> for their help in data collection and processing, and <a href="https://in.linkedin.com/in/kunwar-maheep-singh-889675211" target="_blank">Kunwar Maheep Singh</a> for his help in segmentation.
+					</p>
+				</div>
+				</div>
+			</center>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<!-- Footer -->
+
+			<footer id="footer">
+				<div class="container" style="width:40%">
+					<ul class="copyright">
+						<li>&copy; Guoxing Sun</li>
+						<li><a href="https://imprint.mpi-klsb.mpg.de/inf/vcai.mpi-inf.mpg.de/">Imprint</a></li>
+						<li><a href="https://data-protection.mpi-klsb.mpg.de/inf/vcai.mpi-inf.mpg.de?lang=en">Data Protection</a></li>
+						<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+					</ul>
+				</div>
+			</footer>
+	</body>
+</html>
