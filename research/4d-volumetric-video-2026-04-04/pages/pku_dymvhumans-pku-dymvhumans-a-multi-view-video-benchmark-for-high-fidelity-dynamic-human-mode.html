@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="PKU-DyMVHumans: A Multi-View Video Benchmark for High-Fidelity Dynamic Human Modeling.">
+  <meta name="keywords" content="DyMVHumans, NeRF, NeuS">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PKU-DyMVHumans: A Multi-View Video Benchmark for High-Fidelity Dynamic Human Modeling</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+<!--   <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <style>
+        .container-h {
+            width: 90%; /* 或者根据需要设置为其他宽度 */
+            margin: auto; /* 居中显示 */
+        }
+
+  </style>
+
+    <style>
+        .fixed-size-video {
+            width: 940px; /* 设置视频的固定宽度 */
+            height: auto; /* 设置视频的固定高度 */
+        }
+    </style>
+
+    <style>
+        .fixed-size-video-small {
+            width: 700px; /* 设置视频的固定宽度 */
+            height: auto; /* 设置视频的固定高度 */
+        }
+        .rounded-corners {
+    border-radius: 10px; /* 设置圆角的大小 */
+  }
+    </style>
+    <style>
+        .video-container {
+            height: 600px; /* 统一设置视频高度 */
+            width: auto;   /* 宽度自适应 */
+        }
+    </style>
+    <style>
+        .video-container {
+            display: flex;         /* 使用 flexbox 布局 */
+            justify-content: center; /* 水平居中 */
+        }
+        .video-container video {
+            width: 30%;           /* 每个视频宽度占容器的30% */
+            margin: 5px;          /* 视频之间的间隔 */
+        }
+    </style>
+
+<style>
+  .video-row {
+    display: flex;
+    justify-content: space-around; /* 可以改为 center 使得视频在行中居中 */
+    margin-bottom: 20px; /* 行与行之间的间距 */
+  }
+
+  .fixed-size-video-small {
+    width: 33%; /* 设置视频的固定宽度 */
+            height: auto; /* 设置视频的固定高度 */
+  }
+  .fixed-size-video-small-two {
+    width: 800px; /* 设置视频的固定宽度 */
+            height: auto; /* 设置视频的固定高度 */
+  }
+  .fixed-size-video-small-three {
+    width: 1340px; /* 设置视频的固定宽度 */
+            height: auto; /* 设置视频的固定高度 */
+  }
+  
+  /* 可能需要调整的样式 */
+  @media screen and (max-width: 768px) {
+    /* 在较小屏幕上，让视频堆叠而不是并排 */
+    .video-row {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<style>
+        .text-container {
+            max-width: 1070px; /* 限制文本容器的最大宽度 */
+            margin: 0 auto;    /* 居中文本容器 */
+            padding: 20px;     /* 为容器添加一些内边距 */
+        }
+        
+</style>
+  
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://github.com/zhengxyun">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://zhengxyun.github.io/Surface-SOS/">
+            Surface-SOS
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">PKU-DyMVHumans: A Multi-View Video Benchmark for High-Fidelity Dynamic Human Modeling</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://zhengxyun.github.io">XiaoyunZheng</a><sup>1, 2</sup>,</span>
+            <span class="author-block">
+              <a href="https://github.com/leviome">Liwei Liao</a><sup>1, 2</sup>,</span>
+            <span class="author-block">
+              <a>Xufeng Li</a><sup>3</sup>,</span>
+            
+            <span class="author-block">
+              <a href="https://jianbojiao.com">Jianbo Jiao</a><sup>4</sup>,</span>
+            <span class="author-block">
+              <a href="https://github.com/rongjiewang">Rongjie Wang</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.art.pku.edu.cn/szdw/qzjs/cysjyysglx/gf/index.htm">Feng Gao</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.cs.cityu.edu.hk/~shiqwang/">Shiqi Wang</a><sup>3</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.ece.pku.edu.cn/info/1046/2147.htm">Ronggang Wang</a><sup>1*</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Peking University</span>
+            <span class="author-block"><sup>2</sup>Peng Cheng Laboratory</span>
+            <span class="author-block"><sup>3</sup>City University of Hong Kong</span>
+            <span class="author-block"><sup>4</sup>University of Birmingham</span>
+          </div>
+
+          <div class="is-size-4 publication">
+            <span class="author-block"> </span>
+            <span class="author-block"> CVPR 2024 </span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2403.16080.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2403.16080"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=4Q6B-nAIrZc"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+
+              <!-- Data and code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/zhengxyun/PKU-DyMVHumans"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/zxyun/PKU-DyMVHumans"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-cloud-download-alt"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+              </span>
+              
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dataSnapshot">
+  <div class="bigDiv">
+    <div class="imageDiv" >
+      <img src="./static/images/snapshot.png"
+                 class="imageClass"
+                 alt="Interpolation end reference image."/>
+      <div class="container-h">
+       <h3 class="subtitle has-text-centered" >
+         <span class="dnerf">PKU-DyMVHumans</span> is a versatile human-centric dataset designed for 
+         high-fidelity reconstruction and rendering of dynamic human performances in markerless multi-view capture settings. 
+       </h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            High-quality human reconstruction and photo-realistic rendering of a dynamic scene is a long-standing problem in computer vision and graphics. 
+            Despite considerable efforts invested in developing various capture systems and reconstruction algorithms, 
+            recent advancements still struggle with loose or oversized clothing and overly complex poses. 
+            In part, this is due to the challenges of acquiring high-quality human datasets.
+          </p>
+          <p>
+            To facilitate the development of these fields, in this paper, we present PKU-DyMVHumans, 
+            a versatile human-centric dataset for high-fidelity reconstruction and rendering of dynamic human scenarios from dense multi-view videos. 
+            <b>It comprises 8.2 million frames captured by more than 56 synchronized cameras across diverse scenarios. 
+            These sequences comprise 32 human subjects across 45 different scenarios, each with a high-detailed appearance and realistic human motion. </b>
+          </p>
+          <p>
+            Inspired by recent advancements in neural radiance field (NeRF)-based scene representations, 
+            we carefully set up an off-the-shelf framework 
+            that is easy to provide those state-of-the-art NeRF-based implementations and benchmark on PKU-DyMVHumans dataset. 
+            It is paving the way for various applications like fine-grained foreground/background decomposition, high-quality human reconstruction 
+            and photo-realistic novel view synthesis of a dynamic scene.
+          </p>
+          <p>
+            Extensive studies are performed on the benchmark, 
+            demonstrating new observations and challenges that emerge from using such high-fidelity dynamic data.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Paper video. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube-nocookie.com/embed/4Q6B-nAIrZc;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. -->
+  </div>
+  <!--/ Abstract. -->
+    
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <!-- Sport Overview. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Sport</h2>
+          <div class="hero-body">
+            <div class="container">
+              <div id="results-carousel" class="carousel results-carousel">
+                <div class="item item-sport-football">
+                  <video poster="" id="football" autoplay controls muted loop playsinline height="100%">
+                   <source src="./static/videos/2_1_sport_football_m11_c30.mp4"
+                          type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-sport-badminton">
+                 <video poster="" id="badminton" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/2_2_sport_badminton_f11_c30.mp4"
+                        type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-sport-taekwondo">
+                 <video poster="" id="taekwondo" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/2_3_sport_taekwondo_m11c21_c30.mp4"
+                         type="video/mp4">
+                 </video>
+                 </div>
+                 <div class="item item-sport-taekwondo2">
+                  <video poster="" id="taekwondo2" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/2_4_sport_taekwondo_m11c21_c30.mp4"
+                           type="video/mp4">
+                  </video>
+                 </div>
+                 <div class="item item-sport-taekwondo3">
+                  <video poster="" id="taekwondo3" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/2_5_sport_taekwondo_m11c21_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--/ Sport Overview. -->
+</section>
+
+
+<section class="hero is-light is-small">
+  <!-- Dance Overview. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Dance</h2>
+          <div class="hero-body">
+            <div class="container">
+              <div id="results-carousel" class="carousel results-carousel">
+                <div class="item item-dance-banquet">
+                  <video poster="" id="banquet" autoplay controls muted loop playsinline height="100%">
+                   <source src="./static/videos/1_1_dance_banquet_c30.mp4"
+                          type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-dance-jasmine">
+                 <video poster="" id="jasmine" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/1_2_dance_jasmine_c30.mp4 "
+                        type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-dance-tibetan">
+                 <video poster="" id="tibetan" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/1_3_dance_tibetan_c30.mp4"
+                         type="video/mp4">
+                 </video>
+                 </div>
+                 <div class="item item-dance-dunhuang-f12">
+                  <video poster="" id="dunhuang-f12" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/1_4_dance_dunhuang_f12_c30.mp4"
+                           type="video/mp4">
+                  </video>
+                 </div>
+                 <div class="item item-dance-dunhuang-f14f15">
+                  <video poster="" id="dunhuang-f14f15" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/1_5_dance_dunhuang_f14f15_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-dance-dunhuang-f14">
+                  <video poster="" id="dunhuang-f14f" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/1_6_dance_dunhuang_f14_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-dance-dunhuang-f15">
+                  <video poster="" id="dunhuang-f15" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/1_7_dance_dunhuang_f15_c30.mp4 "
+                             type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-dance-dunhuang-f13">
+                  <video poster="" id="dunhuang-f13" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/1_8_dance_dunhuang_f13_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--/ Dance Overview. -->
+</section>
+
+<section class="hero is-light is-small">
+  <!-- 4K Studio Overview. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Fashion Show</h2>
+          <div class="hero-body">
+            <div class="container">
+              <div id="results-carousel" class="carousel results-carousel">
+                <div class="item item-4k-show-f20">
+                  <video poster="" id="show-f20" autoplay controls muted loop playsinline height="100%">
+                   <source src="./static/videos/3_1_show_f20_c27.mp4"
+                          type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-4k-show-f16">
+                 <video poster="" id="show-f16" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/3_2_show_f16_c27.mp4"
+                        type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-4k-show-f17">
+                 <video poster="" id="show-f17" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/3_3_show_f17_c27.mp4"
+                         type="video/mp4">
+                 </video>
+                 </div>
+                 <div class="item item-4k-show-f16f17">
+                  <video poster="" id="show-f16f17" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/3_4_show_f16f17_c27.mp4"
+                           type="video/mp4">
+                  </video>
+                 </div>
+                 <div class="item item-4k-groups">
+                  <video poster="" id="grounps" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/3_5_show_groups_c27.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-4k-show-f18f19">
+                  <video poster="" id="show-f18f19" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/3_6_show_f18f19_c27.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-4k-show-f18">
+                  <video poster="" id="show-f18" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/3_7_show_f18_c27.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-4k-show-f19">
+                  <video poster="" id="show-f19" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/3_8_show_f19_c27.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--/ 4K Studio Overview. -->
+</section>
+
+<section class="hero is-light is-small">
+  <!-- Kungfu Overview. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Kungfu</h2>
+          <div class="hero-body">
+            <div class="container">
+              <div id="results-carousel" class="carousel results-carousel">
+                <div class="item item-kunfu-fan">
+                  <video poster="" id="fan" autoplay controls muted loop playsinline height="100%">
+                   <source src="./static/videos/4_0_kunfu_fan_m12_c30.mp4"
+                          type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-kunfu-basic-c24c25">
+                 <video poster="" id="basic-c24c25" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/4_1_kunfu_basic_c24c25_c30.mp4"
+                        type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-kunfu-basic-m12">
+                 <video poster="" id="basic-m12" autoplay controls muted loop playsinline height="100%">
+                  <source src="./static/videos/4_1_kunfu_basic_m12_c30.mp4"
+                         type="video/mp4">
+                 </video>
+                 </div>
+                 <div class="item item-kunfu-weapon">
+                  <video poster="" id="weapon" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_2_kunfu_weapon_m12m13_c30.mp4"
+                           type="video/mp4">
+                  </video>
+                 </div>
+                 <div class="item item-kunfu-nanquan">
+                  <video poster="" id="dunhuang-f14f15" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_3_kunfu_nanquan_c24_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-kunfu-shaolin">
+                  <video poster="" id="shaolin" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_4_kunfu_sholin_m12_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-kunfu-taichi">
+                  <video poster="" id="taichi" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_5_kunfu_taichi_m12_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>
+                <div class="item item-kunfu-kick">
+                  <video poster="" id="kick" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_6_kunfu_kick_m13_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+                <div class="item item-kunfu-broadsword-c24">
+                  <video poster="" id="broadsword-c24" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_7_kunfu_broadsword_c24_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+                <div class="item item-kunfu-nunchuck">
+                  <video poster="" id="nunchuck" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_8_kunfu_nunchuck_m14_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+                <div class="item item-kunfu-broadsward">
+                  <video poster="" id="broadsward" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_9_kunfu_broadsward_m12_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+                <div class="item item-kunfu-sword">
+                  <video poster="" id="sword" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_10_kunfu_sword_m13_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+                <div class="item item-kunfu-spear">
+                  <video poster="" id="spear" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_11_kunfu_spear_m13_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+                <div class="item item-kunfu-double">
+                  <video poster="" id="double" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_12_kunfu_double_m12m13_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+                <div class="item item-kunfu-boxing">
+                  <video poster="" id="boxing" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_13_kunfu_boxing_c25_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+                <div class="item item-kunfu-tongbiequan">
+                  <video poster="" id="tongbeiquan" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/4_14_kunfu_tongbeiquan_m13_c30.mp4"
+                             type="video/mp4">
+                  </video>
+                </div>  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--/ Kungfu Overview. --> 
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Data Features. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Data Features</h2>
+
+        <div class="columns is-centered">
+        <!-- High-detailed. -->
+        <div class="column">
+         <div class="content">
+          <h3 class="title is-4">High-detailed</h3>
+          <p>
+            It captures complex cloth deformation, and intricate texture details, like delicate satin ribbon and special headwear.
+          </p>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/Dunhuang_fvv.mp4"
+                    type="video/mp4">
+          </video>
+         </div>
+        </div>
+        <!--/ High-detailed. -->
+
+        <!-- Complex human motion. -->
+        <div class="column">
+         <div class="content">
+          <h3 class="title is-4">Complex motion</h3>
+          <p>
+            It covers a wide range of special costume performances, artistic movements, and sports activities. 
+          </p>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/Kungfu_Sword_fvv.mp4"
+                    type="video/mp4">
+          </video>
+         </div>
+        </div>
+        <!--/ Complex human motion. -->
+
+        <!-- Interactions. -->
+        <div class="column">
+         <div class="content">
+          <h3 class="title is-4">Interactions</h3>
+          <p>
+            It includes human-object interactions, multi-person interactions and complex scene effects (like smoking).
+          </p>
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/Taekwondo_fvv.mp4"
+                    type="video/mp4">
+          </video>
+         </div>
+        </div>
+        <!--/ Interactions. -->
+          
+        </div>
+
+        <!-- High-fidelity. -->
+        <h3 class="title is-4">High-fidelity human performance</h3>
+        <div class="content has-text-justified">
+          <p>
+             We construct professional multi-view system to capture humans in motion, 
+             which contains <b>56/60</b> synchronous cameras with <b>1080p</b> or <b>4K</b> resolution.
+          </p>
+        </div>
+        <div class="columns is-vcentered interpolation-panel">
+          <div class="content has-text-centered">
+            <img src="./static/images/multi-views_4k_show.png"
+                 class="interpolation-image"
+                 alt="Interpolate start reference image."/>
+          </div>
+        </div>
+        <!--/ High-fidelity. -->
+
+      </div>
+    </div>
+    <!--/ Data Features. -->
+  </div>
+</section>
+  
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Benchmark. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Benchmark</h2>
+        <div class="content has-text-justified">
+         <p>
+          The objective of our benchmark is to achieve robust geometry reconstruction and novel view synthesis 
+          for dynamic humans under markerless and fixed multi-view camera settings, 
+          while minimizing the need for manual annotation and reducing time costs. 
+          This includes neural scene decomposition, novel view synthesis, and dynamic human modeling.
+         </p>
+        </div>
+<!--         <div class="columns is-vcentered interpolation-panel">
+          <div class="content has-text-centered">
+            <img src="./static/images/usage.png"
+                 class="interpolation-image"
+                 alt="Interpolate start reference image."/>
+          </div>
+        </div> -->
+
+        <!-- NSD. -->
+        <h3 class="title is-4">Neural Scene Decomposition</h3>
+        <div class="content has-text-justified">
+          <p>
+            We show that <span class="dnerf">Surface-SOS</span> can decompose scene into geometrically consistent foreground, 
+            texture-completed backgrounds, and generate convincing segmentation and normal maps. 
+          </p>
+        </div>
+        <div class="columns is-vcentered interpolation-panel">
+          <div class="content has-text-centered">
+            <img src="./static/images/nsd.png"
+                 class="interpolation-image"
+                 alt="Interpolate start reference image."/>
+          </div>
+        </div>
+        <!--/ NSD. -->
+
+        <!-- NVS. -->
+        <h3 class="title is-4">Novel View Synthesis</h3>
+        <div class="content has-text-justified">
+          <p>
+            Novel view synthesis from a sparse multi-view videos.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 width="100%">
+            <source src="./static/videos/dunhuang_f12_fix_novel.mp4"
+                    type="video/mp4">
+          </video>
+          <video id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 width="100%">
+            <source src="./static/videos/show_f16f17_fix_novel.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ NVS. -->
+
+        <!-- DHM. -->
+        <h3 class="title is-4">Dynamic Human Modeling</h3>
+        <div class="content has-text-justified">
+          <p>
+            The results of space and time novel view rendering under short frame sequences.
+          </p>
+        </div>
+
+        <div class="video-row">
+         <video class="fixed-size-video-small rounded-corners" poster="" id="rubble1" autoplay controls muted loop playsinline>
+          <source src="./static/videos/t4d_football.mp4" type="video/mp4">
+         </video>
+        <div style="padding-right: 10px;"></div>
+         <video class="fixed-size-video-small rounded-corners" poster="" id="rubble2" autoplay controls muted loop playsinline>
+          <source src="./static/videos/t4d_tinetan.mp4" type="video/mp4">
+         </video>
+        <div style="padding-right: 10px;"></div>
+         <video class="fixed-size-video-small rounded-corners" poster="" id="rubble3" autoplay controls muted loop playsinline>
+          <source src="./static/videos/t4d_badminton.mp4" type="video/mp4">
+         </video>
+      </div>
+        
+      <!--/ DHM. -->
+
+      </div>
+    </div>
+    <!--/ Benchmark. -->
+
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>
+      @article{zheng2024PKU-DyMVHumans,
+      title={PKU-DyMVHumans: A Multi-View Video Benchmark for High-Fidelity Dynamic Human Modeling},
+      author={Zheng, Xiaoyun and Liao, Liwei and Li,Xufeng and Jiao, Jianbo and Wang, Rongjie and Gao, Feng and Wang, Shiqi and Wang, Ronggang},
+      journal={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+      year={2024} }
+    </code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/zhengxyun" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            The website template is based on <a href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

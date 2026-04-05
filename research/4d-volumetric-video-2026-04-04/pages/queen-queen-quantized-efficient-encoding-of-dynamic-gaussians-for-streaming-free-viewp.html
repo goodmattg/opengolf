@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="media/graphics/favicon.ico" rel="shortcut icon" />
+    
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons/css/academicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/video_comparison.css">
+    <link rel="stylesheet" href="./css/glide-custom.css">
+    <link rel="stylesheet" href="./css/glide.theme.min.css">
+    <link rel="stylesheet" href="./css/glide.core.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    
+    <title> QUEEN: QUantized Efficient ENcoding of Dynamic Gaussians for Streaming Free-viewpoint Videos
+    </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="js/glide.min.js"></script>
+    <script src="js/handlers.js"></script>
+    <script src="js/video_comparison.js"></script>
+    <script defer src="./js/fontawesome.all.min.js"></script>
+    <script>
+        window.onload = function() {
+          new Glide("#dynamic-carousel", {
+            type: "carousel",
+            perView: 1.68,
+            focusAt: "center",
+            autoplay: 3000,
+            hoverpause: true
+          }).mount();
+          new Glide("#static-carousel", {
+            type: "carousel",
+            perView: 1.68,
+            focusAt: "center",
+            autoplay: 3000,
+            hoverpause: true
+          }).mount();
+          new Glide("#realtime-carousel", {
+            type: "carousel",
+            perView: 2.05,
+            focusAt: "center",
+            autoplay: 3000,
+            hoverpause: true
+          }).mount();
+        };
+        </script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-RZ6PES7EKD');
+          </script>
+    
+</head>
+
+<body>
+    <!-- SECTION: HEADER -->
+    <div class="n-header">
+    </div>
+    <div class="n-title" style="margin-bottom: -20px;">
+        <h1> QUEEN: <br>QUantized Efficient ENcoding of Dynamic Gaussians for Streaming Free-viewpoint Videos </h1>
+        <h2 style="text-align: center; border-bottom: none; margin: 0;"> NeurIPS 2024 </h2>
+    </div>
+    
+    <!-- SECTION: AUTHORS -->
+    <div class="n-byline"  style="margin-bottom: -20px;">
+        <div class="byline">
+            <ul class="authors">
+                <li> <a href="https://sharath-girish.github.io/" target="_blank">Sharath Girish</a><sup>1,2
+                    </sup>
+                </li>
+                <li> <a href="https://tianyeli.github.io/" target="_blank">Tianye Li</a><sup>2*</sup>
+                </li>
+                <li> <a href="https://amritamaz.net/" target="_blank">Amrita Mazumdar</a><sup>2*</sup>
+                </li>
+                <br>
+                <li> <a href="https://www.cs.umd.edu/~abhinav/" target="_blank">Abhinav Shrivastava</a><sup>2</sup>
+                </li>
+                <li> <a href="https://luebke.us/" target="_blank">David Luebke</a><sup>2</sup>
+                </li>
+                <li> <a href="https://research.nvidia.com/person/shalini-de-mello" target="_blank">Shalini De Mello</a><sup>2</sup>
+                </li>
+                </li>
+            </ul>
+            <div class="authors-affiliations-gap"></div>
+            <ul class="authors affiliations">
+                <li>
+                    <sup>1</sup>University of Maryland, College Park
+                </li>
+                <li>
+                    <sup>2</sup>NVIDIA
+                </li>
+                <br>
+                <li>
+                    <sup>*</sup>Equal contributions
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- SECTION: LINKS -->
+    <div class="links-buttons">
+        <a href="https://openreview.net/pdf?id=7xhwE7VH4S" target="_blank" class="link-button">
+            <span class="link-emoji">ð</span>
+            <span>Paper PDF</span>
+        </a>
+        <a href="https://arxiv.org/abs/2412.04469" target="_blank" class="link-button">
+            <span class="link-emoji">ð</span>
+            <span>arXiv</span>
+        </a>
+        <a href="./media/videos/neurips_2024_queen_supp_video.mp4" target="_blank" class="link-button">
+            <span class="link-emoji">ð¥</span>
+            <span>Supplementary Video</span>
+        </a>
+        <a href="https://github.com/nvlabs/queen" target="_blank" class="link-button">
+            <span class="link-emoji">ð»</span>
+            <span>Code (Github)</span>
+        </a>
+    </div>
+    
+    <!-- SECTION: MAIN BODY -->
+
+    <div class="n-article">
+      <div class="highlight-box">
+        <p style="text-align: center; font-size: 1.1em; line-height: 1.8;">
+            We develop efficient representations for 
+            <span style="color: #76B900;">
+                <strong>streamable free-viewpoint videos</strong>
+            </span>
+            with
+            <span style="color: #76B900;">
+                <strong>dynamic Gaussians</strong></span>.
+
+            Our method
+            <span style="color: #76B900;">
+                <strong>QUEEN</strong>
+            </span>
+            is able to capture dynamic scenes at
+            <span style="color: #76B900;">
+              <strong>high visual quality</strong>
+            </span>
+            and reduce the model size to just
+            <span style="color: #76B900;">
+              <strong>0.7 MB per frame</strong>
+            </span>
+            while training in under
+            <span style="color: #76B900;">
+              <strong>5 seconds</strong>
+            </span>
+            and rendering at
+            <span style="color: #76B900;">
+              <strong>â¼350 FPS</strong></span>.
+        </p>
+    </div>
+    
+      <div class="glide glide--ltr glide--carousel glide--swipeable" id="dynamic-carousel">
+        <div class="glide__track" data-glide-el="track">
+          <ul class="glide__slides" style="transition: transform 400ms cubic-bezier(0.165, 0.84, 0.44, 1); width: 6577.38px; transform: translate3d(-1851.79px, 0px, 0px);">
+            <li class="glide__slide glide__slide--clone" style="width: 495.952px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/cook_spinach_fvv.mp4" type="video/mp4">
+              </video>
+            </li><li class="glide__slide glide__slide--clone" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/flames_fvv.mp4" type="video/mp4">
+              </video>
+            </li><li class="glide__slide" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/exhibit_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+            <li class="glide__slide" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/face1_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+            <li class="glide__slide glide__slide--active" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/face2_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+            <li class="glide__slide" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/cut_roasted_beef_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+            <li class="glide__slide" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/cook_spinach_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+            <li class="glide__slide" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/sear_steak_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+            <li class="glide__slide" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/flame_steak_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+            <li class="glide__slide" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/face1_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+            <li class="glide__slide" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/exhibit_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+          <li class="glide__slide glide__slide--clone" style="width: 495.952px; margin-left: 5px; margin-right: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/welder_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+            <li class="glide__slide glide__slide--clone" style="width: 495.952px; margin-left: 5px;">
+              <video controls="" muted="" loop="" autoplay="">
+                <source src="./media/videos/exhibit_fvv.mp4" type="video/mp4">
+              </video>
+            </li>
+        </ul>
+        </div>
+        <div class="glide__arrows" data-glide-el="controls">
+          <span class="glide__arrow glide__arrow--left" data-glide-dir="<"><img src="./media/graphics/arrow-left-circle-fill.svg"></span>
+          <span class="glide__arrow glide__arrow--right" data-glide-dir=">"><img src="./media/graphics/arrow-right-circle-fill.svg"></span>
+        </div>
+        <div class="glide__bullets" data-glide-el="controls[nav]">
+          <span class="glide__bullet" data-glide-dir="=0"></span>
+          <span class="glide__bullet" data-glide-dir="=1"></span>
+          <span class="glide__bullet glide__bullet--active" data-glide-dir="=2"></span>
+          <span class="glide__bullet" data-glide-dir="=3"></span>
+          <span class="glide__bullet" data-glide-dir="=4"></span>
+          <span class="glide__bullet" data-glide-dir="=5"></span>
+          <span class="glide__bullet" data-glide-dir="=6"></span>
+          <span class="glide__bullet" data-glide-dir="=7"></span>
+          <span class="glide__bullet" data-glide-dir="=8"></span>
+        </div>
+      </div>
+
+      <div class="video-row">
+          <div class="video-compare-container" id="flamesDiv">
+              <video class="video" id="flames" loop playsinline autoplay muted src="media/videos/flames_3dgstr_ours.mp4" onplay="resizeAndPlay(this)" style="height: 5px;"></video>
+              <canvas height="960" class="videoMerge" id="flamesMerge" width="1280"></canvas>
+          </div>
+
+          <div class="video-compare-container" id="welderDiv">
+              <video class="video" id="welder" loop playsinline autoplay muted src="media/videos/welder_3dgstr_ours.mp4" onplay="resizeAndPlay(this)" style="height: 5px;"></video>
+              <canvas height="960" class="videoMerge" id="welderMerge" width="1280"></canvas>
+          </div>
+      </div>
+
+      <!-- abstract -->
+      <h2 id="abstract"> Abstract </h2>
+      <p>Online free-viewpoint video (FVV) streaming is a challenging problem, which is relatively under-explored. It requires incremental on-the-fly updates to a volumetric representation, fast training and rendering to satisfy real-time constraints and a small memory footprint for efficient transmission. If achieved, it can enhance user experience by enabling novel applications, e.g., 3D video conferencing and live volumetric video broadcast, among others. In this work, we propose a novel framework for QUantized and Efficient ENcoding (QUEEN) for streaming FVV using 3D Gaussian Splatting (3D-GS). QUEEN directly learns Gaussian attribute residuals between consecutive frames at each time-step without imposing any structural constraints on them, allowing for high quality reconstruction and generalizability. To efficiently store the residuals, we further propose a quantization-sparsity framework, which contains a learned latent-decoder for effectively quantizing attribute residuals other than Gaussian positions and a learned gating module to sparsify position residuals. We propose to use the Gaussian viewspace gradient difference vector as a signal to separate the static and dynamic content of the scene. It acts as a guide for effective sparsity learning and speeds up training. On diverse FVV benchmarks, QUEEN outperforms the state-of-the-art online FVV methods on all metrics. Notably, for several highly dynamic scenes, it reduces the model size to just 0.7 MB per frame while training in under 5 sec and rendering at <span>&#126;</span>350 FPS.
+      </p>
+
+      <hr>
+
+      <h2 id="videos"> Approach </h2>
+
+      <p><h3>Quantization-Sparsity Framework</h3></p>
+      <img src="./media/method/approach_overview.png" width="100%" />
+      <p>
+          Our approach learns 
+          <span style="color: #76B900; font-weight: bold;">
+              <strong>streamable 3D Gaussian attribute residuals</strong></span> at each time-step.
+          We develop a 
+          <span style="color: #76B900; font-weight: bold;">
+              <strong>quantization-sparsity framework</strong>
+          </span> for compressing position residuals via sparsity and all other attributes via quantization.
+          Our compressed latents are learned in an end-to-end differentiable manner. We also develop an 
+          <span style="color: #76B900; font-weight: bold;"><strong>adaptive masking technique</strong></span>
+          to split static and dynamic Gaussians along with corresponding image regions to speed up per frame training.
+      </p>
+
+      <p><h3>Adaptive Masked Training and Improved Initialization</h3></p>
+        <img src="./media/method/viewspace_grad_and_mask.png" width="100%" />
+
+      <p>
+          In addition to the quantization-sparsity framework, (a) we use the <span style="color: #76B900; font-weight: bold;"><strong>difference of Gaussian viewspace gradients</strong></span> as 
+          the signal for separating static and dynamic Gaussians and corresponding regions. By performing selective rendering and backpropagation, we speed up training per frame.
+          (b) We propose to use  <span style="color: #76B900; font-weight: bold;"><strong></strong>off-the-shelf depth prediction network</strong></span> to complete the scene on top of the Gaussian initializations by COLMAP.
+      </p>
+
+      <h2 id="citation"> Citation </h2>
+      <pre>
+        <code>@inproceedings{
+            girish2024queen,
+            title={{QUEEN}: {QU}antized Efficient {EN}coding for Streaming Free-viewpoint Videos},
+            author={Sharath Girish and Tianye Li and Amrita Mazumdar and Abhinav Shrivastava and David Luebke and Shalini De Mello},
+            booktitle={The Thirty-eighth Annual Conference on Neural Information Processing Systems},
+            year={2024},
+            url={https://openreview.net/forum?id=7xhwE7VH4S}
+        }</code>
+      </pre>
+    </div>
+    <div class="n-footer"></div>
+</body>
+
+</html>

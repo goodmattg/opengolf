@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+
+
+    <!-- === Header Starts === -->
+    <head><meta name="generator" content="Hexo 3.8.0">
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Monocular Real-Time Volumetric Performance Capture (ECCV 2020)</title>
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="style.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    </head>
+    <!-- === Header Ends === -->
+
+    <!-- Display the countdown timer in an element -->
+
+    <script>
+// Set the date we're counting down to
+var countDownDate = new Date("Aug 25, 2020 16:00:00").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s " ;
+
+  // If the count down is finished, write some text
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>
+
+
+    <body>
+
+
+        <!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- === Home Section Starts === -->
+        <div class="container">
+            <div class="title" style="margin: 20pt 50pt;">
+                Monocular Real-Time Volumetric Performance Capture
+            </div>
+            <div class="author">
+                <a href="http://www.liruilong.cn/" target="_blank" rel="noopener">Ruilong Li</a><sup>*,12</sup>,&nbsp;
+                <a href="http://xiuyuliang.cn/" target="_blank" rel="noopener">Yuliang Xiu</a><sup>*,12</sup>,&nbsp;
+                <a href="https://shunsukesaito.github.io/" target="_blank" rel="noopener">Shunsuke Saito</a><sup>12</sup>,&nbsp;
+                <a href="https://zeng.science/" target="_blank" rel="noopener"> Zeng Huang</a><sup>12</sup>,&nbsp;
+                <a href="https://kyleolsz.github.io/" target="_blank" rel="noopener">Kyle Olszewski</a><sup>12</sup>&nbsp;
+                <a href="https://www.hao-li.com/" target="_blank" rel="noopener">Hao Li</a><sup>123</sup>&nbsp;
+            </div>
+            <div class="institution">
+                <sup>1</sup>University of Southern California,
+                <sup>2</sup>USC Institute for Creative Technologies,
+                <sup>3</sup>Pinscreen<br>
+            </div>
+
+            <div class="title"><strong style="color:brown">ECCV 2020</strong></div>
+            <div style="position: relative; padding-top: 50%; margin: 20pt auto;
+                text-align: center;">
+                <iframe src="https://www.youtube.com/embed/fQDsYVE7GtQ" frameborder="0" style="position: absolute; top: 2.5%; left: 2.5%; width:
+                    95%; height: 100%;" allow="accelerometer; autoplay; encrypted-media; gyroscope;
+                    picture-in-picture" allowfullscreen></iframe>
+            </div>
+</div>
+<div class="container" >
+<div align='center'>
+            <a href="https://blog.siggraph.org/2020/10/were-one-step-closer-to-consumer-accessible-immersive-teleportation.html/"><img id="news_pic" src="https://blog.siggraph.org/wp-content/uploads/2014/12/toplogo2.png"></a>
+    <a href="https://www.fxguide.com/fxfeatured/real-time-live-winner-monoport/"><img id="news_pic" src="https://www.fxguide.com/wp-content/uploads/2019/06/logo-fxguide-450-320x108.png"></a>
+    <a href="https://mp.weixin.qq.com/s/Bl0HohrSVzaVPF0EHzuIWw"><img id="news_pic" src="https://cdn.huodongxing.com/file/20170413/1183FE20C49D020726EFB9C5EB782983ED/30252763503209243.png"></a>
+    <a href="https://www.zhihu.com/question/415544564/answer/1436374579"><img id="news_pic" src="https://pic2.zhimg.com/v2-517f47cc5269b57f26ea4a25f29d8505_r.jpg"></a>    
+    <a href="https://www.shootonline.com/news/siggraph-bestows-cg-awards-wraps-its-1st-virtual-confab/"><img id="news_pic" src="https://www.shootonline.com/sites/all/themes/shoot_online/images/sections/header-default.png"></a>
+
+    </div></div>
+        <div class="container">
+            <div class="title"><strong style='color:brown'>SIGGRAPH 2020
+                    Real-Time Live <a
+                    href="https://youtu.be/THxYxcEnKFk"><i
+                        class="fa fa-play-circle" aria-hidden="true"></i></a> </strong><br><strong> <p style="color:orangered">Best in Show Award</p></strong>
+            </div>
+
+            <!-- <p id="demo"></p> -->
+
+            <div style="position: relative; padding-top: 50%; margin: 20pt auto;
+                text-align: center;">
+                <iframe src="https://www.youtube.com/embed/THxYxcEnKFk"
+                    frameborder="0"
+                    style="position: absolute; top: 2.5%; left: 2.5%; width:
+                    95%; height: 100%;"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope;
+                    picture-in-picture"
+                    allowfullscreen></iframe>
+            </div>
+
+            <table>
+                <tr>
+
+                    <td style="width: 25%;">
+                        <div class="teaser">
+                            <img src="figures/rtl.jpg">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="body">
+                            <strong>Description: </strong>Existing volumetric capture systems require many
+                            cameras and lengthy post processing.
+                            We introduce the first system that can capture a
+                            completely clothed human body (including the back)
+                            using a single RGB
+                            webcam and in real time. Our deep-learning-based
+                            approach enables new possibilities for low-cost and
+                            consumer-accessible immersive teleportation.
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- === Home Section Ends === -->
+
+
+        <!--====== Overview Section Starts ======-->
+        <div class="container">
+            <table>
+                <tr>
+                    <td>
+                        <div class="title">Overview</div>
+
+                        <div class="body">
+                            We present the first approach to volumetric
+                            performance capture and novel-view
+                            rendering at real-time speed from monocular video,
+                            eliminating the need for
+                            expensive multi-view systems or cumbersome
+                            pre-acquisition of a personalized
+                            template model. Our system reconstructs a fully
+                            textured 3D human from each
+                            frame by leveraging Pixel-Aligned Implicit Function
+                            (PIFu). While PIFu achieves
+                            high-resolution reconstruction in a memory-efficient
+                            manner, its computationally
+                            expensive inference prevents us from deploying such
+                            a system for real-time applications.
+                            To this end, we propose a novel hierarchical surface
+                            localization algorithm and a direct
+                            rendering method without explicitly extracting
+                            surface meshes. By culling unnecessary
+                            regions for evaluation in a coarse-to-fine manner,
+                            we successfully accelerate the
+                            reconstruction by two orders of magnitude from the
+                            baseline without compromising the quality.
+                            Furthermore, we introduce an Online Hard Example
+                            Mining (OHEM) technique that effectively
+                            suppresses failure modes due to the rare occurrence
+                            of challenging examples. We adaptively
+                            update the sampling probability of the training data
+                            based on the current reconstruction
+                            accuracy, which effectively alleviates
+                            reconstruction artifacts.
+                            Our experiments and evaluations demonstrate the
+                            robustness of our system to various
+                            challenging angles, illuminations, poses, and
+                            clothing styles. We also show that our
+                            approach compares favorably with the
+                            state-of-the-art monocular performance capture.
+                        </div>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <a class="book-container" href="https://arxiv.org/abs/2007.13988" target="_blank" rel="noreferrer noopener">
+                                    <div class="book">
+                                        <img alt="Monocular Real-Time Volumetric
+                                            Performance Capture" src="figures/book_cover.png">
+                                    </div>
+                                </a>
+                            </tr>
+                            <tr>
+                                <div class="link">
+                                <br>
+                                <a target="_blank" href="https://arxiv.org/abs/2007.13988" title="Paper"><font size="10"><i class="far
+                                            fa-file-alt"></i></font></a>&emsp;&emsp;
+                                <a href="https://github.com/Project-Splinter/MonoPort/"><font size="10"><i class="fab fa-github"></i></font></a>
+                                <iframe src="https://ghbtns.com/github-btn.html?user=Project-Splinter&repo=MonoPort&type=star&count=true" frameborder="0" scrolling="0" width="90px" height="20px"></iframe>
+                            </div>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+
+
+    </div>
+    <!--====== Overview Section Ends ======-->
+
+
+    <!--====== Methods Section Starts ======-->
+    <div class="container">
+        <div class="title">Main Contributions</div>
+        <div class="body">
+
+            <div style="position: relative; padding-top: 50%; margin: 20pt auto;
+                text-align: center;">
+                <iframe src="https://www.youtube.com/embed/zxxDSagoKKo" frameborder="0" style="position: absolute; top: 2.5%; left: 2.5%; width:
+                    95%; height: 100%;" allow="accelerometer; autoplay; encrypted-media; gyroscope;
+                    picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <li><b>Octree-based Robust Surface Localization</b></li>
+            <p>
+                We propose a novel hierarchical surface localization algorithm
+                and a direct rendering
+                method that progressively queries 3D locations in a
+                coarse-to-ﬁne manner and to extract
+                surface from implicit occupancy ﬁelds with a minimum number of
+                points to be evaluate.
+                By culling unnecessary regions for evaluation we successfully
+                accelerate the reconstruction
+                by nearly 200 times without compromising the quality.
+            </p>
+
+            <div class="teaser">
+                <img src="figures/lossless.png">
+            </div>
+            <div class="teaser">
+                <img src="figures/algo_comparison.png">
+            </div>
+
+
+            <li><b>Online Hard Example Mining for Surface Sampling</b></li>
+            <p>
+                We introduce an Online Hard Example Mining (OHEM) technique that
+                eﬀectively suppresses failure modes
+                due to the rare occurrence of challenging examples. We
+                adaptively update the sampling probability of the
+                training data based on the current reconstruction accuracy,
+                which eﬀectively alleviates reconstruction artifacts.
+            </p>
+
+            <div class="teaser">
+                <img src="figures/ohem.png">
+            </div>
+
+        </div>
+    </div>
+    <!--====== Methods Section Ends ======-->
+
+    <!--====== Results Section Starts ======-->
+    <div class="container">
+        <div class="title">Qualitative Results (Only Geometry)</div>
+        <div class="body">
+
+            <li><b>Qualitatively evaluate the robustness of our approach by
+                    demonstrating theconsistency of reconstruction with
+                    different lighting conditions, viewpoints and
+                    surfacetopology</b></li>
+
+            <div class="teaser">
+                <img src="figures/robustness.png">
+            </div>
+
+            <li><b>Qualitative results on self-captured performances</b></li>
+            <div class="teaser">
+                <img src="figures/suppl_results1.png">
+            </div>
+
+            <li><b>Qualitative results on Internet Images</b></li>
+
+            <div class="teaser">
+                <img src="figures/suppl_results2.png">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="title">More Video Results (Geometry + Texture)</div>
+        <div class="body">
+
+            <li><b>Additional live capture results</b></li>
+
+            <div class="teaser">
+                <img src="figures/shift.gif">
+            </div>
+
+            <li><b>Reconstruction from legacy footage</b></li>
+
+            <div class="teaser">
+                <img src="figures/dance.gif">
+            </div>
+
+        </div>
+    </div>
+    <!--====== Results Section Ends ======-->
+
+    <!--====== Application Section Starts ======-->
+
+    <div class="container">
+        <div class="title">Real-time VR PhD Defense (<a href="https://zeng.science/">Dr. Zeng Huang</a>) <a
+                    href="https://www.youtube.com/watch?v=An7XGzDrt10"><i
+                        class="fa fa-play-circle" aria-hidden="true"></i></a></div>
+        <div class="body">
+
+            <div class="teaser">
+                <img src="figures/zeng.gif">
+            </div>
+
+        </div>
+    </div>
+    
+    <!--====== Application Section Ends ======-->
+
+    <!--====== Related Section Starts ======-->
+
+    <div class="container">
+        <div class="title">Human Digitization with Implicit Representation <a href="https://project-splinter.github.io/"><i class="fa fa-link" aria-hidden="true">&ensp;</i></a>
+</div>
+        <div class="body">
+
+            <a href="https://shunsukesaito.github.io/PIFu/"><li>
+            <b>PIFu: Pixel-Aligned Implicit Function for High-Resolution Clothed Human Digitization (ICCV 2019)</b></li></a>
+            <li*><i>&emsp;Shunsuke Saito*, Zeng Huang*, Ryota Natsume*, Shigeo Morishima, Angjoo Kanazawa, Hao Li</i></li*></br>
+            <li*><b>&emsp;The original work of PIFu for geometry and texture reconstruction, unifying sigle-view and multi-view methods.</b></li*>
+
+            <a href="https://shunsukesaito.github.io/PIFuHD/"><li>
+            <b>PIFuHD: Multi-Level Pixel-Aligned Implicit Function for High-Resolution 3D Human Digitization (CVPR 2020)</b></li></a>
+            <li*><i>&emsp;Shunsuke Saito, Tomas Simon, Jason Saragih, Hanbyul Joo</i></li*></br>
+            <li*><b>&emsp;High-Resolution and Multi-Level PIFu!</b></li*>
+
+            <a href="http://openaccess.thecvf.com/content_ECCV_2018/papers/Zeng_Huang_Deep_Volumetric_Video_ECCV_2018_paper.pdf"><li>
+            <b>Deep Volumetric Video from Very Sparse Multi-view Performance Capture (ECCV 2018)</b></li></a>
+            <li*><i>&emsp;Zeng Huang, Tianye Li, Weikai Chen, Yajie Zhao, Jun Xing, Chloe LeGendre, Linjie Luo, Chongyang Ma, Hao Li</i></li*></br>
+            <li*><b>&emsp;Implict surface learning for sparse view human performance capture!</b></li*>
+
+            <a href="https://arxiv.org/pdf/2004.04572.pdf"><li>
+            <b>ARCH: Animatable Reconstruction of Clothed Humans (CVPR 2020)</b></li></a>
+            <li*><i>&emsp;Zeng Huang, Yuanlu Xu, Christoph Lassner, Hao Li, Tony Tung</i></li*></br>
+            <li*><b>&emsp;Learning PIFu in canonical space for animatable avatar generation!</b></li*>
+
+        </div>
+    </div>
+    <!--====== Related Section Ends ======-->
+
+
+    <!--====== References Section Starts ======-->
+    <div class="container">
+        <div class="bibtex">Bibtex</div>
+        <pre>
+<!-- @inproceedings{li2020monoport,
+  title     = {Monocular Real-Time Volumetric Performance Capture},
+  author    = {Li, Ruilong and Xiu, Yuliang and Saito, Shunsuke and Huang, Zeng and Olszewski, Kyle and Li, Hao},
+  booktitle = {Proceedings of European Conference on Computer Vision (ECCV)},
+  year      = {2020}
+} -->
+@article{li2020monocular,
+    title={Monocular Real-Time Volumetric Performance Capture},
+    author={Li, Ruilong and Xiu, Yuliang and Saito, Shunsuke and Huang, Zeng and Olszewski, Kyle and Li, Hao},
+    journal={arXiv preprint arXiv:2007.13988},
+    year={2020}
+  }
+
+@inproceedings{10.1145/3407662.3407756,
+    author = {Li, Ruilong and Olszewski, Kyle and Xiu, Yuliang and Saito, Shunsuke and Huang, Zeng and Li, Hao},
+    title = {Volumetric Human Teleportation},
+    year = {2020},
+    isbn = {9781450380607},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/3407662.3407756},
+    doi = {10.1145/3407662.3407756},
+    booktitle = {ACM SIGGRAPH 2020 Real-Time Live!},
+    articleno = {9},
+    numpages = {1},
+    location = {Virtual Event, USA},
+    series = {SIGGRAPH 2020}
+  }
+</pre>
+
+    </div><!-- hexo-inject:begin --><!-- hexo-inject:end --></body>
+</html>

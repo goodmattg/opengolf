@@ -1,0 +1,312 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<!-- Head -->
+
+	<head>
+		<title>ASH: Animatable Gaussian Splats for Efficient and Photoreal Human Rendering</title>
+		<link rel="icon" href="images/logos/ad-111.gif">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"></script>
+
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+		</noscript>
+	</head>
+
+	<!-- Body -->
+
+	<body class="landing">
+
+		<!-- Header -->
+
+			<header id="header">
+				<div style="margin:0 auto;">
+					<ul>
+						<li style="margin-top: 1.2%;"><a href="https://www.mpi-inf.mpg.de/home/"> <img src="images/logos/mpi.png" height="50px" width="auto"/> </a></li>
+						<li style="margin-top: 1%;"><a href="https://saarland-informatics-campus.de/"> <img src="images/logos/sic-logo.webp" height="50px" width="auto"/> </a></li>
+						<li style="margin-top: 0.7%;"><a href="https://ethz.ch/de.html"> <img src="images/logos/eth-zurich-logo-freelogovectors.net_.webp" height="40px" width="auto"/> </a></li>
+						<li style="margin-top: 1%;"><a href="https://uni-freiburg.de/"> <img src="images/logos/UFR-vorlage-designsystem-typo-farben-V1.92.png" height="50px" width="auto"/> </a></li>
+						<li style="margin-top: 0.5%;"><a href="https://www.via-center.science/"> <img src="images/logos/via_logo.png" height="70px" width="auto"/> </a></li>
+						<li style="margin-top: 0.5%;"><a href="https://gvdh.mpi-inf.mpg.de/"> <img src="images/logos/gvdh.jpg" height="70px" width="auto"/> </a></li>
+					</ul>
+				</div>
+
+			</header>
+
+		<!-- Main -->
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			<center>
+			<section id="bannel">
+	            <div class="container">
+
+					<h2>
+						<span style="color: #F1C40F ;">ASH</span>: 
+						<span style="color: #F1C40F ;">A</span>nimatable Gaussian 
+						<span style="color: #F1C40F ;">S</span>plats for Efficient and Photoreal 
+						<span style="color: #F1C40F ;">H</span>uman Rendering
+					</h2> 
+
+					</br>
+
+					<div class="column has-text-centered">
+
+						<h4><a href="" target="_blank">Haokai Pang</a><sup>1,2,&dagger;</sup>&#160;&#160;</h4>
+						<h4><a href="https://kv2000.github.io/" target="_blank">Heming Zhu</a><sup>1,&dagger;</sup>&#160;&#160;</h4>
+						<h4><a href="https://gvrl.mpi-inf.mpg.de/" target="_blank">Adam Kortylewski</a><sup>1,3</sup>&#160;&#160;</h4>
+						<h4><a href="http://www.mpi-inf.mpg.de/~theobalt/" target="_blank">Christian Theobalt</a><sup>1,4</sup></h4>
+						<h4><a href="http://people.mpi-inf.mpg.de/~mhaberma/" target="_blank">Marc Habermann</a><sup>1,4,&ddagger;</sup>&#160;&#160;</h4>
+			    	</div>
+				<h4><a href="https://www.mpi-inf.mpg.de/departments/visual-computing-and-artificial-intelligence"><sup>1</sup>Max Planck Institute for Informatics, Saarland Informatics Campus,</a></h4>
+				<h4><a href="https://ethz.ch/de.html"><sup>2</sup>ETH ZÃ¼rich, </a></h4>
+				<h4><a href="https://uni-freiburg.de/"><sup>3</sup>UniversitÃ¤t Freiburg</a></h4>
+				<h4 ><a href="https://www.via-center.science/"><sup>4</sup>SaarbrÃ¼cken Research Center for Visual Computing, Interaction and AI</a></h4>
+			    
+				<p style="font-size:15px; margin-bottom:0px !important;"><sup>&dagger;</sup>Joint first authors.</p>
+				<p style="font-size:15px; margin-bottom:10px !important;"><sup>&ddagger;</sup>Corresponding author.</p>
+
+				<div class="column has-text-centered">
+					<div class="publication-links">
+					  <!-- PDF Link. -->
+					  <span class="link-block" style="max-width: 80px !important;">
+						<a href="https://arxiv.org/abs/2312.05941"
+						   class="external-link button is-normal is-rounded is-dark" style="background-color:green">
+						  <span class="icon">
+							  <i class="fas fa-file-pdf"></i>
+						  </span>
+						  <span>Paper</span>
+						</a>
+					  </span>
+					  <!-- Code Link. -->
+					  <span class="link-block" style="max-width: 80px !important;">
+						<a href="https://github.com/kv2000/ASH" class="external-link button is-normal is-rounded is-dark"  style="background-color:green">
+						  <span class="icon">
+							  <i class="fa-brands fa-github""></i>
+						  </span>
+						  <span> Demo & Training Code </span>
+						  </a>
+					  </span>
+					  <!-- Code Link. -->
+					  <!---
+					  <span class="link-block" style="max-width: 80px !important;" >
+						<a href="" class="external-link button is-normal is-rounded is-dark">
+						  <span class="icon">
+							  <i class="fa-brands fa-github""></i>
+						  </span>
+						  <span> Training Code (Coming Soon)</span>
+						  </a>
+					  </span>
+					  -->
+					  <!-- Dataset Link. -->
+					  <span class="link-block" style="max-width: 80px !important;">
+						<a href="https://gvv-assets.mpi-inf.mpg.de/ASH/"
+						   class="external-link button is-normal is-rounded is-dark" style="background-color:green">
+						  <span class="icon">
+							  <i class="fas fa-database"></i>
+						  </span>
+						  <span>Data</span>
+						  </a>
+					</div>
+				</div>
+				<!-- </div> -->
+			</section>
+			</center>
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+				<center>
+					<div class="container" id="main_video">
+						<div class="column has-text-centered"></div>
+						<img width="100%" src="images/teaser_fin_new.png">
+						<p style="font-size: 16pt; line-height:30px;" align="left" >
+							Figure. 1: ASH takes an arbitrary 3D skeletal pose and virtual camera view, which can be controlled by the user, as input, and generates a photorealistic rendering of the human in real time. 
+							To achieve this, we propose an efficient and animatable Gaussian representation, which is parameterized on the surface of a deformable template mesh.
+						</p>
+					</div>
+					</div>
+				</center>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<section class="wrapper style2 special">
+				<div class="container">
+					<h2 style="text-align:center; margin-bottom:10px; margin-top:0px" >Overview</h2>
+						<p style="font-size: 16pt; line-height:30px;" align="left" >
+							Real-time rendering of photorealistic and controllable human avatars stands as a cornerstone in Computer Vision and Graphics.		
+							While recent advances in neural implicit rendering have unlocked unprecedented photorealism for digital avatars, real-time performance has mostly been demonstrated for static scenes only.	
+							To address this, we propose <span style="font-weight: bold; color: #F1C40F ;">ASH</span>, an <span style="font-weight: bold; color: #F1C40F ;">A</span>nimatable Gaussian <span style="font-weight: bold;color: #F1C40F ;">S</span>platting approach for photorealistic rendering of dynamic <span style="font-weight: bold; color: #F1C40F ;">H</span>umans in real time. 					
+							We parameterize the clothed human as animatable 3D Gaussians, which can be efficiently splatted into image space to generate the final rendering.
+							However, naively learning the Gaussian parameters in 3D space poses a severe challenge in terms of compute.
+							Instead, we attach the Gaussians onto a deformable character model, and learn their parameters in 2D texture space, which allows leveraging efficient 2D convolutional architectures that easily scale with the required number of Gaussians.
+							We benchmark ASH with competing methods on pose-controllable avatars, demonstrating that our method outperforms existing real-time methods by a large margin and shows comparable or even better results than offline methods.
+						</p>
+					</div>
+			</section>
+		
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			
+			<section class="wrapper style1 special">
+
+				<div class="container" id="main_video">
+					<h2 style="text-align:center; margin-bottom:10px; margin-top:0px" >Pipeline </h2>
+					<div class="column has-text-centered"></div>
+					<img width="100%" src="images/pipeline_first_draft.jpg">
+					<p style="font-size: 16pt; line-height:30px;" align="left" >
+						Figure 2. ASH generates high-fidelity rendering given a skeletal motion and a virtual camera view. 
+						A motion-dependent, canonicalized template mesh is generated with a learned deformation network.
+						From the canonical template mesh, we can render the motion-aware textures, which are further adopted for predicting the Gaussian splat parameters with two 2D convolutional networks, i.e., the Geometry and Appearance Decoder, as the texels in the 2D texture space.
+						Through UV mapping and DQ skinning, we warp the Gaussian splats from the canonical space to the posed space.
+						Then, splatting is adopted to render the posed Gaussian splats.
+					</p>
+				</div>
+				</div>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<section class="wrapper style2 special">
+
+				<div class="container" id="main_video">
+					<h2 style="text-align:center; margin-bottom:10px; margin-top:0px">Main Video</h2>
+					<div class="column has-text-centered"></div>
+					<video width="100%" height=auto controls autoplay>
+						<source src="videos/diudiudiu.mp4" type="video/mp4">
+					</video>
+				</div>
+				</div>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+
+			<section class="wrapper style1 special">
+
+
+				<h2 style="text-align:center; margin-bottom:10px; margin-top:0px;display: inline-block;" >Novel view Rendering</h2>
+
+				<center>
+					<div class="container" style="margin-bottom:-8px;">
+						<video loop width=49% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/vlad_teaser_scaled.mp4" type="video/mp4">
+						</video>
+						<video loop width=49% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/franzi_teaser_scaled.mp4" type="video/mp4">
+						</video>
+					</div>
+					<div class="container" style="margin-bottom:0px;">
+						<video loop width=49% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/lady_teaser_scaled.mp4" type="video/mp4">
+						</video>
+						<video loop width=49% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/xingang_teaser_scaled.mp4" type="video/mp4">
+						</video>
+					</div>
+				</center>
+			</section>
+			
+			<section class="wrapper style2 special">
+				<h2 style="text-align:center; margin-bottom:10px; margin-top:0px" >Free Viewpoint Rendering</h2>
+				<center>
+					<div class="container" style="margin-bottom:-8px;">
+						<video loop width=49% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/vlad_free.mp4" type="video/mp4">
+						</video>
+						<video loop width=49% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/franzi_free.mp4" type="video/mp4">
+						</video>
+					</div>
+					<div class="container" style="margin-bottom:0px;">
+						<video loop width=49% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/lady_free.mp4" type="video/mp4">
+						</video>
+						<video loop width=49% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/xingang_free.mp4" type="video/mp4">
+						</video>
+					</div>
+				</center>
+
+			</section>
+
+			<section class="wrapper style1 special">
+				<h2 style="text-align:center; margin-bottom:10px; margin-top:0px" >Motion Retargeting</h2>
+				<div class="container" id="main_video" style="margin-bottom: 0px!important;">
+					<p style="font-size: 16pt; line-height:30px;margin-bottom: 10px!important;" align="left" >
+						Ash allows to retarget the motion(<b>the first column</b>) from the source character(<b>the second column</b>) to the target character(<b>the third column</b>), while preserving photo-real clothing wrinkles and plausible dynamics.
+					</p>
+				</div>
+				<center>
+					<div class="container" style="margin-bottom:-8px;">
+						<video loop width=33% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/mot_0.mp4" type="video/mp4">
+						</video>
+						<video loop width=33% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/ch0_mot0.mp4" type="video/mp4">
+						</video>
+						<video loop width=33% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/ch1_mot0.mp4" type="video/mp4">
+						</video>
+					</div>
+					<div class="container" style="margin-bottom:-8px;">
+						<video loop width=33% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/mot_1.mp4" type="video/mp4">
+						</video>
+						<video loop width=33% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/ch0_mot1.mp4" type="video/mp4">
+						</video>
+						<video loop width=33% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/ch1_mot1.mp4" type="video/mp4">
+						</video>
+					</div>
+				</center>
+
+			</section>
+			
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<section class="wrapper style2">
+				<div class="container " style="text-align: justify;">
+					<h2 style="text-align:center" >Citation</h2>
+					<div class="section bibtex">
+						<pre>
+							
+@InProceedings{Pang_2024_CVPR,
+   author    = {Pang, Haokai and Zhu, Heming and Kortylewski, Adam and Theobalt, Christian and Habermann, Marc},
+   title     = {ASH: Animatable Gaussian Splats for Efficient and Photoreal Human Rendering},
+   booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+   month     = {June},
+   year      = {2024},
+   pages     = {1165-1175}
+}
+						</pre>
+					</div>
+				</div>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<!-- Footer -->
+
+			<footer id="footer">
+				<div class="container" style="width:40%">
+					<ul class="copyright">
+						<li>&copy; Heming Zhu</li>
+						<li><a href="https://imprint.mpi-klsb.mpg.de/inf/vcai.mpi-inf.mpg.de/">Imprint</a></li>
+						<li><a href="https://data-protection.mpi-klsb.mpg.de/inf/vcai.mpi-inf.mpg.de?lang=en">Data Protection</a></li>
+						<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+					</ul>
+				</div>
+			</footer>
+	</body>
+</html>

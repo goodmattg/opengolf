@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="GAF: Gaussian Avatar Reconstruction from Monocular Videos via Multi-view Diffusion.">
+  <meta name="keywords" content="Gaussian Avatars, Monocular Avatar Reconstruction, Multi-view Diffusion">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GAF: Gaussian Avatar Reconstruction from Monocular Videos via Multi-view Diffusion</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://tangjiapeng.github.io/">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://tangjiapeng.github.io/projects/SA-ConvONet/">
+            SA-ConvONet
+          </a>
+          <a class="navbar-item" href="https://tangjiapeng.github.io/projects/NSDP/">
+            NSDP
+          </a>
+          <a class="navbar-item" href="https://tangjiapeng.github.io/projects/DiffuScene/">
+            DiffuScene
+          </a>
+          <a class="navbar-item" href="https://vveicao.github.io/projects/Motion2VecSets/">
+            Motion2VecSets
+          </a>
+          <a class="navbar-item" href="https://tangjiapeng.github.io/projects/DPHMs/">
+            DPHMs
+          </a>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">GAF: Gaussian Avatar Reconstruction from Monocular Videos via Multi-view Diffusion</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://tangjiapeng.github.io">Jiapeng Tang</a><sup>1</sup>,</span>
+            <span class="author-block">
+                <a href="https://tangjiapeng.github.io">Davide Davoli</a><sup>2</sup>,</span>
+            <span class="author-block">
+              <a href="https://tobias-kirschstein.github.io/">Tobias Kirschstein</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://tangjiapeng.github.io">Liam Schoneveld</a><sup>3</sup>,</span>
+            <span class="author-block">
+              <a href="http://niessnerlab.org/members/matthias_niessner/profile.html">Matthias Nießner</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Technical University of Munich</span>
+            <span class="author-block"><sup>2</sup>Toyota Motor Europe NV/SA</span>
+            <!-- <p> 
+            </p> -->
+            <span class="author-block"><sup>3</sup>Woven by Toyota</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2412.10209"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2412.10209"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/embed/QuIYTljvhyg"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/tangjiapeng/GAF"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <video id="teaser" autoplay muted loop playsinline height="100%">
+          <source src="./static/videos/teaser.mp4"
+                  type="video/mp4">
+        </video>
+      <!-- <img src="teaser.png" style="width:100%; margin-right:auto; margin-left:auto; margin-top:auto;"> -->
+      <h2 class="subtitle has-text-centered">
+        Given a short, monocular video captured by a commodity device such as a smartphone, <b>GAF</b> reconstructs a 3D Gaussian head avatar, which can be re-animated and rendered into photo-realistic novel views. 
+        Our key idea is to distill the reconstruction constraints from a multi-view head diffusion model  in order to extrapolate to unobserved views and expressions.  
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="container is-max-desktop">
+      <div class="column is-full-width">
+        <h2 class="title has-text-centered">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We propose a novel approach for reconstructing animatable 3D Gaussian avatars from monocular videos captured by commodity devices like smartphones. 
+            Photorealistic 3D head avatar reconstruction from such recordings is challenging due to limited observations, which leaves unobserved regions under-constrained and can lead to artifacts in novel views.
+            To address this problem, we introduce a multi-view head diffusion model, leveraging its priors to fill in missing regions and ensure view consistency in Gaussian splatting renderings. 
+            To enable precise viewpoint control, we use normal maps rendered from FLAME-based head reconstruction, 
+            which provides pixel-aligned inductive biases. We also condition the diffusion model on VAE features extracted from the input image to preserve details of facial identity and appearance.
+            For Gaussian avatar reconstruction, we distill multi-view diffusion priors by using iteratively denoised images as pseudo-ground truths, effectively mitigating over-saturation issues. 
+             To further improve photorealism, we apply latent upsampling to refine the denoised latent before decoding it into an image. 
+             We evaluate our method on the NeRSemble dataset, showing that GAF outperforms the previous state-of-the-art methods in novel view synthesis and novel expression animation. 
+            Furthermore, we demonstrate higher-fidelity avatar reconstructions from monocular videos captured on commodity devices. 
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <div class="container is-max-desktop">
+      <div class="column is-full-width">
+        <h2 class="title has-text-centered">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/QuIYTljvhyg"  
+          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+    <!--/ Paper video. https://youtu.be/QuIYTljvhyg --> 
+
+  </div>
+</section>
+
+
+
+
+  <section class="section">
+    <!-- Method Overview. -->
+    <div class="container is-max-desktop">
+      <div class="column is-full-width">
+        <h2 class="title has-text-centered">Method Overview</h2>
+        <img src="overview.png" style="width:100%; margin-right:auto; margin-left:auto; margin-top:auto;">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+        
+        <div class="content has-text-justified">
+          <p>
+            Given a sequence of RGB images from monocular cameras  \( \mathcal{I} = \{ \mathbf{I}_i \} \), our objective is to reconstruct dynamic head avatars by optimizing an animatable Gaussian splatting 
+            representation \( \mathcal{O} \), which is deformed to each frame as \( \mathcal{O}_i \) by the tracked FLAME mesh \( \mathcal{M}_i \) of \( \mathbf{I}_i \).
+            We optimize \( \mathcal{O} \) by minimizing an input view reconstruction loss \( \mathcal{L}_{rec} \), plus a view sampling loss \( \mathcal{L}_{view} \). \( \mathcal{L}_{view} \) compares novel-view renderings of \( \mathcal{O}_i \) from four random viewpoints \( \mathbf{I}_i^{view} \), 
+            with pseudo ground truths \( \mathbf{\hat{I}}_i^{view} \), predicted by a multi-view head latent diffusion model.   \( \mathbf{\hat{I}}_i^{view} \) are generated by iteratively denoising 4-view latents, 
+            guided by the input image \( \mathbf{I}_i \) and normal maps \( \mathbf{N}_i \) rendered from \( \mathcal{M}_i \).  
+            A latent upsampler module enhances facial details before decoding the denoised latent into an RGB image.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Method Overview. -->
+
+      <!-- Multiview diffusion. -->
+      <!-- <div class="container is-max-desktop">
+        <div class="column is-full-width">
+          <h2 class="title has-text-centered">Overview</h2>Multi-view Head Latent Diffusion</h2>
+          <img src="mvhld.png" style="width:100%; margin-right:auto; margin-left:auto; margin-top:auto;">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+          <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+          
+          <div class="content has-text-justified">
+            <p>
+              Given multi-view noisy image latents, we concatenate them with VAE latents of normal maps rendered from FLAME tracking. 
+              These combined inputs are processed by a 2D U-Net denoiser with attention blocks. To maintain 3D consistency, 3D attention blocks apply cross-attention across all views, 
+              integrating face identity and appearance details from the input image into the denoised latents while allowing information exchange between noisy latents across views. 
+              Additionally, the CLIP embedding of the input image is used for global control via cross-attention blocks.
+            </p>
+          </div>
+        </div>
+      </div> -->
+      <!--/ Multiview diffusion. -->
+  </section>
+
+<section class="section">
+      <div class="container is-max-desktop">
+          <h2 class="title has-text-centered">Comparisons against Baselines</h2>
+        <div style="overflow:hidden;">
+              <div class="container">
+                  <div id="post_images" class="carousel">
+                      <div class="item-1">
+                          <video poster="" autoplay="" muted loop="" style="pointer-events: none; width:100%;">
+                              <source src="./static/videos/compare_nersemble1.mp4" type="video/mp4">
+                          </video>
+                      </div>
+                      <div class="item-2">
+                          <video poster="" autoplay="" muted loop="" style="pointer-events: none; width:100%;">
+                              <source src="./static/videos/compare_nersemble2.mp4" type="video/mp4">
+                          </video>
+                      </div>
+                      <div class="item-3">
+                          <video poster="" autoplay="" muted loop="" style="pointer-events: none; width:100%;">
+                              <source src="./static/videos/compare_iphone1.mp4" type="video/mp4">
+                          </video>
+                      </div>
+                      <div class="item-4">
+                        <video poster="" autoplay="" muted loop="" style="pointer-events: none; width:100%;">
+                            <source src="./static/videos/compare_iphone2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                  </div>
+          </div>
+
+          <div class="content has-text-justified">
+            <p>
+              Compared to state-of-the-art methods, our approach reconstructs unseen side facial regions in the inputs and consistently produces more favorable and consistent renderings from hold-out views.
+            </p>
+          </div>
+          <!-- End Hero Carousel -->
+
+
+        <h2 class="title has-text-centered">Result Gallery</h2>
+          <div class="content has-text-justified">
+            <p>
+            </p>
+          </div>
+
+          <div style="overflow:hidden;">
+                <div class="container">
+                    <div id="post_images" class="carousel">
+                        <div class="item-1">
+                            <video poster="" autoplay="" muted loop="" style="pointer-events: none; width:100%;">
+                                <source src="./static/videos/gallery/gallery1.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="item-2">
+                            <video poster="" autoplay="" muted loop="" style="pointer-events: none; width:100%;">
+                                <source src="./static/videos/gallery/gallery2.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="item-3">
+                            <video poster="" autoplay="" muted loop="" style="pointer-events: none; width:100%;">
+                                <source src="./static/videos/gallery/gallery3.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                        <div class="item-4">
+                          <video poster="" autoplay="" muted loop="" style="pointer-events: none; width:100%;">
+                              <source src="./static/videos/gallery/gallery4.mp4" type="video/mp4">
+                          </video>
+                        </div>
+                    </div>
+            </div>
+            <!-- End Hero Carousel -->
+
+
+        
+            <h2 class="title has-text-centered">Ablation Studies</h2>
+            <div style="overflow:hidden;">
+                  <div class="container">
+                      <video id="ablation" autoplay muted loop playsinline height="100%">
+                        <source src="./static/videos/ablation.mp4"
+                                type="video/mp4">
+                      </video>
+
+                      <div class="content has-text-justified">
+                        <p>
+                          <b>Ablation Studies on different types of diffusion priors.</b> (a) Input; (b) Ground truth;  Comparisons between method variants of (c) No diffusion; using (d)  Pretrained Stable Diffusion; 
+                          (e) Personalized Stable Diffusion; (f) Pose-conditioned multi-view diffusion; (g) Our multi-view diffusion using Score Distillation Sampling (SDS) loss; (h) Ours without latent upsampler $\times$2; (i) Ours.  
+                          Our normal map-conditioned multi-view diffusion priors enable more photo-realistic novel views with identity and appearance consistency, by constraining novel views using pseudo-image ground truths, which are  decoded from iteratively denoised latents followed by a latent upsampler.
+                        </p>
+                      </div>
+              </div>
+            
+
+              <div class="content has-text-justified">
+                <p>
+                </p>
+              </div>
+
+              <h2 class="title has-text-centered">Results of Multi-view Head Diffusion</h2>
+            <div style="overflow:hidden;">
+                  <div class="container">
+                      <video id="mvgen" autoplay muted loop playsinline height="100%">
+                        <source src="./static/videos/mvgen.mp4"
+                                type="video/mp4">
+                      </video>
+
+                      <div class="content has-text-justified">
+                        <p>
+                          Given a single image as input, <b>our Multi-view Head Latent Diffusion</b> can generate identity-preserved, and view-consistent multi-view portrait images. 
+                        </p>
+                      </div>
+              </div>
+              <!-- End Hero Carousel -->
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
+          <script>
+              bulmaCarousel.attach('#post_images', {
+                    slidesToScroll: 1,
+                    slidesToShow: 1,
+                    loop: true,
+              });
+        </script>
+      </div>
+
+  </section>
+
+
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{tang2024gaf,
+      title={GAF: Gaussian Avatar Reconstruction from Monocular Videos via Multi-view Diffusion},
+      author={Tang, Jiapeng and Davoli, Davide and Kirschstein, Tobias and Schoneveld, Liam and and Niessner, Matthias},
+      booktitle={arxiv},
+      year={2024}
+    }</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="https://arxiv.org/abs/2412.10209"> 
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/tangjiapeng/GAF" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            Website source code is borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

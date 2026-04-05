@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<html>
+  <!-- Head -->
+
+  <head>
+    <title>
+      HumanOLAT: A Large-Scale Dataset for Full-Body Human Relighting and Novel-View Synthesis
+    </title>
+    <link rel="icon" href="images/logos/mpi_favicon.JPG" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-layers.min.js"></script>
+    <script src="js/init.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+
+    <noscript>
+      <link rel="stylesheet" href="css/skel.css" />
+      <link rel="stylesheet" href="css/style.css" />
+      <link rel="stylesheet" href="css/style-xlarge.css" />
+    </noscript>
+  </head>
+
+  <!-- Body -->
+
+  <body class="landing">
+    <!-- Header -->
+
+    <header id="header">
+      <div class="column" style="text-align: center">
+        <a style ="text-decoration: none" href="https://www.mpi-inf.mpg.de/departments/visual-computing-and-artificial-intelligence" target="_blank">
+          <img
+            src="images/logos/vcai-svg.svg"
+            height="50px"
+            style="margin-top: 1%; margin-left: 2%; margin-right: 2%"
+          />
+        </a>
+        <a style ="text-decoration: none" href="https://www.mpi-inf.mpg.de/home/" target="_blank">
+          <img
+            src="images/logos/mpi-logo-de.svg"
+            height="50px"
+            style="margin-top: 1%; margin-left: 2%; margin-right: 2%"
+          />
+        </a>
+        <a style ="text-decoration: none" href="https://saarland-informatics-campus.de/" target="_blank">
+          <img
+            src="images/logos/sic-logo.webp"
+            height="50px"
+            style="margin-top: 1%; margin-left: 2%; margin-right: 2%"
+          />
+        </a>
+        <a style ="text-decoration: none" href="https://4dqv.mpi-inf.mpg.de/" target="_blank">
+          <img
+            src="images/logos/LOGO_4DQV_II_HQ.png"
+            height="50px"
+            style="margin-top: 1%; margin-left: 2%; margin-right: 2%"
+          />
+        </a>
+      </div>
+    </header>
+
+    <!-- Main -->
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <center>
+      <section id="bannel">
+        <div class="container">
+          <h2>
+            HumanOLAT: A Large-Scale Dataset for Full-Body Human Relighting and Novel-View Synthesis
+
+          </h2>
+          <br />
+
+          <!-- <h3><a href="https://computeranimation.org/program/">SCA 2023 (Best Paper Honorable Mention)</a> </h3> -->
+
+          <br />
+          <div class="column has-text-centered">
+            <h4>
+              <a href="https://people.mpi-inf.mpg.de/~tteufel/" target="_blank"
+                >Timo Teufel</a
+              ><sup>1,&dagger;</sup>&#160;&#160;
+            </h4>
+            <h4>
+              <a href="https://darthgera123.github.io/bio/" target="_blank"
+                >Pulkit Gera</a
+              ><sup>1,&dagger;</sup>&#160;&#160;
+            </h4>
+            <h4>
+              <a href="https://xilongzhou.github.io/" target="_blank"
+                >Xilong Zhou</a
+              ><sup>1</sup>&#160;&#160;
+            </h4>
+            <h4>
+              <a href="https://www.umariqbal.info/" target="_blank"
+                >Umar Iqbal</a
+              ><sup>2</sup>&#160;&#160;
+            </h4>
+            <h4>
+              <a href="https://people.mpi-inf.mpg.de/~prao/" target="_blank"
+                >Pramod Rao</a
+              ><sup>1</sup>&#160;&#160;
+            </h4>
+            <h4>
+              <a href="https://jankautz.com/" target="_blank"
+                >Jan Kautz</a
+              ><sup>2</sup>&#160;&#160;
+            </h4>
+            <h4>
+              <a href="https://people.mpi-inf.mpg.de/~golyanik/" target="_blank"
+                >Vladislav Golyanik</a
+              ><sup>1</sup>&#160;&#160;
+            </h4>
+            <h4>
+              <a href="http://www.mpi-inf.mpg.de/~theobalt/" target="_blank"
+                >Christian Theobalt</a
+              ><sup>1</sup>
+            </h4>
+          </div>
+
+          <h4>
+            <a
+              href="https://www.mpi-inf.mpg.de/departments/visual-computing-and-artificial-intelligence"
+              ><sup>1</sup>Max Planck Institute for Informatics, SIC</a
+            >
+          </h4>
+          <h4>
+            <a href="https://www.via-center.science/"
+              ><sup>2</sup>NVIDIA</a
+            >
+          </h4>
+          <p style="font-size: 15px">
+            <sup>&dagger;</sup>Shared first-authors.
+          </p>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a
+                  href="https://arxiv.org/abs/2508.09137"
+                  class="external-link button is-normal is-rounded is-dark"
+                >
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a
+                  href="https://github.com/TMT22/HumanOLAT"
+                  class="external-link button is-normal is-rounded is-dark"
+                >
+                  <span class="icon">
+                    <i class="fa-brands fa-github"></i>
+                  </span>
+                  <span>GitHub</span>
+                </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a
+                  href="https://gvv-assets.mpi-inf.mpg.de/HumanOLAT"
+                  class="external-link button is-normal is-rounded is-dark"
+                >
+                  <span class="icon">
+                    <i class="fas fa-database"></i>
+                  </span>
+                  <span>Data</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </center>
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <center>
+      <div class="container">
+        <img width="100%" src="images/teaser.png" />
+      </div>
+    </center>
+    <br />
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <section class="smallpadding">
+      <div class="container">
+        <h2 style="text-align: center">Abstract</h2>
+
+        <p>
+  Simultaneous relighting and novel-view rendering of digital human representations is an important yet challenging task with numerous applications. 
+However, progress in this area has been significantly limited due to the lack of publicly available, high-quality datasets, especially for full-body
+human captures. To address this critical gap, we introduce the HumanOLAT dataset, the first publicly accessible large-scale dataset providing multi-view 
+One-Light-at-a-Time (OLAT) captures of full-body humans. The dataset includes HDR RGB frames under various illumination conditions, such as white light, 
+environment maps, color gradients and fine-grained OLAT illuminations. Our evaluations on state-of-the-art relighting and novel-view synthesis methods 
+underscore both the dataset's value and the significant challenges still present in accurately modeling complex human-centric appearance and lighting interactions. 
+We believe that HumanOLAT will significantly facilitate future research, enabling rigorous benchmarking and advancements in both 
+general and human-specific relighting and rendering techniques.
+        </p>
+      </div>
+    </section>
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <section class="wrapper special">
+      <center>
+        <div class="container" id="GPS">
+          <h2 style="text-align: center">Pipeline Overview</h2>
+          <div class="column has-text-centered"></div>
+          <img width="100%" src="images/overview.png" />
+        </div>
+      </center>
+    </section>
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <section class="wrapper style2 special">
+      <center>
+        <div class="container">
+          <h2 style="text-align: center">MVS Mesh</h2>
+          <div class="column has-text-centered"></div>
+          <img width="100%" src="images/mesh.png" />
+        </div>
+      </center>
+    </section>
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <section class="wrapper">
+      <div class="container">
+        <h2 style="text-align: center">Citation</h2>
+        <div class="section bibtex">
+          <pre style="text-align: left">
+@inproceedings{teufelgera2025HumanOLAT,
+  title = {HumanOLAT: A Large-Scale Dataset for Full-Body Human Relighting and Novel-View Synthesis},
+  author = {Timo Teufel and Pulkit Gera and Xilong Zhou and Umar Iqbal and Pramod Rao and Jan Kautz and Vladislav Golyanik and Christian Theobalt},
+  year = {2025},
+  booktitle={International Conference on Computer Vision (ICCV)}
+}</pre
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="container">
+        <ul class="copyright">
+          <li>&copy; Timo Teufel</li>
+          <li>
+            <a href="https://imprint.mpi-klsb.mpg.de/inf/gvdh.mpi-inf.mpg.de/"
+              >Imprint</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://data-protection.mpi-klsb.mpg.de/inf/gvdh.mpi-inf.mpg.de?lang=en"
+              >Data Protection</a
+            >
+          </li>
+          <li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

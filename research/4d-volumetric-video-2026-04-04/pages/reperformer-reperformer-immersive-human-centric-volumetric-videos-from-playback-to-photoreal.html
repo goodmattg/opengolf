@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="RePerformer: Immersive Human-centric Volumetric Videos from Playback to Photoreal Reperformance">
+    <meta name="author"
+        content="Yuheng Jiang*, Zhehao Shen*, Chengcheng Guo, Yu Hong, Zhuo Su, Yingliang Zhang, Marc Habermann, Lan Xu">
+        
+    <title>RePerformer: Immersive Human-centric Volumetric Videos from Playback to Photoreal Reperformance</title>
+    <!-- Bootstrap core CSS -->
+    <!--link href="bootstrap.min.css" rel="stylesheet"-->
+
+    <!-- Custom styles for this template -->
+    <link href="offcanvas.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 60px !important;
+            /* 设置容器宽度与圆形大小一致 */
+            height: 60px !important;
+            /* 设置容器高度与圆形大小一致 */
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background-color: transparent !important;
+            /* 透明背景避免点击其他区域 */
+            border-radius: 50% !important;
+            padding: 0 !important;
+            /* 移除默认内边距 */
+            position: absolute !important;
+            /* 使用绝对定位 */
+            top: 50% !important;
+            /* 垂直居中 */
+            transform: translateY(-50%) !important;
+            /* 确保垂直方向完全居中 */
+            z-index: 2 !important;
+            /* 确保按钮在视频前面 */
+        }
+
+        .carousel-control-prev {
+            left: 10px !important;
+            /* 左侧居中 */
+        }
+
+        .carousel-control-next {
+            right: 10px !important;
+            /* 右侧居中 */
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            background-color: rgba(103, 122, 79, 0.983) !important;
+            border-radius: 50% !important;
+            width: 60px !important;
+            height: 60px !important;
+            background-size: 30px 30px !important;
+        }
+
+        .video-container {
+            overflow: hidden !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            height: auto !important;
+            position: relative !important;
+        }
+
+        .video-container video {
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            position: relative !important;
+        }
+
+        .carousel-inner {
+            overflow: visible !important;
+            /* 强制显示视频控件 */
+        }
+
+        .carousel-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100% !important;
+            /* 确保占满整个容器 */
+        }
+
+        .carousel-item video {
+            max-width: 100% !important;
+            max-height: 100% !important;
+        }
+
+        .first-container {
+            position: relative;
+            width: 800px;
+            /* 可根据需要调整宽度 */
+            height: 450px;
+            /* 可根据需要调整高度 */
+            overflow: hidden;
+        }
+
+        .video-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip-path: inset(0 50% 0 0);
+            /* 初始显示左边 50% */
+        }
+
+        .video-right {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            clip-path: inset(0 0 0 50%);
+            /* 初始显示右边 50% */
+        }
+
+        .video-left video,
+        .video-right video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .comparison-slider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            /* 初始位置在中间 */
+            width: 2px;
+            background-color: rgb(196, 8, 8);
+            cursor: ew-resize;
+            z-index: 10;
+        }
+
+        .comparison-slider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: rgb(255, 22, 22);
+            border-radius: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .label {
+            position: absolute;
+            padding: 5px 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            /* 黑底 */
+            border-radius: 12px;
+            /* 圆边矩形 */
+            font-size: 14px;
+            color: white;
+            /* 白字 */
+            font-weight: bold;
+            /* 粗体字 */
+        }
+
+        .label-left-top {
+            top: 10px;
+            left: 10px;
+        }
+
+        .label-right-top {
+            top: 10px;
+            right: 10px;
+        }
+
+        .label-left-bottom {
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .label-right-bottom {
+            bottom: 10px;
+            right: 10px;
+        }
+    </style>
+    <!--    <link rel="icon" href="img/favicon.gif" type="image/gif">-->
+
+
+</head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container"></div>
+        <h2>RePerformer: Immersive Human-centric Volumetric Videos from Playback to Photoreal Reperformance</h2>
+        <hr>
+        <h3 class="nerf_subheader_v2">CVPR 2025</h3>
+        <p class="authors">
+            <a href="https://nowheretrix.github.io/"> Yuheng Jiang<sup>*</sup></a>,
+            <a href="https://moqiyinlun.github.io/"> Zhehao Shen<sup>*</sup></a>,
+            <a> Chengcheng Guo</a>,
+            <a href="https://github.com/xyi1023"> Yu Hong</a>,
+            <a href="https://suzhuo.github.io/"> Zhuo Su</a>,
+            <a href="https://cn.linkedin.com/in/yingliangzhang"> Yingliang Zhang</a>,
+            <a href="https://people.mpi-inf.mpg.de/~mhaberma/"> Marc Habermann<sup>&dagger;</sup></a>,
+            <a href="http://xu-lan.com/"> Lan Xu<sup>&dagger;</sup></a>
+        </p>
+        <p class="title">
+            * Equal Contribution &nbsp;&nbsp;&nbsp;&nbsp;&dagger; Corresponding Author
+        </p>
+        <div class="btn-group" role="group" aria-label="Top menu">
+            <a class="btn btn-primary" href="https://arxiv.org/pdf/2503.12242" style="background-color: #B7B7EB; border-color: #B7B7EB;">Paper</a>
+            <a class="btn btn-primary" href="https://www.youtube.com/watch?v=CZKqSiivlTc" style="background-color: #F09BA0; border-color: #F09BA0;">Video</a>
+            <a class="btn btn-primary" href="https://github.com/HiFi-Human/Reperformer" style="background-color: #96CCCB; border-color: #96CCCB;">Code</a>
+
+            <!-- <a class="btn btn-primary" href="https://github.com/xyi1023/DualGS_Dataset" style="background-color: #9BBBE1; border-color: #9BBBE1;">Dataset Page</a> -->
+            <!-- <a class="btn btn-primary" href="https://cvrmkura-my.sharepoint.com/:f:/g/personal/sdjnes_cvrmkura_onmicrosoft_com/Et4niDRbacBHgKgBOlSDxZEB3VBp24gkh9DEpxaiAbk3sg?e=8B9lzi" style="background-color: #9ba5e1; border-color: #9BBBE1;">Dataset Link</a> -->
+
+        </div>
+        
+    </div>
+
+    <div class="container">
+
+        <!DOCTYPE html>
+        <html lang="en">
+
+        <head>
+            <!-- [Header content remains unchanged] -->
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+                integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                crossorigin="anonymous">
+        </head>
+        
+        <br>
+        <h6 style="color: #828688; text-align: center; font-size: 18px;">
+            Given a dynamic sequence with dense footage, <strong
+            style="font-weight: bold; color: #729ab6;">Reperformer</strong> can not only deliver accurate free-view <strong
+            style="font-weight: bold; color: #729ab6;">playback</strong> but also realistically <strong
+            style="font-weight: bold; color: #729ab6;">re-perform</strong> the dynamic scene under similar yet novel motions.
+          <!-- The videos might take a few moments to load. -->
+        </h6>
+
+
+</body>
+
+</html>
+
+<div id="comparisonCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+
+        <!-- 第一项 -->
+        <div class="carousel-item active">
+            <div class="first-container">
+                <div class="video-wrapper video-left">
+                    <video id="video1-4" src="video/converted_videos/zys3_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="video-wrapper video-right">
+                    <video id="video2-4" src="video/converted_videos/zys1_zys3_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="comparison-slider"></div>
+                <div class="label label-left-top">Playback</div>
+                <div class="label label-right-top">Reperform</div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="first-container">
+                <div class="video-wrapper video-left">
+                    <video id="video1-1" src="video/converted_videos/Avatar_result/1/flute1_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="video-wrapper video-right">
+                    <video id="video2-1" src="video/converted_videos/Avatar_result/1/flute2_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="comparison-slider"></div>
+                <div class="label label-left-top">Playback</div>
+                <div class="label label-right-top">Reperform</div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="first-container">
+                <div class="video-wrapper video-left">
+                    <video id="video1-3" src="video/converted_videos/Avatar_result/4/zmh_drum_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="video-wrapper video-right">
+                    <video id="video2-3" src="video/converted_videos/Avatar_result/4/szh_drum_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="comparison-slider"></div>
+                <div class="label label-left-top">Playback</div>
+                <div class="label label-right-top">Reperform</div>
+            </div>
+        </div>
+
+        <!-- 其余项，按照同样结构依次添加 -->
+        <!-- 第二项 -->
+        <div class="carousel-item">
+            <div class="first-container">
+                <div class="video-wrapper video-left">
+                    <video id="video1-2" src="video/converted_videos/Avatar_result/2/gcc_yellowed_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="video-wrapper video-right">
+                    <video id="video2-2" src="video/converted_videos/Avatar_result/2/zsk_gcc_balled_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="comparison-slider"></div>
+                <div class="label label-left-top">Playback</div>
+                <div class="label label-right-top">Reperform</div>
+            </div>
+        </div>
+
+        <div class="carousel-item">
+            <div class="first-container">
+                <div class="video-wrapper video-left">
+                    <video id="video1-4" src="video/converted_videos/Avatar_result/3/skx_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="video-wrapper video-right">
+                    <video id="video2-4" src="video/converted_videos/Avatar_result/3/szh_skxed_converted.mp4" autoplay loop muted></video>
+                </div>
+                <div class="comparison-slider"></div>
+                <div class="label label-left-top">Playback</div>
+                <div class="label label-right-top">Reperform</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 控制按钮 -->
+    <a class="carousel-control-prev" href="#comparisonCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#comparisonCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<!-- 样式优化 -->
+<style>
+#comparisonCarousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+    max-width: 3300px;
+    margin: 0 auto;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.first-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 95%;
+    max-width: 3300px;
+    height: auto; /* 让高度由宽度和比例决定 */
+    aspect-ratio: 16 / 9; /* 确保容器是16:9 */
+    margin: 0 auto;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.video-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.video-wrapper video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 确保视频填满容器 */
+}
+
+.comparison-slider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, rgb(88, 84, 84), rgb(184, 180, 180));
+    left: 50%;
+    cursor: ew-resize;
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(21, 20, 20, 0.6);
+}
+
+.label {
+    position: absolute;
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.label-left-top { top: 10px; left: 10px; }
+.label-right-top { top: 10px; right: 10px; }
+</style>
+
+<!-- 脚本 -->
+<script>
+    function syncVideos(video1, video2) {
+        video1.addEventListener('play', () => { if (video2.paused) video2.play(); });
+        video1.addEventListener('pause', () => { if (!video2.paused) video2.pause(); });
+        video2.addEventListener('play', () => { if (video1.paused) video1.play(); });
+        video2.addEventListener('pause', () => { if (!video1.paused) video1.pause(); });
+        video1.addEventListener('timeupdate', () => {
+            const currentTime = video1.currentTime;
+            if (Math.abs(currentTime - video2.currentTime) > 0.1) video2.currentTime = currentTime;
+        });
+        video1.addEventListener('seeked', () => { video2.currentTime = video1.currentTime; });
+    }
+
+    function setupSlider(container) {
+        const slider = container.querySelector('.comparison-slider');
+        const videoLeft = container.querySelector('.video-left');
+        const videoRight = container.querySelector('.video-right');
+
+        slider.addEventListener('mousedown', startDragging);
+        function startDragging(e) {
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDragging);
+        }
+
+        function drag(e) {
+            const rect = container.getBoundingClientRect();
+            let offsetX = Math.max(0, Math.min(e.clientX - rect.left, rect.width));
+            let percentage = (offsetX / rect.width) * 100;
+            slider.style.left = percentage + '%';
+            videoLeft.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+            videoRight.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+        }
+        
+
+        function stopDragging() {
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('mouseup', stopDragging);
+        }
+    }
+
+    // 初始化所有 first-container
+    document.querySelectorAll('.first-container').forEach(container => {
+        const video1 = container.querySelector('.video-left video');
+        const video2 = container.querySelector('.video-right video');
+        syncVideos(video1, video2);
+        setupSlider(container);
+    });
+
+    // 轮播切换时自动播放当前页视频
+    $('#comparisonCarousel').on('slide.bs.carousel', function (e) {
+        $('video').each(function () { this.pause(); });
+        const activeVideos = $(e.relatedTarget).find('video');
+        activeVideos.each(function () { this.play(); });
+    });
+</script>
+
+<!-- Bootstrap & jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<br>
+<h3 style="text-align: center; color: #7cb0d1;">Overview Video</h3>
+<hr>
+<div class="vcontainer">
+    <iframe class='video' src="https://www.youtube.com/embed/CZKqSiivlTc?si=itfY6ReUYphi88lz" 
+    title="YouTube video player" frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen></iframe>
+</div>
+<hr>
+<div class="section">
+    <!-- <h3 style="text-align: center; color: #7cb0d1;">Overview Video</h3> -->
+    <!-- <hr> -->
+    <h6 style="color: #828688; text-align: center; font-size: 18px;">
+        We introduce <strong
+        style="font-weight: bold; color: #729ab6;">Reperformer</strong>, a novel 3DGS-based approach for generating human-centric volumetric videos from dense multi-view inputs. It provides realistic <strong
+        style="font-weight: bold; color: #729ab6;">playback</strong> and can vividly <strong
+        style="font-weight: bold; color: #729ab6;">reperform</strong> the non-rigid scenes driven by similar yet unseen motions
+                  <!-- The videos might take a few moments to load. -->
+    </h6>
+
+    <div class="row align-items-center">
+        <div class="col justify-content-center text-center">
+            <img src="img/teaser.jpg" style="width:100%; margin-right:-10px; margin-top:5px;">
+        </div>
+    </div>
+
+    
+    
+
+    
+
+
+
+    <div class="section">
+        <h3 style="text-align: center; color: #7cb0d1;">Pipeline</h3>
+
+        <hr>
+        <div class="row align-items-center">
+            <div class="col justify-content-center text-center">
+                <img src="img/pipeline.jpg" style="width:100%; margin-right:-10px; margin-top:-10px;">
+            </div>
+
+            <h6 style="color: #828688;">
+                Our approach begins by disentangling motion/appearance Gaussians and repacking the attributes of the appearance Gaussians into 2D maps using a Morton-based 2D parameterization. For network training, we adopt the U-Net architecture to learn a generalizable mapping from the position maps to the attribute maps. For re-performance, we adopt a semantic-aware alignment module to associate the motion Gaussians of a new performer with the original appearance Gaussians, enabling seamless transfer and photorealistic rendering. 
+                <!-- The videos might take a few moments to load. -->
+            </h6>
+
+        </div>
+
+        <h3 style="text-align: center; color: #7cb0d1;">Reperformance</h3>
+
+        <hr>
+        <div class="row align-items-center">
+            <div class="col justify-content-center text-center">
+                <img src="img/animation.jpg" style="width:100%; margin-right:-10px; margin-top:-10px;">
+            </div>
+
+            <h6 style="color: #828688;">
+                To handle more generalized cases, we propose a semantic-aware motion transfer module based on the motion Gaussian proxy, leveraging the U-Net generalization capability for re-performance.
+                <!-- The videos might take a few moments to load. -->
+            </h6>
+
+        </div>
+        <h3 style="text-align: center; color: #7cb0d1;">More Results</h3>
+
+        <hr>
+        <h6 style="color: #828688; text-align: center; font-size: 18px;">
+            Our <strong
+            style="font-weight: bold; color: #729ab6;">playback</strong> approach achieves high-fidelity rendering of ultra-long and complex human interaction sequences with over 2000 frames.
+            </h6>
+            <div style="width: 100%; margin: 0 auto; text-align: center; padding-bottom: 20px;">
+                <video width="100%" controls autoplay muted loop style="border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+                    <source src="video\converted_videos\long_seq.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+
+
+
+
+
+            <h3 style="text-align: center; color: #7cb0d1;">Comparison</h3>
+
+            <hr>
+            <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="img/comparison1.jpg" style="width:100%; margin-right:-10px; margin-top:20px;">
+                    <h6 style="color: #828688; margin-top: 10px;">
+                        Qualitative comparison with SOTA playback-only methods on novel view synthesis on DualGS dataset.
+                    </h6>
+                </div>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="img/comparison2.jpg" style="width:100%; margin-right:-10px; margin-top:20px;">
+                    <h6 style="color: #828688; margin-top: 10px;">
+                        Qualitative comparison with AP-NeRF, TAVA and SC-GS on both training motion and novel motion synthesis.
+                    </h6>
+                </div>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="img/supp_comparison1.png" style="width:80%; margin-right:-10px; margin-top:20px;">
+                    <h6 style="color: #828688; margin-top: 10px;">
+                        Qualitative comparison with Animatable Gaussians.
+                    </h6>
+                </div>
+            </div>
+
+        </div>
+            
+        
+        <div class="section">
+            <h3 style="text-align: center; color: #7cb0d1;">Result Gallery</h3>
+            <hr>
+            <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="img/gallery.jpg" style="width:100%; margin-right:-10px; margin-top:-10px;">
+                </div>
+            </div>
+
+
+        <div class="section">
+            <h2>Acknowledgements</h2>
+            <hr>
+            <p>
+                The authors would like to thank <strong>Kaixing Zhang</strong> and <strong>Meihan Zheng</strong> from ShanghaiTech
+                University for processing the dataset. We are grateful to <strong>Yize Wu</strong>,<strong>Lijun Chen</strong> from ShanghaiTech and <strong>Heming Zhu</strong> from MPII for insightful discussions. We also thank the
+                reviewers for their feedback. This work was supported by National Key R&D Program of China
+                (2022YFF0902301), Shanghai Local college capacity building program (22010502800). We also
+                acknowledge support from Shanghai Frontiers Science Center of Human-centered Artificial Intelligence
+                (ShangHAI).
+            </p>
+        </div>
+        <!-- 
+    <div class="section">
+        <h2>Results</h2>
+        <hr>
+
+        <div class="col justify-content-center text-center">
+            <img src="img/progress.png" style="width:100%; margin-right:-10px; margin-top:10px;">
+
+        <p>
+            Optimization progress. We show results of our fine-tuning (top) and optimizing a <b>NeRF</b> (bottom) with different time periods. Our <b>0-min</b> result refers to the initial output from our network inference. Note that our <b>18-min</b> results are already much better than the <b>215-min</b> NeRF results. PSNRs of the image crops are shown in the figure.
+        </p>
+
+        <div class="col justify-content-center text-center">
+            <img src="img/result.png" style="width:100%; margin-right:-10px; margin-top:10px;">
+
+        <p>
+            Rendering quality comparison. On the left, we show rendering results of our method and concurrent neural rendering methods PixelNeRF, IBRNet by directly running the networks. We show our 15-min fine-tuning results and NeRF's  10.2h-optimization results on the right.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Paper</h2>
+        <hr>
+        <div>
+            <div class="list-group">
+                <a href="https://arxiv.org/abs/2103.15595"
+                   class="list-group-item">
+                    <img src="img/paper_thumbnail.png" style="width:100%; margin-right:-20px; margin-top:-10px;">
+                </a>
+            </div>
+        </div>
+    </div>  -->
+
+        <!-- <div class="section">
+                <h2>Bibtex</h2>
+                <hr>
+                <div class="bibtexsection">
+                    @InProceedings{Jiang_2024_CVPR,
+                    author = {Jiang, Yuheng and Shen, Zhehao and Wang, Penghao and
+                    Su, Zhuo and Hong, Yu and Zhang, Yingliang and Yu, Jingyi and Xu, Lan},
+                    title = {HiFi4G: High-Fidelity Human Performance Rendering
+                    via Compact Gaussian Splatting},
+                    booktitle = {Proceedings of the IEEE/CVF Conference on
+                    Computer Vision and Pattern Recognition (CVPR)},
+                    month = {June},
+                    year = {2024},
+                    pages = {19734-19745}
+                    }
+                </div>
+            </div> -->
+
+        <hr>
+
+        <footer>
+            <p>Send feedback and questions to <a href="https://nowheretrix.github.io/">Yuheng Jiang</a> and <a href="https://moqiyinlun.github.io/">Zhehao Shen</a></p>
+        </footer>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+
+    </body>
+
+    </html>

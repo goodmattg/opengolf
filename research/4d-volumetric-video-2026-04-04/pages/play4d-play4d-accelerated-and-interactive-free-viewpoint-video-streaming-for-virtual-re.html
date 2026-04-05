@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html  lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+<meta name="description" content="We present Play4D, an accelerated and interactive free-viewpoint video (FVV) streaming pipeline for next-generation light field (LF) and virtual reality (VR) displays. Play4D integrates 4D Gaussian Splatting (4DGS) reconstruction, compression and streaming with an efficient radiance field rendering algorithm to enable live 6-DoF user interaction with photorealistic dynamic scenes." />
+<link rel="canonical" href="https://research.nvidia.com/publication/2025-12_play4d-accelerated-and-interactive-free-viewpoint-video-streaming-virtual" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="/themes/custom/nvidia/favicon.ico" type="image/vnd.microsoft.icon" />
+
+    <title>Play4D: Accelerated and Interactive Free-viewpoint Video Streaming for Virtual Reality and Light Field Displays | Research</title>
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_qSJZMYCq7FslKuN-SoL9rqPm2WvRHOWRtcrDEgaQjQE.css?delta=0&amp;language=en&amp;theme=nvidia&amp;include=eJxLzi9K1U8pKi1IzNFLzEqs0ElGEkjJTMzJT9dJrSjJyczLholCuTrFlcUlqbn6SYnFqQC4ixsH" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_2rlkHGCQrpI5SpLlVInEYBoKwcV3zEMrCaCoEH7fukw.css?delta=1&amp;language=en&amp;theme=nvidia&amp;include=eJxLzi9K1U8pKi1IzNFLzEqs0ElGEkjJTMzJT9dJrSjJyczLholCuTrFlcUlqbn6SYnFqQC4ixsH" />
+
+      <!-- OneTrust Cookies Consent Notice start for nvidia.com -->
+      <script src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js" data-document-language="true" type="text/javascript" charset="UTF-8" data-domain-script="3e2b62ff-7ae7-4ac5-87c8-d5949ecafff5" ></script>
+    <script type="text/javascript">
+        function OptanonWrapper() { }
+      </script>
+      <!-- OneTrust Cookies Consent Notice end for nvidia.com -->
+      <script src="https://assets.adobedtm.com/5d4962a43b79/814eb6e9b4e1/launch-4bc07f1e0b0b.min.js"></script>
+
+        </head>
+<body class="path-node page-node-type-publication has-glyphicons">
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvas-menu" aria-labelledby="offcanvas-menu-label">
+  <div class="offcanvas-header">
+    <div id="offcanvas-menu-label">
+      <a class="sub-brand-name align-v-m" href="https://www.nvidia.com/en-us/research/">
+        <img id="sub-brand-logo-mobile" src="/modules/custom/nv_core/images/research-navigation-logo-udtm-2.svg" title="Research" alt="Research">
+      </a>
+    </div>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close">
+      <i class="fa fa-close"></i>
+    </button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="offcanvas-links">
+      <div class="sub-brand-item">
+  <span class="sub-brand-link button-dropdown l-1 ws-nw">
+    Research Labs <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    <div class="ic-arrow-dropdown m-hidden"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
+</svg></div>
+  </span>
+  <ul class="dropdown-menu bullet" id="nav" style="min-width: 307px;">
+    <li>
+      <a href="https://research.nvidia.com/research-labs" class="global-nav-link"><div class="title no-submenu">All Research Labs</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/toronto-ai/" class="global-nav-link"><div class="title no-submenu">Spatial Intelligence</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/adlr/" class="global-nav-link"><div class="title no-submenu">Applied Research</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/avg/" class="global-nav-link"><div class="title no-submenu">Autonomous Vehicles</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/dir/" class="global-nav-link"><div class="title no-submenu">Deep Imagination</div></a>
+    </li>
+    <span class="nvArrow" style="left: 113px;"></span>
+  </ul>
+</div>
+<div class="sub-brand-item">
+  <a class="sub-brand-link" href="/publications">
+    Publications
+  </a>
+</div>
+<div class="sub-brand-item">
+  <span class="sub-brand-link button-dropdown l-1 ws-nw">
+    AI Playground <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    <div class="ic-arrow-dropdown m-hidden"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
+</svg></div>
+  </span>
+  <ul class="dropdown-menu bullet" id="nav" style="min-width: 212px;">
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/ai-playground/" class="global-nav-link"><div class="title no-submenu">New and Featured</div></a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/ai-art-gallery/" class="global-nav-link"><div class="title no-submenu">AI Art Gallery</div></a>
+    </li>
+    <li>
+      <a href="https://catalog.ngc.nvidia.com/?filters=&orderBy=weightPopularDESC&query=" class="global-nav-link"><div class="title no-submenu">NGC Demos</div></a>
+    </li>
+    <span class="nvArrow" style="left: 113px;"></span>
+  </ul>
+</div>
+<div class="sub-brand-item">
+  <span class="sub-brand-link button-dropdown l-1 ws-nw">
+    Research Areas <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    <div class="ic-arrow-dropdown m-hidden"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
+</svg></div>
+  </span>
+  <ul class="dropdown-menu bullet" id="nav" style="min-width: 227px;">
+    <li>
+      <a href="https://research.nvidia.com/research-area/machine-learning-artificial-intelligence" class="global-nav-link"><div class="title no-submenu">AI &amp; Machine Learning</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/toronto-ai/" class="global-nav-link"><div class="title no-submenu">3D Deep Learning</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/research-area/computer-vision" class="global-nav-link"><div class="title no-submenu">Computer Vision</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/research-area/robotics" class="global-nav-link"><div class="title no-submenu">Robotics</div></a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/research-areas/" class="global-nav-link"><div class="title no-submenu">All Areas</div></a>
+    </li>
+    <span class="nvArrow" style="left: 127px;"></span>
+  </ul>
+</div>
+<div class="sub-brand-item">
+  <span class="sub-brand-link button-dropdown l-1">
+    Careers <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    <div class="ic-arrow-dropdown m-hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
+</svg>    </div>
+  </span>
+  <ul class="dropdown-menu bullet" id="nav" style="min-width: 162px;">
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/academic/" class="global-nav-link">
+        <div class="title no-submenu">Academic Collaborations</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/government/" class="global-nav-link">
+        <div class="title no-submenu">Government Collaborations</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/graduate-fellowships" class="global-nav-link">
+        <div class="title no-submenu">Graduate Fellowship</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/internships/" class="global-nav-link">
+        <div class="title no-submenu">Internships</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite?source=eventiccv2021" class="global-nav-link">
+        <div class="title no-submenu">Research Openings</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/research-scientists/" class="global-nav-link">
+        <div class="title no-submenu">Research Scientists</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/people" class="global-nav-link">
+        <div class="title no-submenu">Meet the Team</div>
+      </a>
+    </li>
+    <span class="nvArrow" style="left: 64px;"></span>
+  </ul>
+</div>
+<div class="sub-brand-item">
+  <a href="https://www.nvidia.com/en-us/research/inquiries/" class="sub-brand-link">Licensing</a>
+</div>
+<style>
+  .ws-nw {
+    white-space: nowrap;
+  }
+</style>
+    </div>
+  </div>
+</div>
+<a href="#main-content" class="visually-hidden focusable skip-link">
+  Skip to main content
+</a>
+
+  <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas>
+        <div class="region region-navigation">
+    <section id="block-navigationblock" class="block block-nv-core block-nv-navigation-block clearfix">
+  
+    
+
+      <div class="navigation">
+  <nav class="global-nav">
+    <div class="nav-header">
+      <div class="nav-header-container">
+        <div class="brand-container">
+          <a class="brand-link pull-left" href="https://www.nvidia.com/en-us/" title="Artificial Intelligence Computing Leadership from NVIDIA">
+            <svg viewBox="0 0 974.7 179.7" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" width="110" height="44">
+								<title>Artificial Intelligence Computing Leadership from NVIDIA</title>
+              <path d="m962.1 144.1v-2.7h1.7c0.9 0 2.2 0.1 2.2 1.2s-0.7 1.5-1.8 1.5h-2.1m0 1.9h1.2l2.7 4.7h2.9l-3-4.9c1.5 0.1 2.7-1 2.8-2.5v-0.4c0-2.6-1.8-3.4-4.8-3.4h-4.3v11.2h2.5v-4.7m12.6-0.9c0-6.6-5.1-10.4-10.8-10.4s-10.8 3.8-10.8 10.4 5.1 10.4 10.8 10.4 10.8-3.8 10.8-10.4m-3.2 0c0.2 4.2-3.1 7.8-7.3 8h-0.3c-4.4 0.2-8.1-3.3-8.3-7.7s3.3-8.1 7.7-8.3 8.1 3.3 8.3 7.7c-0.1 0.1-0.1 0.2-0.1 0.3z"></path>
+              <path d="m578.2 34v118h33.3v-118h-33.3zm-262-0.2v118.1h33.6v-91.7l26.2 0.1c8.6 0 14.6 2.1 18.7 6.5 5.3 5.6 7.4 14.7 7.4 31.2v53.9h32.6v-65.2c0-46.6-29.7-52.9-58.7-52.9h-59.8zm315.7 0.2v118h54c28.8 0 38.2-4.8 48.3-15.5 7.2-7.5 11.8-24.1 11.8-42.2 0-16.6-3.9-31.4-10.8-40.6-12.2-16.5-30-19.7-56.6-19.7h-46.7zm33 25.6h14.3c20.8 0 34.2 9.3 34.2 33.5s-13.4 33.6-34.2 33.6h-14.3v-67.1zm-134.7-25.6l-27.8 93.5-26.6-93.5h-36l38 118h48l38.4-118h-34zm231.4 118h33.3v-118h-33.3v118zm93.4-118l-46.5 117.9h32.8l7.4-20.9h55l7 20.8h35.7l-46.9-117.8h-44.5zm21.6 21.5l20.2 55.2h-41l20.8-55.2z"></path>
+              <path fill="#76B900" d="m101.3 53.6v-16.2c1.6-0.1 3.2-0.2 4.8-0.2 44.4-1.4 73.5 38.2 73.5 38.2s-31.4 43.6-65.1 43.6c-4.5 0-8.9-0.7-13.1-2.1v-49.2c17.3 2.1 20.8 9.7 31.1 27l23.1-19.4s-16.9-22.1-45.3-22.1c-3-0.1-6 0.1-9 0.4m0-53.6v24.2l4.8-0.3c61.7-2.1 102 50.6 102 50.6s-46.2 56.2-94.3 56.2c-4.2 0-8.3-0.4-12.4-1.1v15c3.4 0.4 6.9 0.7 10.3 0.7 44.8 0 77.2-22.9 108.6-49.9 5.2 4.2 26.5 14.3 30.9 18.7-29.8 25-99.3 45.1-138.7 45.1-3.8 0-7.4-0.2-11-0.6v21.1h170.2v-179.7h-170.4zm0 116.9v12.8c-41.4-7.4-52.9-50.5-52.9-50.5s19.9-22 52.9-25.6v14h-0.1c-17.3-2.1-30.9 14.1-30.9 14.1s7.7 27.3 31 35.2m-73.5-39.5s24.5-36.2 73.6-40v-13.2c-54.4 4.4-101.4 50.4-101.4 50.4s26.6 77 101.3 84v-14c-54.8-6.8-73.5-67.2-73.5-67.2z"></path>
+							</svg>
+          </a>
+        </div>
+        <div class="nav-tools-container">
+          <ul class="nav-header-list">
+                        <li class="nav-header-item search-item">
+              <a href="#" id="nav-search-abort" class="search-abort">
+                <svg xmlns="http://www.w3.org/2000/svg" class="nav-search-icon" width="24" height="24" viewBox="0 0 24 24">
+    <defs>
+        <style>.cls-search { fill: #bdbdbd; fill-rule: evenodd; }</style>
+    </defs>
+    <path id="Close.svg_copy" class="cls-search"
+          d="M1769,15.819L1767.18,14,1760,21.18,1752.82,14,1751,15.819,1758.18,23,1751,30.181,1752.82,32l7.18-7.181L1767.18,32l1.82-1.819L1761.82,23Z" transform="translate(-1751 -14)"></path>
+</svg>              </a>
+            </li>
+            <li class="nav-header-item search-item">
+              <a href="#">
+                <svg class="nav-search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" d="M0 0h24v24H0V0z"></path>
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+</svg>
+              </a>
+            </li>
+                        <li class="nav-header-item profile-item">
+              <a href="/user/login" id="nv-login" class="nav-profile-link"><svg class="nvprofileicon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><title>Login</title><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM7.07 18.28c.43-.9 3.05-1.78 4.93-1.78s4.51.88 4.93 1.78C15.57 19.36 13.86 20 12 20s-3.57-.64-4.93-1.72zm11.29-1.45c-1.43-1.74-4.9-2.33-6.36-2.33s-4.93.59-6.36 2.33C4.62 15.49 4 13.82 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 1.82-.62 3.49-1.64 4.83zM12 6c-1.94 0-3.5 1.56-3.5 3.5S10.06 13 12 13s3.5-1.56 3.5-3.5S13.94 6 12 6zm0 5c-.83 0-1.5-.67-1.5-1.5S11.17 8 12 8s1.5.67 1.5 1.5S12.83 11 12 11z"></path></svg></a>
+            </li>
+                                  </ul>
+        </div>
+      </div>
+    </div>
+    <div class="sub-brand-nav">
+      <div class="container">
+        <div id="sub-brand">
+          <a class="sub-brand-name align-v-m"
+             href="https://www.nvidia.com/en-us/research/">
+            <img id="sub-brand-logo" src="/modules/custom/nv_core/images/research-navigation-logo-udtm-2.svg" title="Research" alt="Research">
+          </a>
+        </div>
+
+        <div class="sub-brand-item">
+  <span class="sub-brand-link button-dropdown l-1 ws-nw">
+    Research Labs <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    <div class="ic-arrow-dropdown m-hidden"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
+</svg></div>
+  </span>
+  <ul class="dropdown-menu bullet" id="nav" style="min-width: 307px;">
+    <li>
+      <a href="https://research.nvidia.com/research-labs" class="global-nav-link"><div class="title no-submenu">All Research Labs</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/toronto-ai/" class="global-nav-link"><div class="title no-submenu">Spatial Intelligence</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/adlr/" class="global-nav-link"><div class="title no-submenu">Applied Research</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/avg/" class="global-nav-link"><div class="title no-submenu">Autonomous Vehicles</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/dir/" class="global-nav-link"><div class="title no-submenu">Deep Imagination</div></a>
+    </li>
+    <span class="nvArrow" style="left: 113px;"></span>
+  </ul>
+</div>
+<div class="sub-brand-item">
+  <a class="sub-brand-link" href="/publications">
+    Publications
+  </a>
+</div>
+<div class="sub-brand-item">
+  <span class="sub-brand-link button-dropdown l-1 ws-nw">
+    AI Playground <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    <div class="ic-arrow-dropdown m-hidden"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
+</svg></div>
+  </span>
+  <ul class="dropdown-menu bullet" id="nav" style="min-width: 212px;">
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/ai-playground/" class="global-nav-link"><div class="title no-submenu">New and Featured</div></a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/ai-art-gallery/" class="global-nav-link"><div class="title no-submenu">AI Art Gallery</div></a>
+    </li>
+    <li>
+      <a href="https://catalog.ngc.nvidia.com/?filters=&orderBy=weightPopularDESC&query=" class="global-nav-link"><div class="title no-submenu">NGC Demos</div></a>
+    </li>
+    <span class="nvArrow" style="left: 113px;"></span>
+  </ul>
+</div>
+<div class="sub-brand-item">
+  <span class="sub-brand-link button-dropdown l-1 ws-nw">
+    Research Areas <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    <div class="ic-arrow-dropdown m-hidden"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
+</svg></div>
+  </span>
+  <ul class="dropdown-menu bullet" id="nav" style="min-width: 227px;">
+    <li>
+      <a href="https://research.nvidia.com/research-area/machine-learning-artificial-intelligence" class="global-nav-link"><div class="title no-submenu">AI &amp; Machine Learning</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/labs/toronto-ai/" class="global-nav-link"><div class="title no-submenu">3D Deep Learning</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/research-area/computer-vision" class="global-nav-link"><div class="title no-submenu">Computer Vision</div></a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/research-area/robotics" class="global-nav-link"><div class="title no-submenu">Robotics</div></a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/research-areas/" class="global-nav-link"><div class="title no-submenu">All Areas</div></a>
+    </li>
+    <span class="nvArrow" style="left: 127px;"></span>
+  </ul>
+</div>
+<div class="sub-brand-item">
+  <span class="sub-brand-link button-dropdown l-1">
+    Careers <i class="fa fa-chevron-right" aria-hidden="true"></i>
+    <div class="ic-arrow-dropdown m-hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path>
+</svg>    </div>
+  </span>
+  <ul class="dropdown-menu bullet" id="nav" style="min-width: 162px;">
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/academic/" class="global-nav-link">
+        <div class="title no-submenu">Academic Collaborations</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/government/" class="global-nav-link">
+        <div class="title no-submenu">Government Collaborations</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/graduate-fellowships" class="global-nav-link">
+        <div class="title no-submenu">Graduate Fellowship</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/internships/" class="global-nav-link">
+        <div class="title no-submenu">Internships</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite?source=eventiccv2021" class="global-nav-link">
+        <div class="title no-submenu">Research Openings</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.nvidia.com/en-us/research/research-scientists/" class="global-nav-link">
+        <div class="title no-submenu">Research Scientists</div>
+      </a>
+    </li>
+    <li>
+      <a href="https://research.nvidia.com/people" class="global-nav-link">
+        <div class="title no-submenu">Meet the Team</div>
+      </a>
+    </li>
+    <span class="nvArrow" style="left: 64px;"></span>
+  </ul>
+</div>
+<div class="sub-brand-item">
+  <a href="https://www.nvidia.com/en-us/research/inquiries/" class="sub-brand-link">Licensing</a>
+</div>
+<style>
+  .ws-nw {
+    white-space: nowrap;
+  }
+</style>
+
+        <div class="mobile-menu-btn">
+          <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-menu" aria-controls="offcanvas-menu">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="search-overlay"></div>
+
+<div class="search-main-section">
+  <div class="search-section">
+    <div class="search_white">
+      <div class="search-outter-container hide-wid-0">
+        <div class="search-inner-container">
+          <form class="search-block-form" data-drupal-selector="search-block-form" action="/search/node" method="get" id="search-block-form" accept-charset="UTF-8">
+  <div class="form-item js-form-item form-type-search js-form-type-search form-item-keys js-form-item-keys form-no-label form-group">
+      <label for="edit-keys" class="control-label sr-only">Search</label>
+  
+  
+  <div class="input-group"><input title="Enter the terms you wish to search for." data-drupal-selector="edit-keys" class="form-search form-control" placeholder="Search" type="search" id="edit-keys" name="keys" value="" size="15" maxlength="128" /><span class="input-group-btn"><button type="submit" value="Search" class="button js-form-submit form-submit btn-primary btn">Search</button></span></div>
+
+  
+  
+      <div id="edit-keys--description" class="description help-block">
+      Enter the terms you wish to search for.
+    </div>
+  </div>
+<div class="form-actions form-group js-form-wrapper form-wrapper" data-drupal-selector="edit-actions" id="edit-actions"></div>
+
+</form>
+
+          <div class="search-icon-container">
+            <svg class="nav-search-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <path fill="none" d="M0 0h24v24H0V0z"></path>
+    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+</svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </section>
+
+
+  </div>
+
+
+
+<div role="main" class="main-container js-quickedit-main-content">
+    
+              <div class="container">
+        <div class="row">
+          <div class="col-sm-12 highlighted"></div>
+        </div>
+      </div>
+      
+        <a id="main-content"></a>
+      <div class="region region-content">
+      <section data-history-node-id="4877" class="node-type-publication node-vm-full is-promoted clearfix">
+  
+    
+
+  <div class="container ">
+  <div class="row">
+    <div class="col-sm-12 main-region">
+          <ol class="breadcrumb">
+          <li >
+                  <a href="/publications">Publications</a>
+              </li>
+          <li  class="active">
+                  Play4D: Accelerated and Interactive Free-viewpoint Video Streaming for Virtual Reality and Light Field Displays
+              </li>
+      </ol>
+
+<section class="l-b-node-publication-title block block-layout-builder block-field-blocknodepublicationtitle clearfix">
+  
+    
+
+      
+<span class="publication-title"><h1>Play4D: Accelerated and Interactive Free-viewpoint Video Streaming for Virtual Reality and Light Field Displays</h1>
+</span>
+
+  </section>
+
+<section class="l-b-node-publication-field_image block block-layout-builder block-field-blocknodepublicationfield-image clearfix">
+  
+    
+
+      
+                            <div class="field field--name-field-image field--type-image field--label-hidden field--item">
+          <img loading="lazy" 
+               src="&#x2F;sites&#x2F;default&#x2F;files&#x2F;publications&#x2F;output_6.gif" 
+               alt="" 
+               class="img-responsive field-gif--original" 
+               style="max-width: 1090px; width: 100%; height: auto;">
+        </div>
+            
+  </section>
+
+<section class="l-b-node-publication-body block block-layout-builder block-field-blocknodepublicationbody clearfix">
+  
+    
+
+      
+            <div class="field field--name-body field--type-text-with-summary field--label-hidden field--item"><p>We present Play4D, an accelerated and interactive free-viewpoint video (FVV) streaming pipeline for next-generation light field (LF) and virtual reality (VR) displays. Play4D integrates 4D Gaussian Splatting (4DGS) reconstruction, compression and streaming with an efficient radiance field rendering algorithm to enable live 6-DoF user interaction with photorealistic dynamic scenes. Our demo showcases two complementary experiences: Play4D-LF, a walk-up station offering interactive multi-view playback on a LF display; and Play4D-VR, a headset-based experience that enables full volumetric navigation through 4DGS content.</p>
+</div>
+      
+  </section>
+
+<section class="l-b-node-publication-field_authors block block-layout-builder block-field-blocknodepublicationfield-authors clearfix">
+  
+    
+
+      
+  <div class="field field--name-field-authors field--type-nv-authorfield field--label-above">
+    <div class="field--label"><h2>Authors</h2></div>
+          <div class="field--items">
+              <div class="field--item"><a href="/person/jonghyun-kim" hreflang="und">Jonghyun Kim</a></div>
+          <div class="field--item"><a href="/person/michael-stengel" hreflang="und">Michael Stengel</a></div>
+          <div class="field--item"><a href="/person/amrita-mazumdar" hreflang="und">Amrita Mazumdar</a></div>
+          <div class="field--item"><a href="/person/tianye-li" hreflang="en">Tianye Li</a></div>
+          <div class="field--item"><a href="/person/cheng-sun" hreflang="en">Cheng Sun</a></div>
+          <div class="field--item"><a href="/person/david-luebke" hreflang="und">David Luebke</a></div>
+          <div class="field--item"><a href="/person/shalini-de-mello" hreflang="und">Shalini De Mello</a></div>
+              </div>
+      </div>
+
+  </section>
+
+<section class="l-b-node-publication-field_publication_date block block-layout-builder block-field-blocknodepublicationfield-publication-date clearfix">
+  
+    
+
+      
+  <div class="field field--name-field-publication-date field--type-datetime field--label-inline">
+    <div class="field--label"><h2>Publication Date</h2></div>
+              <div class="field--item"><time datetime="2025-12-15T12:00:00Z">Monday, December 15, 2025</time>
+</div>
+          </div>
+
+  </section>
+
+<section class="l-b-node-publication-field_published_in block block-layout-builder block-field-blocknodepublicationfield-published-in clearfix">
+  
+    
+
+      
+  <div class="field field--name-field-published-in field--type-link field--label-above">
+    <div class="field--label"><h2>Published in</h2></div>
+              <div class="field--item"><a href="https://sa2025.conference-schedule.org/presentation/?id=emt_131&amp;sess=sess182">ACM SIGGRAPH Emerging Technologies 2025</a></div>
+          </div>
+
+  </section>
+
+<section class="l-b-node-publication-field_id_res_area block block-layout-builder block-field-blocknodepublicationfield-id-res-area clearfix">
+  
+    
+
+      
+  <div class="field field--name-field-id-res-area field--type-entity-reference field--label-above">
+    <div class="field--label"><h2>Research Area</h2></div>
+          <div class="field--items">
+              <div class="field--item"><a href="/research-area/machine-learning-artificial-intelligence" hreflang="und">Artificial Intelligence and Machine Learning </a></div>
+          <div class="field--item"><a href="/research-area/computer-graphics" hreflang="und">Computer Graphics</a></div>
+          <div class="field--item"><a href="/research-area/computer-vision" hreflang="und">Computer Vision</a></div>
+          <div class="field--item"><a href="/research-area/virtual-augmented-reality" hreflang="und">VR, AR and Display Technology</a></div>
+              </div>
+      </div>
+
+  </section>
+
+<section class="l-b-node-publication-field_extrefs block block-layout-builder block-field-blocknodepublicationfield-extrefs clearfix">
+  
+    
+
+      
+  <div class="field field--name-field-extrefs field--type-link field--label-inline">
+    <div class="field--label"><h2>External Links</h2></div>
+          <div class="field--items">
+              <div class="field--item"><a href="https://research.nvidia.com/labs/amri/projects/play4d/">Project Page</a></div>
+              </div>
+      </div>
+
+  </section>
+
+<section class="l-b-node-publication-field_intrefs block block-layout-builder block-field-blocknodepublicationfield-intrefs clearfix">
+  
+    
+
+      
+  <div class="field field--name-field-intrefs field--type-file field--label-above">
+    <div class="field--label"><h2>Uploaded Files</h2></div>
+          <div class="field--items">
+              <div class="field--item"><span class="file file--mime-application-pdf file--application-pdf icon-before"><span class="file-icon"><span class="icon glyphicon glyphicon-file text-primary" aria-hidden="true"></span></span><span class="file-link"><a href="https://d1qx31qr3h6wln.cloudfront.net/publications/SIGGRAPH_ASIA_2025_E_Tech__2_page_%20%281%29.pdf" type="application/pdf; length=739009" title="Open file in new window" target="_blank">SIGGRAPH Asia Emerging Technologies Abstract</a></span><span class="file-size">721.69 KB</span></span></div>
+              </div>
+      </div>
+
+  </section>
+
+<section class="l-b-node-publication-field_copyright block block-layout-builder block-field-blocknodepublicationfield-copyright clearfix">
+  
+    
+
+      
+  <div class="field field--name-field-copyright field--type-text-long field--label-above">
+    <div class="field--label"><h2>Copyright</h2></div>
+              <div class="field--item"><p>Copyright by the Association for Computing Machinery, Inc. Permission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, to republish, to post on servers, or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from Publications Dept, ACM Inc., fax +1 (212) 869-0481, or <a href="mailto:permissions@acm.org">permissions@acm.org</a>. The definitive version of this paper can be found at ACM's Digital Library <a href="http://www.acm.org/dl/">http://www.acm.org/dl/</a>.</p>
+</div>
+          </div>
+
+  </section>
+
+
+    </div>
+  </div>
+</div>
+</section>
+
+
+  </div>
+
+  </div>
+
+      <footer class="footer" role="contentinfo">
+      <div class="container">
+          <div class="region region-footer">
+    <section id="block-footerblock" class="block block-nv-core block-nv-footer-block clearfix">
+  
+    
+
+      Copyright © 2026 NVIDIA Corporation <span class="separator">|</span> <a href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/">Privacy Policy</a> <span class="separator">|</span> <a href="https://www.nvidia.com/en-us/about-nvidia/privacy-center/">Your Privacy Choices</a> <span class="separator">|</span> <a href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/">Terms of Service</a> <span class="separator">|</span> <a href="https://www.nvidia.com/en-us/about-nvidia/accessibility/">Accessibility</a> <span class="separator">|</span> <a href="https://www.nvidia.com/en-us/about-nvidia/company-policies/">Corporate Policies</a> <span class="separator">|</span> <a href="https://www.nvidia.com/en-us/contact/">Contact</a>
+  </section>
+
+
+  </div>
+
+      </div>
+    </footer>
+  
+  </div>
+
+
+<script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"node\/4877","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"en"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"ajaxPageState":{"libraries":"eJxFyUEOwzAIRNELWWHT-yCoUeTWBgtIlNy-XaTN7s88NstIpwn8K5wu2LRl-V8PHFapA8dVS23UbV3oRUeRI3vTN1Tf5peuWXTHp7kAVWPBmgN9UxW_IUIy8PbedilxRsoAppAPIwE90w","theme":"nvidia","theme_token":null},"ajaxTrustedUrl":{"\/search\/node":true},"data":{"extlink":{"extTarget":true,"extTargetAppendNewWindowLabel":"(opens in a new window)","extTargetNoOverride":false,"extNofollow":false,"extNoreferrer":true,"extFollowNoOverride":false,"extClass":"0","extLabel":"(link is external)","extImgClass":false,"extSubdomains":false,"extExclude":"","extInclude":"","extCssExclude":".region-navigation","extCssInclude":"","extCssExplicit":"","extAlert":false,"extAlertText":"This link will take you to an external web site. We are not responsible for their content.","extHideIcons":false,"mailtoClass":"0","telClass":"","mailtoLabel":"(link sends email)","telLabel":"(link is a phone number)","extUseFontAwesome":false,"extIconPlacement":"append","extFaLinkClasses":"fa fa-external-link","extFaMailtoClasses":"fa fa-envelope-o","extAdditionalLinkClasses":"","extAdditionalMailtoClasses":"","extAdditionalTelClasses":"","extFaTelClasses":"fa fa-phone","whitelistedDomains":[],"extExcludeNoreferrer":""}},"bootstrap":{"forms_has_error_value_toggle":1,"modal_animation":1,"modal_backdrop":"true","modal_focus_input":1,"modal_keyboard":1,"modal_select_text":1,"modal_show":1,"modal_size":""},"user":{"uid":0,"permissionsHash":"60a72344f56383dddf432037b9b13a145af90fb15c629e079d33980147319df4"}}</script>
+<script src="/sites/default/files/js/js_u4hULAUrErRz49HYyxRKSWT5zifIjGWbCgViiFdRoZU.js?scope=footer&amp;delta=0&amp;language=en&amp;theme=nvidia&amp;include=eJxFyUsOwzAIRdENWfGk-0E4oIrEAQtIlOW3g3xm973TzDLScdR2FwxnEJUsz_WBzQh7bXHVRILdvhMueBY-s4uulXwff7pm0QNmc65I1hgoN_Bdlf2FCM6A17sc_ANWnDk4"></script>
+
+
+  <!-- OneTrust gpc signal detection script start -->
+  <script type="text/javascript">
+    (function() {
+      "use strict";
+      const observer = new MutationObserver(function (mutations, mutationInstance) {
+        const otPreferencePanel = document.getElementById('onetrust-pc-sdk');
+        if(otPreferencePanel) {
+          const otBanner = document.getElementById('onetrust-banner-sdk');
+          if (otBanner && navigator.globalPrivacyControl) {
+            setNvDone();
+          }
+          mutationInstance.disconnect();
+        }
+      });
+      observer.observe(document, {
+        childList: true,
+        subtree: true
+      });
+
+      const setNvDone = function () {
+        // Hide elements by their IDs
+        document.getElementById('onetrust-accept-btn-handler').style.display = 'none';
+        document.getElementById('onetrust-reject-all-handler').style.display = 'none';
+
+        const doneButton = document.createElement('button');
+        doneButton.id = 'nv-done-btn-handler';
+        doneButton.textContent = 'Done';
+
+        document.getElementById('onetrust-button-group').appendChild(doneButton);
+
+        // Add click event listener to the new button
+        doneButton.addEventListener('click', function () {
+          OneTrust.Close();
+        });
+      };
+    })();
+
+  </script>
+  <!-- OneTrust gpc signal detection script end -->
+</body>
+</html>

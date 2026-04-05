@@ -1,0 +1,366 @@
+<!DOCTYPE HTML>
+
+<html>
+
+	<!-- Head -->
+
+	<head>
+		<title>UMA: Ultra-detailed Human Avatars via Multi-level Surface Alignment</title>
+		<link rel="icon" href="images/logos/manbo.png" type="image/x-icon"/>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<script src="https://unpkg.com/@panzoom/panzoom@4.5.1/dist/panzoom.min.js"></script>
+
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"></script>
+
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+		</noscript>
+	</head>
+
+	<!-- Body -->
+
+	<body class="landing">
+
+		<!-- Header -->
+
+			<header id="header" style="width: 100%; text-align: center; padding: 10px 0;">
+			<div style="margin: 0 auto; display: flex; justify-content: center; align-items: center; gap: 40px;">
+				<a href="https://www.mpi-inf.mpg.de/home/">
+				<img src="images/logos/mpi-inf-print-CMYK.svg" height="50px" alt="MPI Logo">
+				</a>
+				<a href="https://saarland-informatics-campus.de/">
+				<img src="images/logos/sic-logo.webp" height="50px" alt="SIC Logo">
+				</a>
+				<a href="https://www.via-center.science/">
+				<img src="images/logos/via_logo.png" height="70px" alt="VIA Logo">
+				</a>
+				<a href="https://gvdh.mpi-inf.mpg.de/">
+				<img src="images/logos/gvdh.jpg" height="70px" alt="GvDH Logo">
+				</a>
+			</div>
+			</header>
+
+		<!-- Main -->
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			<center>
+			<section id="bannel">
+	            <div class="container">
+					<h2>
+						<img src="images/logos/manbo.png" alt="UMA Icon" style="height: 40px; width: auto; vertical-align: middle;">
+						<span style="color: #F1C40F ;">UMA</span>: 
+						<span style="color: #F1C40F ;">U</span>ltra-detailed Human Avatars via 
+						<span style="color: #F1C40F ;">M</span>ulti-level Surface 
+						<span style="color: #F1C40F ;">A</span>lignment
+					</h2> 
+					</br>
+					<div class="column has-text-centered">
+						<h4><a href="https://kv2000.github.io/" target="_blank">Heming Zhu</a><sup>1</sup>&#160;&#160;</h4>
+						<h4><a href="https://kv2000.github.io/" target="_blank">Guoxing Sun</a><sup>1</sup>&#160;&#160;</h4>
+						<h4><a href="http://www.mpi-inf.mpg.de/~theobalt/" target="_blank">Christian Theobalt</a><sup>1,2</sup></h4>
+						<h4><a href="http://people.mpi-inf.mpg.de/~mhaberma/" target="_blank">Marc Habermann</a><sup>1,2,&ddagger;</sup>&#160;&#160;</h4>
+			    	</div>
+				<h4><a href="https://www.mpi-inf.mpg.de/departments/visual-computing-and-artificial-intelligence"><sup>1</sup>Max Planck Institute for Informatics, Saarland Informatics Campus,</a></h4>
+				<h4 ><a href="https://www.via-center.science/"><sup>2</sup>SaarbrÃ¼cken Research Center for Visual Computing, Interaction and AI</a></h4>
+				<p style="font-size:15px; margin-bottom:10px !important;"><sup>&ddagger;</sup>Corresponding author.</p>
+
+				<div class="column has-text-centered">
+					<div class="publication-links">
+					  <!-- PDF Link. -->
+					  <span class="link-block" style="max-width: 80px !important;">
+						<a href="https://arxiv.org/abs/2506.01802"
+						   class="external-link button is-normal is-rounded is-dark" style="background-color:green">
+						  <span class="icon">
+							  <i class="fas fa-file-pdf"></i>
+						  </span>
+						  <span>Paper</span>
+						</a>
+					  </span>
+					  <!-- Code Link. -->
+					  <span class="link-block" style="max-width: 80px !important;">
+						<a href="" class="external-link button is-normal is-rounded is-dark"  style="background-color:gray">
+						  <span class="icon">
+							  <i class="fa-brands fa-github""></i>
+						  </span>
+						  <span> Demo Code (Coming Soon) </span>
+						  </a>
+					  </span>
+					  <!-- Dataset Link. -->
+					  <span class="link-block" style="max-width: 80px !important;">
+						<a href=""
+						   class="external-link button is-normal is-rounded is-dark" style="background-color:gray">
+						  <span class="icon">
+							  <i class="fas fa-database"></i>
+						  </span>
+						  <span>Data(Coming Soon)</span>
+						  </a>
+					</div>
+				</div>
+				<!-- </div> -->
+			</section>
+			</center>
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			<!-- Here we have the teaser video -->
+			<section class="wrapper style1 special">
+			<div class="container" id="main_video">
+				<div class="column has-text-centered"></div>
+				<video
+				id="teaser_video"
+				width="100%"
+				height="auto"
+				controls
+				preload="metadata"
+				poster="images/uma_images/teaser_video_image.png"  
+				>
+				<source id="video_source" type="video/mp4">
+				Your browser does not support the video tag.
+				</video>
+			</div>
+			</section>
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+		    
+			<section class="wrapper style2 special">
+			<div class="container" id="main_video">
+				<div class="column has-text-centered"></div>
+				<h2 style="text-align:center; margin-bottom:10px; margin-top:0px" >Overview</h2>
+				<img width="100%" src="images/uma_images/teaser_ver_1.jpg">
+				<p style="font-size: 16pt; line-height:30px;" align="left" >
+					Figure. 1: Given skeletal poses and a virtual camera, UMA renders ultra-detailed clothed human appearance and synthesizes high-fidelity geometry. 
+					Notably, UMA enables users to digitally zoom in, allowing close inspection of texture details or even fine yarn-level patterns. 
+					Additionally, we introduce a new dataset featuring multi-view 6K video recordings, capturing subjects wearing clothing with challenging texture patterns and rich dynamics. 
+					The fidelity of the reconstructed avatars makes them particularly suitable for virtual and mixed reality, where users can closely observe fine-grained appearance details.
+				</p>
+			</div>
+			</section>
+		
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+			<!-- Your section -->
+			<section class="wrapper style1 special">
+			<div class="container" id="main_video">
+				<h2 style="text-align:center; margin-bottom:10px; margin-top:0px;">Pipeline</h2>
+
+				<div class="column has-text-centered"></div>
+				<img width="100%" src="images/uma_images/pipeline_fin.jpg" alt="Pipeline Diagram">
+
+				<p style="font-size: 16pt; line-height:30px;" align="left">
+				Figure 2. UMA takes skeletal motion and the camera view as input and generates high-fidelity geometry and appearance. 
+				For avatar representation, to address the stochasticity of the clothing dynamics that cannot be modeled by the skeletal motions, 
+				we inject a learnable latent code $\mathbf{z}_f$ (zero latent $\mathbf{z}_{0}$ for testing) into the drivable template $\mathbf{V}_f$.
+				A texel super-resolution module $\mathcal{E}_\mathrm{sr}$ is adopted to densify the animatable Gaussian textures.
+				For multi-level surface alignment, we supervise the surface geometry at both the vertex and texel levels using novel supervision derived from a foundational 2D point tracker.
+				Specifically, the 2D point tracks $\mathbf{P}_{f,c,i}$ between the rasterized and ground-truth images obtained from the tracker are lifted and aggregated into 3D correspondences $\tilde{\mathbf{P}}_{f,i}$ across multiple views using the drivable template $\mathbf{V}_f$.
+				</p>
+			</div>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<section class="wrapper style2 special">
+			<div class="container" id="main_video">
+				<h2 style="text-align:center; margin-bottom:10px; margin-top:0px;">Main Video (with Narration)</h2>
+				<div class="column has-text-centered"></div>
+
+				<!-- preload="metadata" loads only headers + first frame (not the full video) -->
+				<video width="100%" height="auto" controls preload="metadata" poster="images/uma_images/video_poster.png">
+				<source src="videos/video_full_res.mp4" type="video/mp4">
+				Your browser does not support the video tag.
+				</video>
+			</div>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->			
+			<section class="wrapper style1 special">
+				<h2 style="text-align:center; margin-bottom:10px; margin-top:0px" >Free Viewpoint Rendering</h2>
+				<center>
+					<div class="container" style="margin-bottom:-8px;">
+						<video loop width=33% height=auto controls autoplay muted playsinline style="margin-bottom: 0px;" >
+							<source src="videos/free_view_0_web.mp4" type="video/mp4">
+						</video>
+						<video loop width=33% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/free_view_2_web.mp4" type="video/mp4">
+						</video>
+						<video loop width=33% height=auto controls autoplay muted style="margin-bottom: 0px;">
+							<source src="videos/free_view_1_web.mp4" type="video/mp4">
+						</video>
+					</div>
+				</center>
+			</section>
+
+			<section class="wrapper style2 special">
+			<h2 style="text-align:center; margin-bottom:10px; margin-top:0px">Detailed Geometry</h2>
+
+			<div class="container" id="main_video" style="margin-bottom:0!important;">
+				<p style="font-size:16pt; line-height:30px; margin-bottom:10px!important;" align="left">
+				UMA generates ultra-detailed geometry that captures fine clothing wrinkles, sharing the same triangulation and in correspondence over time.
+				</p>
+				<div style="
+				display:flex;
+				width:100%;
+				gap:0;
+				align-items:center;
+				justify-content:space-between;
+				box-sizing:border-box;
+				">
+				<video class="texture-vid" autoplay controls loop muted playsinline preload="auto" style="flex:0 0 33%; max-width:33%; height:auto; margin:0; padding:0;">
+					<source src="videos/geo_0.mp4" type="video/mp4">
+				</video>
+
+				<video class="texture-vid" autoplay controls loop muted playsinline preload="auto" style="flex:0 0 33%; max-width:33%; height:auto; margin:0; padding:0;">
+					<source src="videos/geo_1.mp4" type="video/mp4">
+				</video>
+
+				<video class="texture-vid" autoplay controls loop muted playsinline preload="auto" style="flex:0 0 33%; max-width:33%; height:auto; margin:0; padding:0;">
+					<source src="videos/geo_2.mp4" type="video/mp4">
+				</video>
+				</div>
+			</div>
+			</section>
+
+			<section class="wrapper style1 special">
+			<h2 style="text-align:center; margin-bottom:10px; margin-top:0px">Motion Retargeting</h2>
+
+			<div class="container" id="main_video" style="margin-bottom:0!important;">
+				<p style="font-size:16pt; line-height:30px; margin-bottom:10px!important;" align="left">
+				UMA allows to retarget the motion from the source character (<b>first column</b>)
+				to the target character (<b>second and the third column</b>), while preserving photo-real clothing wrinkles and plausible dynamics.
+				Please <b>enable fullscreen mode</b> for better viewing experience.
+				</p>
+				<div style="
+				display:flex;
+				width:100%;
+				gap:0;
+				align-items:center;
+				justify-content:space-between;
+				box-sizing:border-box;
+				">
+				<video class="retarget-vid" muted controls preload="auto" style="flex:0 0 33%; max-width:33%; height:auto; margin:0; padding:0;">
+					<source src="videos/retarget_0_web.mp4"  type="video/mp4">
+				</video>
+				<video class="retarget-vid" muted controls playsinline preload="auto" style="flex:0 0 33%; max-width:33%; height:auto; margin:0; padding:0;">
+					<source src="videos/retarget_1_web.mp4" type="video/mp4">
+				</video>
+				<video class="retarget-vid" muted controls playsinline preload="auto" style="flex:0 0 33%; max-width:33%; height:auto; margin:0; padding:0;">
+					<source src="videos/retarget_2_web.mp4" type="video/mp4">
+				</video>
+				</div>
+			</div>
+			</section>
+
+			<section class="wrapper style2 special">
+			<h2 style="text-align:center; margin-bottom:10px; margin-top:0px">Texture Editing</h2>
+
+			<div class="container" id="main_video" style="margin-bottom:0!important;">
+				<p style="font-size:16pt; line-height:30px; margin-bottom:10px!important;" align="left">
+    			Thanks to the texel-aligned consistent geometry, UMA enables consistent texture editing.
+				Notably, the inserted texture deforms seamlessly with the clothing wrinkles and remains consistently anchored to the characters' original texture. 
+				</p>
+				<div style="
+				display:flex;
+				width:100%;
+				gap:0;
+				align-items:center;
+				justify-content:space-between;
+				box-sizing:border-box;
+				">
+				<video class="texture-vid" autoplay controls loop muted playsinline preload="auto" style="flex:0 0 33%; max-width:33%; height:auto; margin:0; padding:0;">
+					<source src="videos/texture_0_web.mp4" type="video/mp4">
+				</video>
+
+				<video class="texture-vid" autoplay controls loop muted playsinline preload="auto" style="flex:0 0 33%; max-width:33%; height:auto; margin:0; padding:0;">
+					<source src="videos/texture_1_web.mp4" type="video/mp4">
+				</video>
+
+				<video class="texture-vid" autoplay controls loop muted playsinline preload="auto" style="flex:0 0 33%; max-width:33%; height:auto; margin:0; padding:0;">
+					<source src="videos/texture_2_web.mp4" type="video/mp4">
+				</video>
+				</div>
+			</div>
+			</section>
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<section class="wrapper style1">
+				<div class="container " style="text-align: justify;">
+					<h2 style="text-align:center" >Citation</h2>
+					<div class="section bibtex">
+						<pre>
+							
+@article{zhu2025ultra,
+  title={UMA: Ultra-detailed Human Avatars via Multi-level Surface Alignment},
+  author={Zhu, Heming and Sun, Guoxing and Theobalt, Christian and Habermann, Marc},
+  journal={arXiv preprint arXiv:2506.01802},
+  year={2025}
+}
+						</pre>
+					</div>
+				</div>
+			</section>
+
+			<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+			<!-- Footer -->
+
+			<footer id="footer">
+				<div class="container" style="width:40%">
+					<ul class="copyright">
+						<li>&copy; Heming Zhu</li>
+						<li><a href="https://imprint.mpi-klsb.mpg.de/inf/vcai.mpi-inf.mpg.de/">Imprint</a></li>
+						<li><a href="https://data-protection.mpi-klsb.mpg.de/inf/vcai.mpi-inf.mpg.de?lang=en">Data Protection</a></li>
+						<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
+					</ul>
+				</div>
+			</footer>
+	</body>
+</html>
+
+
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+  svg: { fontCache: 'global' }
+};
+
+
+// List of possible videos
+const videos = [
+"videos/teaser_video_fin_track_0.mp4",
+"videos/teaser_video_fin_track_1.mp4"
+];
+
+const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+const video = document.getElementById("teaser_video");
+const source = document.getElementById("video_source");
+source.src = randomVideo;
+video.load();
+
+const retarget_videos = document.querySelectorAll('.retarget-vid');
+let loadedCount = 0;
+
+// Wait until all videos are ready to play
+retarget_videos.forEach(v => {
+v.loop = true; // enable looping
+v.addEventListener('canplaythrough', () => {
+	loadedCount++;
+	if (loadedCount === retarget_videos.length) {
+	// All videos are ready â start together
+	retarget_videos.forEach(vid => {
+		vid.currentTime = 0; // reset to start frame
+		vid.play().catch(err => console.log('Play error:', err));
+	});
+	}
+}, { once: true });
+});
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
