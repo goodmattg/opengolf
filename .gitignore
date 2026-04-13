@@ -26,3 +26,25 @@ dist-ssr
 # Environment variables
 .env.base
 .env.local
+
+# Python
+.python-version
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.pyc
+*.pyo
+*.pyd
+
+# Runtime artifacts
+.cache/
+external/
+models/
+var/
+tmp/
+rf-detr-*.pt
+*.incomplete
+
+*.egg-info

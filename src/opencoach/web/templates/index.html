@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>OpenCoach</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='app.css') }}">
+  </head>
+  <body>
+    <main class="page">
+      <section class="band">
+        <div class="headline">
+          <h1>OpenCoach</h1>
+          <p>Configure the camera, watch the live view, and capture swings with local RF-DETR and SAM 3D Body.</p>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="panel">
+          <h2>Camera</h2>
+          <form method="post" action="/camera/connect" class="form-grid">
+            <label>
+              Device
+              <input name="device_path" value="{{ current_config.device_path }}">
+            </label>
+            <label>
+              Width
+              <input name="width" type="number" value="{{ current_config.width }}">
+            </label>
+            <label>
+              Height
+              <input name="height" type="number" value="{{ current_config.height }}">
+            </label>
+            <label>
+              FPS
+              <input name="fps" type="number" value="{{ current_config.fps }}">
+            </label>
+            <label>
+              Pixel Format
+              <input name="pixel_format" value="{{ current_config.pixel_format }}">
+            </label>
+            <label class="checkbox-row">
+              <input name="commentary_enabled" type="checkbox" {% if state.commentary_enabled %}checked{% endif %}>
+              Commentary enabled
+            </label>
+
+            <h3>Mat ROI</h3>
+            <label>
+              Mat X
+              <input name="mat_x" type="number" value="{{ state.snapshot.mat_region.x if state.snapshot.mat_region else '' }}">
+            </label>
+            <label>
+              Mat Y
+              <input name="mat_y" type="number" value="{{ state.snapshot.mat_region.y if state.snapshot.mat_region else '' }}">
+            </label>
+            <label>
+              Mat Width
+              <input name="mat_width" type="number" value="{{ state.snapshot.mat_region.width if state.snapshot.mat_region else '' }}">
+            </label>
+            <label>
+              Mat Height
+              <input name="mat_height" type="number" value="{{ state.snapshot.mat_region.height if state.snapshot.mat_region else '' }}">
+            </label>
+
+            <h3>Models</h3>
+            <label>
+              RF-DETR Variant
+              <select name="rf_detr_variant">
+                {% for variant in ["nano", "small", "medium", "large", "xlarge", "2xlarge"] %}
+                <option value="{{ variant }}">{{ variant }}</option>
+                {% endfor %}
+              </select>
+            </label>
+            <label>
+              SAM 3D Body Repo
+              <input name="sam3_body_repo_path" value="external/sam-3d-body">
+            </label>
+            <label>
+              SAM 3D Body Checkpoint
+              <input name="sam3_body_checkpoint_path" value="models/sam-3d-body-dinov3/model.ckpt">
+            </label>
+            <label>
+              SAM 3D Body MHR Asset
+              <input name="sam3_body_mhr_path" value="models/sam-3d-body-dinov3/assets/mhr_model.pt">
+            </label>
+            <label>
+              Piper Voice Model
+              <input name="piper_voice_model_path" value="">
+            </label>
+
+            <div class="button-row">
+              <button type="submit">Connect</button>
+            </div>
+          </form>
+
+          <form method="post" action="/camera/disconnect">
+            <button type="submit" class="secondary">Disconnect</button>
+          </form>
+        </div>
+
+        <div class="panel preview-panel">
+          <h2>Live Preview</h2>
+          <img id="preview" src="/camera/stream.mjpeg" alt="Live camera preview">
+          <div class="status-list">
+            <div><strong>Camera:</strong> <span id="camera-status">{{ "connected" if state.camera.connected else "disconnected" }}</span></div>
+            <div><strong>Phase:</strong> <span id="phase">{{ state.snapshot.golfer_phase }}</span></div>
+            <div><strong>Summary:</strong> <span id="summary">{{ state.snapshot.summary }}</span></div>
+            <div><strong>Address:</strong> <span id="address">{{ "armed" if state.live_swing.address_on else "idle" }}</span></div>
+            <div><strong>Recording:</strong> <span id="recording">{{ "on" if state.live_swing.recording else "off" }}</span></div>
+            <div><strong>Buffered Frames:</strong> <span id="buffered-frames">{{ state.live_swing.buffered_frames }}</span></div>
+            <div><strong>Latest Swing:</strong> <span id="latest-swing">{{ state.recent_swings[0].state if state.recent_swings else "none" }}</span></div>
+            <div><strong>Last Commentary:</strong> <span id="commentary">{{ state.last_commentary.text if state.last_commentary else "none" }}</span></div>
+            <div><strong>Error:</strong> <span id="error">{{ state.last_error or state.camera.last_error or "none" }}</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Runtime</h2>
+          <div class="runtime-grid">
+            {% for model in state.models %}
+            <div class="runtime-item">
+              <strong>{{ model.name }}</strong>
+              <span>{{ "ready" if model.ready else "not ready" }}</span>
+              <span>{{ model.detail or "unknown" }}</span>
+            </div>
+            {% endfor %}
+            {% if not state.models %}
+            <div class="runtime-item">
+              <strong>models</strong>
+              <span>not configured</span>
+              <span>connect the camera to start the pipeline</span>
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="runtime-grid" id="swing-artifacts">
+            {% if state.recent_swings %}
+            {% for swing in state.recent_swings %}
+            <div class="runtime-item">
+              <strong>{{ swing.swing_id }}</strong>
+              <span>{{ swing.state }}</span>
+              <span>{{ swing.overlay_video_path or swing.input_video_path or "pending" }}</span>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="runtime-item">
+              <strong>swings</strong>
+              <span>none yet</span>
+              <span>completed swings will appear here</span>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      function renderSwings(swings) {
+        const container = document.getElementById("swing-artifacts");
+        if (!swings.length) {
+          container.innerHTML = `
+            <div class="runtime-item">
+              <strong>swings</strong>
+              <span>none yet</span>
+              <span>completed swings will appear here</span>
+            </div>
+          `;
+          return;
+        }
+        container.innerHTML = swings.map((swing) => `
+          <div class="runtime-item">
+            <strong>${swing.swing_id}</strong>
+            <span>${swing.state}</span>
+            <span>${swing.overlay_video_path || swing.input_video_path || "pending"}</span>
+          </div>
+        `).join("");
+      }
+
+      async function refreshState() {
+        const response = await fetch("/api/state");
+        if (!response.ok) {
+          return;
+        }
+        const state = await response.json();
+        document.getElementById("camera-status").textContent = state.camera.connected ? "connected" : "disconnected";
+        document.getElementById("phase").textContent = state.snapshot.golfer_phase;
+        document.getElementById("summary").textContent = state.snapshot.summary;
+        document.getElementById("address").textContent = state.live_swing.address_on ? "armed" : "idle";
+        document.getElementById("recording").textContent = state.live_swing.recording ? "on" : "off";
+        document.getElementById("buffered-frames").textContent = state.live_swing.buffered_frames;
+        document.getElementById("latest-swing").textContent = state.recent_swings.length ? state.recent_swings[0].state : "none";
+        document.getElementById("commentary").textContent = state.last_commentary ? state.last_commentary.text : "none";
+        document.getElementById("error").textContent = state.last_error || state.camera.last_error || "none";
+        renderSwings(state.recent_swings);
+      }
+
+      setInterval(refreshState, 1000);
+      refreshState();
+    </script>
+  </body>
+</html>

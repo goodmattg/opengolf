@@ -15,9 +15,11 @@
 - Open the camera with explicit width, height, fps, and pixel format settings.
 - Render a live preview in the app.
 - Run local `RF-DETR` inference on live frames.
-- Run local `SAM 3D Body` inference on sampled golfer frames.
-- Run local `Gemma 4` multimodal reasoning on grounded scene context.
-- Produce local spoken commentary from the generated text.
+- Detect address, swing start, and swing finish with simple local heuristics.
+- Record swing clips once address is armed.
+- Run local `SAM 3D Body` processing asynchronously on recorded swing clips.
+- Produce local spoken TTS phrases after completed swings.
+- Keep local `Gemma 4` support available, but outside the live v0 swing path.
 
 ## Architecture Guardrails
 
@@ -31,7 +33,10 @@
 - Keep the UI server-rendered and simple.
 - Prefer `V4L2` integration through OpenCV or another vendor-agnostic Linux path.
 - Hosted inference is forbidden for the core demo path. `RF-DETR`, `SAM 3D Body`, and `Gemma 4` must run locally.
+- All model artifacts must live under the repo-root `models/` directory.
+- The default `SAM 3D Body` model target is `facebook/sam-3d-body-dinov3` under `models/sam-3d-body-dinov3/`.
 - Treat the hitting mat as configured operator context in v0 unless a later step proves automatic detection is reliable enough.
+- The live v0 path is `camera -> RF-DETR -> address gate -> clip recording -> async SAM 3D Body overlay -> local TTS phrase`.
 - Keep model integrations behind small adapter boundaries so checkpoints and runtimes can change without rewriting the app.
 
 ## Frontend Constraints
@@ -53,6 +58,7 @@
 - `src/opencoach/tts/` should own speech generation and playback adapters.
 - `src/opencoach/web/` should own routes, templates, and static assets.
 - `dev/` should contain bootstrap and machine-check scripts.
+- `models/` should contain all downloaded or user-provided model artifacts, including RF-DETR weights, SAM 3D Body checkpoints, Gemma snapshots, and Piper voice models.
 - `tests/` should contain the Python test suite.
 
 ## Development Standards
@@ -78,6 +84,6 @@
 ## Immediate Priorities
 
 - Bootstrap the root Python project with `uv`, `ruff`, and Python `3.11`.
-- Confirm local access to `RF-DETR`, `SAM 3D Body`, and `Gemma 4`.
+- Confirm local access to `RF-DETR`, `SAM 3D Body DinoV3`, and `Gemma 4`.
 - Bring up a real `V4L2` camera preview.
-- Wire the live commentary pipeline end to end with local speech output.
+- Wire the live swing-capture pipeline end to end with local speech output and SAM overlay artifacts.

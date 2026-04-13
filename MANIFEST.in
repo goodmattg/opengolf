@@ -1,0 +1,2 @@
+recursive-include src/opencoach/web/templates *.html
+recursive-include src/opencoach/web/static *.css

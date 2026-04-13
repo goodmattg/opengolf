@@ -160,7 +160,7 @@ tests/
 Deliverables:
 
 - copy in `AGENTS.md`
-- add `docs/README.md`
+- add `docs/overview.md`
 - add root `pyproject.toml`
 - add root `.python-version` set to `3.11`
 - add `src/opencoach/` package
@@ -200,7 +200,7 @@ Model dependencies should be kept explicit and pinned, but the `SAM 3D Body` sta
 
 - `detectron2` from a pinned Git revision
 - optional `sam3`
-- gated checkpoint downloads
+- authenticated checkpoint downloads
 
 Schema rules for Phase 0:
 
@@ -265,7 +265,7 @@ V0 expectation:
 Plan:
 
 - support both `facebook/sam-3d-body-vith` and `facebook/sam-3d-body-dinov3`
-- default to `vith` first because it is lighter than the `dinov3` release
+- default to `dinov3` for the demo path because it is the selected repo artifact for OpenCoach v0
 - clone and pin the upstream repo under `external/` or install from a pinned commit in bootstrap
 - build `detectron2` exactly as required by upstream
 - load checkpoints from a configured local model directory
@@ -407,14 +407,14 @@ Action:
 - install `v4l-utils`
 - record the exact supported formats with `v4l2-ctl --list-formats-ext`
 
-### 2. SAM 3D Body access is still gated
+### 2. SAM 3D Body access must stay valid
 
-This blocks the hardest model requirement today.
+Access is approved for `facebook/sam-3d-body-dinov3`, so the remaining risk is runtime bring-up against the local artifacts rather than checkpoint availability.
 
 Action:
 
-- request approval on the Hugging Face repos
-- verify `hf download facebook/sam-3d-body-vith model.ckpt --dry-run`
+- keep `hf` authenticated on this machine
+- verify `models/sam-3d-body-dinov3/model.ckpt` and `models/sam-3d-body-dinov3/assets/mhr_model.pt` exist before app bring-up
 
 ### 3. Detectron2 build friction
 

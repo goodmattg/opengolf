@@ -4,9 +4,7 @@ from diffusers import FluxPipeline
 # NOTE: Will not be able to execute locally on Mac, requirement is Torch compiled
 # with CUDA support, which is not available on Mac. This will work on Linux.
 
-pipe = FluxPipeline.from_pretrained(
-    "black-forest-labs/FLUX.1-schnell", torch_dtype=torch.bfloat16
-)
+pipe = FluxPipeline.from_pretrained("black-forest-labs/FLUX.1-schnell", torch_dtype=torch.bfloat16)
 pipe.enable_model_cpu_offload()
 
 prompt = "A cat holding a sign that says hello world"
